@@ -1,5 +1,6 @@
 import { derived, get, writable, type Readable } from 'svelte/store';
 import type { AdminUser } from '../types';
+import { navigate, location } from '../router';
 
 /**
  * Persistent admin session. The Bearer token, its expiry, and the principal
@@ -104,13 +105,10 @@ function startExpirySweep(): void {
     const current = get(_authState);
     if (current.token && !isAuthenticated(current)) {
       clearAuth();
-      // Lazy import keeps router out of the store's hard dependency graph.
-      import('../router').then(({ navigate, location }) => {
-        const path = get(location);
-        if (!path.startsWith('/admin/login')) {
-          navigate('/admin/login');
-        }
-      });
+      const path = get(location);
+      if (!path.startsWith('/admin/login')) {
+        navigate('/admin/login');
+      }
     }
   }, 60_000);
 }
