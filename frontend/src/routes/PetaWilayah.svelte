@@ -285,10 +285,8 @@
   </div>
 </SectionShell>
 
-<!-- Map: plain container, neutral white wrapper so Leaflet controls breathe.
-     overflow-hidden on the wrapper is critical — without it Leaflet tiles
-     can spill past the SectionShell into the page sidebar/viewport edge on
-     narrow screens. -->
+<!-- Map: white wrapper with overflow-hidden so Leaflet tiles cannot spill
+     past the SectionShell into the sidebar/viewport edge on narrow screens. -->
 <div class="container-page py-8 md:py-10 overflow-hidden">
   <div class="rounded-xl border border-krem-200 bg-white overflow-hidden w-full max-w-full">
     <div
@@ -477,14 +475,14 @@
 {/if}
 
 <style>
-  /* Leaflet popups + container - keep typography consistent with the rest of
-     the site. The leaflet base CSS is already imported globally in app.css.
-     Critical: forcing width/max-width on .leaflet-container prevents tile
-     images from forcing the parent past the viewport edge on mobile. */
+  /* Leaflet popups + container. Base CSS is imported globally in app.css.
+     We constrain WIDTH only — the height is owned by the Tailwind classes on
+     the map element itself (h-[55vh] sm:h-[480px] md:h-[520px]). An earlier
+     `height: 100% !important` here collapsed the map to 0 because the wrapper
+     ancestors had no explicit height. */
   :global(.leaflet-container) {
     width: 100% !important;
     max-width: 100%;
-    height: 100% !important;
     font-family: 'Inter', system-ui, sans-serif;
     background: #f5ebe0;
   }

@@ -183,34 +183,36 @@
 <!-- Controls strip: filters, search, sort on paper biome. -->
 <SectionShell variant="default" padding="md">
   <div class="space-y-4">
-    <div class="flex flex-wrap items-center gap-2">
-      <Chip
-        label="Semua"
-        count={counts.all}
-        active={kategori === 'all'}
-        on:click={() => (kategori = 'all')}
-      />
-      <Chip
-        label="UMKM"
-        count={counts.umkm}
-        active={kategori === 'umkm'}
-        on:click={() => (kategori = 'umkm')}
-      />
-      <Chip
-        label="Formal"
-        count={counts.formal}
-        active={kategori === 'formal'}
-        on:click={() => (kategori = 'formal')}
-      />
-      <Chip
-        label="Freelance"
-        count={counts.freelance}
-        active={kategori === 'freelance'}
-        on:click={() => (kategori = 'freelance')}
-      />
+    <div class="-mx-4 px-4 sm:mx-0 sm:px-0 overflow-x-auto sm:overflow-visible">
+      <div class="flex items-center gap-2 min-w-max sm:min-w-0 sm:flex-wrap">
+        <Chip
+          label="Semua"
+          count={counts.all}
+          active={kategori === 'all'}
+          on:click={() => (kategori = 'all')}
+        />
+        <Chip
+          label="UMKM"
+          count={counts.umkm}
+          active={kategori === 'umkm'}
+          on:click={() => (kategori = 'umkm')}
+        />
+        <Chip
+          label="Formal"
+          count={counts.formal}
+          active={kategori === 'formal'}
+          on:click={() => (kategori = 'formal')}
+        />
+        <Chip
+          label="Freelance"
+          count={counts.freelance}
+          active={kategori === 'freelance'}
+          on:click={() => (kategori = 'freelance')}
+        />
+      </div>
     </div>
 
-    <div class="flex flex-col md:flex-row md:items-center gap-3">
+    <div class="flex flex-col sm:flex-row sm:items-center gap-3">
       <label class="relative flex-1">
         <span class="sr-only">Cari lowongan</span>
         <Search
@@ -223,14 +225,14 @@
           value={searchInput}
           on:input={onSearchInput}
           placeholder="Cari judul, instansi, atau kata kunci..."
-          class="h-10 w-full rounded-md border border-krem-300 bg-white pl-9 pr-3 text-sm text-arang-900 placeholder:text-arang-400 focus:border-menoreh-500"
+          class="min-h-11 h-11 w-full rounded-md border border-krem-300 bg-white pl-9 pr-3 text-base text-arang-900 placeholder:text-arang-400 focus:border-menoreh-500"
         />
       </label>
-      <label class="md:w-56 flex items-center gap-2 text-sm text-arang-700">
-        <span class="text-xs font-semibold uppercase tracking-widest text-arang-500">Urutkan</span>
+      <label class="sm:w-56 flex items-center gap-2 text-sm text-arang-700">
+        <span class="text-xs font-semibold uppercase tracking-widest text-arang-500 flex-none">Urutkan</span>
         <select
           bind:value={sortKey}
-          class="h-10 flex-1 rounded-md border border-krem-300 bg-white px-2 text-sm text-arang-900 focus:border-menoreh-500"
+          class="min-h-11 h-11 flex-1 rounded-md border border-krem-300 bg-white px-2 text-base text-arang-900 focus:border-menoreh-500"
           aria-label="Urutkan lowongan"
         >
           <option value="terbaru">Terbaru</option>
@@ -287,12 +289,12 @@
         <li class="h-full {expired ? 'opacity-60' : ''}">
           <Card as="article" interactive padding="md" class="h-full flex flex-col border-krem-300">
             <svelte:fragment slot="header">
-              <div class="flex items-start justify-between gap-3">
-                <div class="min-w-0">
-                  <p class="text-xs font-semibold uppercase tracking-widest text-arang-500 truncate">
+              <div class="flex flex-wrap items-start justify-between gap-2 sm:gap-3">
+                <div class="min-w-0 flex-1">
+                  <p class="text-xs font-semibold uppercase tracking-widest text-arang-500 break-words">
                     {item.instansi}
                   </p>
-                  <h2 class="mt-1 font-serif text-xl font-semibold text-arang-900 leading-snug">
+                  <h2 class="mt-1 font-serif text-lg sm:text-xl font-semibold text-arang-900 leading-snug break-words">
                     {item.judul}
                   </h2>
                 </div>
@@ -300,7 +302,7 @@
               </div>
             </svelte:fragment>
 
-            <p class="text-sm text-arang-700 leading-relaxed line-clamp-3">
+            <p class="text-sm text-arang-700 leading-relaxed line-clamp-3 break-words">
               {item.deskripsi}
             </p>
 
@@ -308,17 +310,17 @@
               <div class="flex items-center gap-2">
                 <MapPin class="h-4 w-4 text-arang-400 shrink-0" strokeWidth={1.75} aria-hidden="true" />
                 <dt class="sr-only">Lokasi</dt>
-                <dd class="truncate">{item.lokasi_pedukuhan ?? '-'}</dd>
+                <dd class="break-words min-w-0">{item.lokasi_pedukuhan ?? '-'}</dd>
               </div>
               <div class="flex items-center gap-2">
                 <Calendar class="h-4 w-4 text-arang-400 shrink-0" strokeWidth={1.75} aria-hidden="true" />
                 <dt class="sr-only">Tenggat</dt>
-                <dd>Tenggat: {formatDeadline(item.deadline)}</dd>
+                <dd class="break-words min-w-0">Tenggat: {formatDeadline(item.deadline)}</dd>
               </div>
               <div class="flex items-center gap-2">
                 <Briefcase class="h-4 w-4 text-arang-400 shrink-0" strokeWidth={1.75} aria-hidden="true" />
                 <dt class="sr-only">Gaji</dt>
-                <dd class="tnum">{formatGaji(item.gaji_min, item.gaji_max)}</dd>
+                <dd class="tnum break-words min-w-0">{formatGaji(item.gaji_min, item.gaji_max)}</dd>
               </div>
             </dl>
 
@@ -341,8 +343,8 @@
 
             <svelte:fragment slot="footer">
               {#if kontak}
-                <div class="flex items-center justify-between gap-3">
-                  <span class="text-xs font-semibold uppercase tracking-widest text-arang-500">
+                <div class="flex flex-wrap items-center justify-between gap-2 sm:gap-3">
+                  <span class="text-xs font-semibold uppercase tracking-widest text-arang-500 flex-none">
                     Kontak
                   </span>
                   {#if href}
@@ -350,17 +352,17 @@
                       href={href}
                       target={kind === 'phone' ? '_blank' : undefined}
                       rel={kind === 'phone' ? 'noopener noreferrer' : undefined}
-                      class="inline-flex items-center gap-1.5 text-sm font-medium text-menoreh-700 hover:text-menoreh-800"
+                      class="inline-flex items-center gap-1.5 min-h-11 text-sm font-medium text-menoreh-700 hover:text-menoreh-800 break-all min-w-0"
                     >
                       {#if kind === 'email'}
-                        <Mail class="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />
+                        <Mail class="h-4 w-4 flex-none" strokeWidth={1.75} aria-hidden="true" />
                       {:else}
-                        <Phone class="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />
+                        <Phone class="h-4 w-4 flex-none" strokeWidth={1.75} aria-hidden="true" />
                       {/if}
-                      <span>{kontak}</span>
+                      <span class="break-all">{kontak}</span>
                     </a>
                   {:else}
-                    <span class="text-sm text-arang-700">{kontak}</span>
+                    <span class="text-sm text-arang-700 break-words min-w-0">{kontak}</span>
                   {/if}
                 </div>
               {:else}

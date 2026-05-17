@@ -77,10 +77,14 @@
   }
 </script>
 
-<div class="min-h-screen bg-krem-50 md:flex">
-  <!-- Desktop sidebar: fixed 240px, hidden below md. Mobile uses the drawer. -->
+<div class="min-h-screen bg-krem-50">
+  <!-- Desktop sidebar: pinned to the viewport, not in flow. Using `fixed`
+       (instead of `sticky top-0 h-screen`) keeps the dark bg covering the
+       full left rail even when page content scrolls past one viewport — a
+       sticky h-screen sidebar visually "ends" once the user scrolls past
+       its container, exposing the page bg behind it. -->
   <aside
-    class="hidden md:flex sticky top-0 h-screen w-60 shrink-0 bg-arang-900 text-krem-100
+    class="hidden md:flex fixed left-0 top-0 z-30 h-screen w-60 bg-arang-900 text-krem-100
            border-r border-arang-800 flex-col"
     aria-label="Sidebar admin"
   >
@@ -130,8 +134,9 @@
     </div>
   </aside>
 
-  <!-- Content column -->
-  <div class="flex-1 min-w-0 flex flex-col">
+  <!-- Content column. md:pl-60 reserves the sidebar's footprint since the
+       sidebar itself is now `fixed` (out-of-flow). -->
+  <div class="min-w-0 flex flex-col md:pl-60">
     <header
       class="sticky top-0 z-30 h-14 md:h-16 bg-white border-b border-krem-200 flex items-center"
     >

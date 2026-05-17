@@ -168,17 +168,17 @@
       <p class="flex items-center gap-2">
         <Badge variant={item.kategori === 'agenda' ? 'agenda' : 'berita'} label={item.kategori} />
       </p>
-      <h1 class="mt-3 font-serif text-4xl md:text-5xl font-semibold text-arang-900 leading-tight text-balance">
+      <h1 class="mt-3 font-serif text-3xl sm:text-4xl md:text-5xl font-semibold text-arang-900 leading-tight text-balance break-words">
         {item.judul}
       </h1>
 
       <!-- Meta strip -->
-      <dl class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-arang-700">
+      <dl class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-arang-700">
         {#if item.author}
           <div class="inline-flex items-center gap-1.5">
             <User class="h-4 w-4 text-arang-400" strokeWidth={1.75} aria-hidden="true" />
             <dt class="sr-only">Penulis</dt>
-            <dd>{item.author}</dd>
+            <dd class="break-words">{item.author}</dd>
           </div>
         {/if}
         <div class="inline-flex items-center gap-1.5">
@@ -194,7 +194,7 @@
           <img
             src={item.gambar_url}
             alt=""
-            class="aspect-video w-full object-cover"
+            class="aspect-video w-full max-w-full h-auto object-cover"
             loading="eager"
           />
         {:else}
@@ -245,13 +245,13 @@
 
       <!-- Ringkasan lead -->
       {#if item.ringkasan}
-        <p class="mt-8 max-w-prose text-lg leading-relaxed text-arang-700 font-serif italic">
+        <p class="mt-8 max-w-prose text-base sm:text-lg leading-relaxed text-arang-700 font-serif italic break-words">
           {item.ringkasan}
         </p>
       {/if}
 
       <!-- Konten markdown (trusted admin source - see file header note) -->
-      <div class="mt-6">
+      <div class="mt-6 max-w-full overflow-x-hidden">
         <Prose>
           {@html htmlContent}
         </Prose>
@@ -261,7 +261,7 @@
       <footer class="mt-12 border-t border-krem-200 pt-6">
         <a
           href="#/berita"
-          class="inline-flex items-center gap-1.5 text-sm font-medium text-menoreh-700 hover:text-menoreh-800"
+          class="inline-flex items-center gap-1.5 min-h-11 text-sm font-medium text-menoreh-700 hover:text-menoreh-800 w-full sm:w-auto"
         >
           <ArrowLeft class="h-4 w-4" strokeWidth={2} aria-hidden="true" />
           Kembali ke Berita & Agenda
@@ -270,4 +270,23 @@
     </article>
   {/if}
 </SectionShell>
+
+<style>
+  /* Ensure embedded markdown images and code blocks never break the mobile
+     reading column. Prose component handles base styles; we just add safety
+     guards for backend-authored content we don't fully control. */
+  :global(.prose img) {
+    max-width: 100%;
+    height: auto;
+  }
+  :global(.prose pre) {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+  :global(.prose table) {
+    display: block;
+    overflow-x: auto;
+    max-width: 100%;
+  }
+</style>
 

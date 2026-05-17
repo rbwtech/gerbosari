@@ -21,12 +21,18 @@
   const sekretaris = (data?.sekretaris_desa ?? {}) as { jabatan?: string } & OrangPerangkat;
   const kasi: Array<{ jabatan: string } & OrangPerangkat> = data?.kasi ?? [];
   const kaur: Array<{ jabatan: string } & OrangPerangkat> = data?.kaur ?? [];
-  const kadus: Array<{ pedukuhan: string } & OrangPerangkat> = data?.kadus ?? [];
+  const kadusRaw: Array<{ pedukuhan: string } & OrangPerangkat> = data?.kadus ?? [];
   const staf: OrangPerangkat[] = data?.staf ?? [];
 
   /** True when a name slot is empty / TBD / explicitly null. */
   const isKosong = (nama: string | null | undefined): boolean =>
     !nama || nama.trim() === '' || nama.trim().toUpperCase() === 'TBD';
+
+  // Filter out kadus rows whose name is empty (e.g. Sumbo "Belum terisi"):
+  // the source JSON keeps every pedukuhan for accuracy, but the org chart
+  // only shows seats that are actually filled. Empty seats reappear here
+  // automatically the moment the JSON gets a name.
+  const kadus = kadusRaw.filter((k) => !isKosong(k.nama));
 
   /** Inline tier-label utility. Mirrors the foundation `.eyebrow-village` token. */
   const eyebrow =
@@ -35,7 +41,7 @@
 
 <!-- ============ HERO BAND ============ -->
 <header class="border-b border-krem-200 bg-krem-100">
-  <div class="container-page py-14 md:py-20">
+  <div class="container-page py-12 md:py-20">
     <div class="flex flex-col items-center text-center">
       <!-- Village crest: hill + sun, terakota stroke -->
       <svg
@@ -57,17 +63,17 @@
       <p class="mt-5 {eyebrow}">Pemerintah Desa Gerbosari</p>
 
       <h1
-        class="mt-3 font-serif text-4xl md:text-5xl font-semibold text-arang-900 text-balance"
+        class="mt-3 font-serif text-3xl md:text-5xl font-semibold text-arang-900 text-balance break-words"
         style="letter-spacing: -0.02em; line-height: 1.1;"
       >
         Struktur Organisasi
       </h1>
 
-      <p class="mt-3 font-serif italic text-base md:text-lg text-tanah-700">
-        Sejahtera Mandiri &mdash; Desa Wisata Berbasis Budaya dan Ekonomi Kreatif
+      <p class="mt-3 font-serif italic text-base md:text-lg text-tanah-700 text-balance break-words">
+        Sejahtera Mandiri &middot; Desa Wisata Berbasis Budaya dan Ekonomi Kreatif
       </p>
 
-      <p class="mt-5 max-w-2xl text-sm md:text-base text-arang-700 leading-relaxed">
+      <p class="mt-5 max-w-2xl text-sm md:text-base text-arang-700 leading-relaxed text-pretty break-words">
         Susunan perangkat Desa Gerbosari beserta jabatan dan nomor Surat
         Keputusan, dari Kepala Desa hingga Kepala Pedukuhan di 19 dusun.
       </p>
@@ -75,7 +81,7 @@
   </div>
 </header>
 
-<div class="container-page py-12 md:py-16">
+<div class="container-page py-10 md:py-16">
   <!-- ============ TIER 1: Kepala Desa apex ============ -->
   <section aria-labelledby="tier-kepala-desa">
     <h2 id="tier-kepala-desa" class="sr-only">Kepala Desa</h2>
@@ -83,7 +89,9 @@
       <article
         class="w-full max-w-lg rounded-lg border border-terakota-500/60 bg-krem-50 p-5 md:p-6"
       >
-        <div class="flex items-center gap-5">
+        <!-- Stack vertically below sm so the photo placeholder + content
+             doesn't squeeze on 360px viewports. Centered photo on mobile. -->
+        <div class="flex flex-col items-center text-center sm:flex-row sm:text-left sm:items-center gap-4 sm:gap-5">
           <!-- Photo placeholder block -->
           <div
             class="flex h-20 w-20 shrink-0 items-center justify-center rounded-md bg-krem-200 text-tanah-500 md:h-24 md:w-24"
@@ -92,10 +100,10 @@
             <User class="h-9 w-9" strokeWidth={1.5} />
           </div>
 
-          <div class="min-w-0 flex-1">
+          <div class="min-w-0 flex-1 w-full">
             <span class={eyebrow}>{kepalaDesa.jabatan ?? 'Kepala Desa'}</span>
             <div
-              class="mt-1 font-serif text-xl md:text-2xl font-semibold {isKosong(
+              class="mt-1 font-serif text-xl md:text-2xl font-semibold break-words {isKosong(
                 kepalaDesa.nama
               )
                 ? 'italic text-arang-500'
@@ -105,7 +113,7 @@
               {isKosong(kepalaDesa.nama) ? 'Belum terisi' : kepalaDesa.nama}
             </div>
             {#if kepalaDesa.no_sk}
-              <div class="mt-2 font-mono text-[11px] tracking-tight text-arang-500">
+              <div class="mt-2 font-mono text-[11px] tracking-tight text-arang-500 break-all">
                 SK {kepalaDesa.no_sk}
               </div>
             {/if}
@@ -129,24 +137,24 @@
       <article
         class="w-full max-w-md rounded-md border border-krem-300 border-l-2 border-l-terakota-500 bg-krem-50 p-4 md:p-5"
       >
-        <div class="flex items-center gap-4">
+        <div class="flex flex-col items-center text-center sm:flex-row sm:text-left sm:items-center gap-3 sm:gap-4">
           <div
             class="flex h-14 w-14 shrink-0 items-center justify-center rounded bg-krem-200 text-tanah-500"
             aria-hidden="true"
           >
             <User class="h-6 w-6" strokeWidth={1.5} />
           </div>
-          <div class="min-w-0 flex-1">
+          <div class="min-w-0 flex-1 w-full">
             <span class={eyebrow}>{sekretaris.jabatan ?? 'Sekretaris Desa'}</span>
             <div
-              class="mt-0.5 font-serif text-lg font-medium {isKosong(sekretaris.nama)
+              class="mt-0.5 font-serif text-lg font-medium break-words {isKosong(sekretaris.nama)
                 ? 'italic text-arang-500'
                 : 'text-arang-900'}"
             >
               {isKosong(sekretaris.nama) ? 'Belum terisi' : sekretaris.nama}
             </div>
             {#if sekretaris.no_sk}
-              <div class="mt-1 font-mono text-[11px] tracking-tight text-arang-500">
+              <div class="mt-1 font-mono text-[11px] tracking-tight text-arang-500 break-all">
                 SK {sekretaris.no_sk}
               </div>
             {/if}
@@ -180,22 +188,22 @@
         <div class="grid grid-cols-1 gap-3">
           {#each kaur as item}
             <article
-              class="rounded-md border border-menoreh-200 bg-menoreh-50 p-4"
+              class="rounded-md border border-menoreh-200 bg-menoreh-50 p-4 min-w-0"
             >
               <div
-                class="font-sans text-[10px] font-semibold uppercase tracking-[0.16em] text-menoreh-700"
+                class="font-sans text-[10px] font-semibold uppercase tracking-[0.16em] text-menoreh-700 break-words"
               >
                 {item.jabatan}
               </div>
               <div
-                class="mt-1 font-serif text-base {isKosong(item.nama)
+                class="mt-1 font-serif text-base break-words {isKosong(item.nama)
                   ? 'italic text-arang-500'
                   : 'font-medium text-arang-900'}"
               >
                 {isKosong(item.nama) ? 'Belum terisi' : item.nama}
               </div>
               {#if item.no_sk}
-                <div class="mt-2 font-mono text-[11px] tracking-tight text-arang-500">
+                <div class="mt-2 font-mono text-[11px] tracking-tight text-arang-500 break-all">
                   SK {item.no_sk}
                 </div>
               {/if}
@@ -217,22 +225,22 @@
         <div class="grid grid-cols-1 gap-3">
           {#each kasi as item}
             <article
-              class="rounded-md border border-terakota-200 bg-terakota-50 p-4"
+              class="rounded-md border border-terakota-200 bg-terakota-50 p-4 min-w-0"
             >
               <div
-                class="font-sans text-[10px] font-semibold uppercase tracking-[0.16em] text-terakota-700"
+                class="font-sans text-[10px] font-semibold uppercase tracking-[0.16em] text-terakota-700 break-words"
               >
                 {item.jabatan}
               </div>
               <div
-                class="mt-1 font-serif text-base {isKosong(item.nama)
+                class="mt-1 font-serif text-base break-words {isKosong(item.nama)
                   ? 'italic text-arang-500'
                   : 'font-medium text-arang-900'}"
               >
                 {isKosong(item.nama) ? 'Belum terisi' : item.nama}
               </div>
               {#if item.no_sk}
-                <div class="mt-2 font-mono text-[11px] tracking-tight text-arang-500">
+                <div class="mt-2 font-mono text-[11px] tracking-tight text-arang-500 break-all">
                   SK {item.no_sk}
                 </div>
               {/if}
@@ -261,7 +269,7 @@
     >
       {#each kadus as item}
         <article
-          class="rounded-md border border-krem-200 bg-krem-50 px-4 py-3.5 {isKosong(
+          class="rounded-md border border-krem-200 bg-krem-50 px-4 py-3.5 min-w-0 {isKosong(
             item.nama
           )
             ? 'opacity-80'
@@ -273,19 +281,21 @@
               class="h-1.5 w-1.5 shrink-0 rounded-full bg-terakota-500"
               aria-hidden="true"
             ></span>
-            <span class="font-serif text-[15px] font-medium text-arang-900">
+            <span class="font-serif text-[15px] font-medium text-arang-900 break-words">
               {item.pedukuhan}
             </span>
           </div>
           <div
-            class="mt-2 border-t border-krem-200 pt-2 text-sm {isKosong(item.nama)
+            class="mt-2 border-t border-krem-200 pt-2 text-sm break-words {isKosong(item.nama)
               ? 'italic text-arang-500'
               : 'text-arang-800'}"
           >
             {isKosong(item.nama) ? 'Belum terisi' : item.nama}
           </div>
           {#if item.no_sk}
-            <div class="mt-1 font-mono text-[10px] tracking-tight text-arang-500">
+            <!-- SK numbers like "141/123/2023" stay on the card via break-all
+                 so the underscore-style codes never overflow the card edge. -->
+            <div class="mt-1 font-mono text-[10px] tracking-tight text-arang-500 break-all">
               SK {item.no_sk}
             </div>
           {/if}
@@ -308,17 +318,17 @@
       <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
         {#each staf as item}
           <article
-            class="rounded-md border border-krem-200 bg-krem-50 px-4 py-3"
+            class="rounded-md border border-krem-200 bg-krem-50 px-4 py-3 min-w-0"
           >
             <div
-              class="font-serif text-[15px] {isKosong(item.nama)
+              class="font-serif text-[15px] break-words {isKosong(item.nama)
                 ? 'italic text-arang-500'
                 : 'font-medium text-arang-900'}"
             >
               {isKosong(item.nama) ? 'Belum terisi' : item.nama}
             </div>
             {#if item.no_sk}
-              <div class="mt-1 font-mono text-[10px] tracking-tight text-arang-500">
+              <div class="mt-1 font-mono text-[10px] tracking-tight text-arang-500 break-all">
                 SK {item.no_sk}
               </div>
             {/if}

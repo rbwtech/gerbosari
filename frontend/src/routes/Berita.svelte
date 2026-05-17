@@ -199,12 +199,12 @@
               <Badge variant="arsip" label="Selesai" />
             {/if}
           </div>
-          <h2 class="mt-3 font-serif text-3xl md:text-4xl font-semibold text-arang-900 leading-tight text-balance">
+          <h2 class="mt-3 font-serif text-2xl sm:text-3xl md:text-4xl font-semibold text-arang-900 leading-tight text-balance break-words">
             <a href={`#/berita/${featured.slug}`} class="hover:text-menoreh-800">
               {featured.judul}
             </a>
           </h2>
-          <p class="mt-4 text-base text-arang-700 leading-relaxed">
+          <p class="mt-4 text-base text-arang-700 leading-relaxed break-words">
             {featured?.ringkasan ?? ''}
           </p>
           <dl class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-arang-700">
@@ -216,12 +216,12 @@
             {#if featured.author}
               <div class="inline-flex items-center gap-1.5">
                 <dt class="sr-only">Penulis</dt>
-                <dd class="text-arang-500">oleh {featured.author}</dd>
+                <dd class="text-arang-500 break-words">oleh {featured.author}</dd>
               </div>
             {/if}
           </dl>
           <div class="mt-6">
-            <Button href={`#/berita/${featured.slug}`} variant="primary">
+            <Button href={`#/berita/${featured.slug}`} variant="primary" class="min-h-11 w-full sm:w-auto">
               Baca selengkapnya
               <ArrowRight class="h-4 w-4" strokeWidth={2} aria-hidden="true" />
             </Button>
@@ -270,10 +270,10 @@
                       />
                     </div>
                   {/if}
-                  <h3 class="font-serif text-lg font-semibold text-arang-900 leading-snug line-clamp-2">
+                  <h3 class="font-serif text-lg font-semibold text-arang-900 leading-snug line-clamp-2 break-words">
                     {item.judul}
                   </h3>
-                  <p class="mt-2 text-sm text-arang-700 leading-relaxed line-clamp-2">
+                  <p class="mt-2 text-sm text-arang-700 leading-relaxed line-clamp-2 break-words">
                     {item?.ringkasan ?? ''}
                   </p>
                   <dl class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-arang-500">

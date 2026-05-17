@@ -36,11 +36,15 @@
 
   // Mobile vertical rhythm tightens so consecutive textured sections don't
   // stack 160px of empty space on a 360px viewport. Desktop values unchanged.
+  // Tighter scale. Earlier values (py-12 md:py-20, py-14 md:py-28) produced
+  // 160px+ gaps between consecutive sections because route content often
+  // adds its own vertical padding inside the shell — paddings stack.
+  // These values keep the page rhythm without creating empty oceans.
   const paddings = {
     none: '',
-    sm: 'py-8 md:py-10',
-    md: 'py-12 md:py-20',
-    lg: 'py-14 md:py-28'
+    sm: 'py-4 md:py-6',
+    md: 'py-6 md:py-10',
+    lg: 'py-8 md:py-14'
   } as const;
 
   // Variants resolve to SOLID warm-paper tones - no gradients, no SVG noise,

@@ -55,13 +55,11 @@
 </script>
 
 <AdminShell>
-  <div class="flex items-start justify-between gap-4 mb-6">
-    <div>
-      <h1 class="font-serif text-2xl font-semibold text-arang-900">Data Penduduk</h1>
-      <p class="mt-1 text-sm text-arang-600">
-        Perbarui jumlah KK dan jumlah penduduk per pedukuhan. 19 pedukuhan dikelola tetap; tidak ada penambahan atau penghapusan.
-      </p>
-    </div>
+  <div class="mb-5 md:mb-6">
+    <h1 class="font-serif text-xl md:text-2xl font-semibold text-arang-900">Data Penduduk</h1>
+    <p class="mt-1 text-sm text-arang-600">
+      Perbarui jumlah KK dan jumlah penduduk per pedukuhan. 19 pedukuhan dikelola tetap; tidak ada penambahan atau penghapusan.
+    </p>
   </div>
 
   <DataTable
@@ -93,9 +91,9 @@
     </svelte:fragment>
 
     <svelte:fragment slot="mobileActions" let:row>
-      <div class="flex justify-end">
-        <Button variant="secondary" size="sm" on:click={() => goEdit(row.pedukuhan)}>Ubah</Button>
-      </div>
+      <Button variant="secondary" size="md" on:click={() => goEdit(row.pedukuhan)} class="w-full">
+        Ubah
+      </Button>
     </svelte:fragment>
   </DataTable>
 </AdminShell>

@@ -99,9 +99,11 @@
 </script>
 
 <AdminShell>
-  <div class="mb-6">
+  <div class="mb-5 md:mb-6">
     <p class="text-xs uppercase tracking-widest text-arang-500">Pedukuhan</p>
-    <h1 class="font-serif text-2xl font-semibold text-arang-900">{pedukuhanName || 'Tanpa Nama'}</h1>
+    <h1 class="font-serif text-xl md:text-2xl font-semibold text-arang-900 break-words">
+      {pedukuhanName || 'Tanpa Nama'}
+    </h1>
     <p class="mt-1 text-sm text-arang-600">Perbarui jumlah KK dan jumlah penduduk.</p>
   </div>
 
@@ -122,8 +124,8 @@
       <Button variant="secondary" size="sm" on:click={load}>Coba lagi</Button>
     </EmptyState>
   {:else}
-    <form on:submit={handleSubmit} class="space-y-6 max-w-xl">
-      <Card>
+    <form on:submit={handleSubmit} class="space-y-6 max-w-md mx-auto sm:mx-0">
+      <Card padding="md">
         <div class="space-y-5">
           <FormField
             type="number"
@@ -171,9 +173,25 @@
         <p class="text-sm text-terakota-700" role="alert">{submitError}</p>
       {/if}
 
-      <div class="flex items-center justify-end gap-2">
-        <Button variant="ghost" size="md" on:click={cancel} disabled={submitting}>Batal</Button>
-        <Button type="submit" variant="primary" size="md" loading={submitting}>Simpan Perubahan</Button>
+      <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-2">
+        <Button
+          variant="secondary"
+          size="md"
+          on:click={cancel}
+          disabled={submitting}
+          class="w-full sm:w-auto"
+        >
+          Batal
+        </Button>
+        <Button
+          type="submit"
+          variant="primary"
+          size="md"
+          loading={submitting}
+          class="w-full sm:w-auto"
+        >
+          Simpan Perubahan
+        </Button>
       </div>
     </form>
   {/if}
