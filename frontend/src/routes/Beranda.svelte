@@ -84,9 +84,12 @@
     decoding="async"
     fetchpriority="high"
   />
-  <!-- Tonal scrim: deep arang at bottom for legibility, subtle menoreh tint up top. -->
+  <!-- Tonal scrim: deeper at top + bottom for text legibility, lighter middle
+       so the panorama photo still reads. Earlier 75% scrim let bright image
+       pixels (langit, sawah) bleed through under the eyebrow/title — Lighthouse
+       pixel-sampled the result and flagged it as low contrast. -->
   <div
-    class="absolute inset-0 -z-10 bg-gradient-to-b from-arang-900/75 via-arang-900/70 to-arang-900/85"
+    class="absolute inset-0 -z-10 bg-gradient-to-b from-arang-900/90 via-arang-900/65 to-arang-900/90"
     aria-hidden="true"
   ></div>
 

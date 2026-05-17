@@ -67,7 +67,7 @@
     </div>
   </header>
 {:else}
-  <header class="border-b border-krem-200 bg-krem-50 {cls}">
+  <header class="border-b border-krem-200 bg-krem-100 {cls}">
     <div class="container-page py-6 md:py-10">
       {#if $$slots.breadcrumb}
         <div class="mb-5 text-xs uppercase tracking-widest text-arang-500 break-words">
