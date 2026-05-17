@@ -102,11 +102,15 @@
     </p>
     <h1
       id="hero-title"
-      class="mt-4 font-serif text-4xl md:text-7xl font-semibold leading-[1.05] text-balance max-w-4xl text-krem-50 break-words"
+      class="mt-4 font-serif text-4xl md:text-7xl font-semibold leading-[1.05] text-balance max-w-4xl text-white break-words"
+      style="text-shadow: 0 2px 6px rgba(0,0,0,0.45);"
     >
       {hero?.judul ?? 'Desa Gerbosari'}
     </h1>
-    <p class="mt-5 font-serif text-lg md:text-2xl italic text-krem-50 max-w-3xl text-balance break-words">
+    <p
+      class="mt-5 font-serif text-lg md:text-2xl italic text-white max-w-3xl text-balance break-words"
+      style="text-shadow: 0 1px 4px rgba(0,0,0,0.5);"
+    >
       {hero?.subjudul ?? 'Sejahtera Mandiri'} &middot; {hero?.tagline ?? 'Desa Wisata Berbasis Budaya dan Ekonomi Kreatif'}
     </p>
 

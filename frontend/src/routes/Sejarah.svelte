@@ -48,20 +48,29 @@
     decoding="async"
   />
   <div
-    class="absolute inset-0 -z-10 bg-gradient-to-b from-arang-900/75 via-arang-900/70 to-arang-900/85"
+    class="absolute inset-0 -z-10 bg-gradient-to-b from-arang-900/90 via-arang-900/65 to-arang-900/90"
     aria-hidden="true"
   ></div>
 
-  <div class="container-page py-12 md:py-16 text-krem-50 w-full">
-    <p class="eyebrow !text-terakota-300">Sejarah &amp; Asal Usul</p>
+  <div class="container-page py-12 md:py-16 text-white w-full">
+    <p
+      class="eyebrow !text-white break-words"
+      style="text-shadow: 0 1px 3px rgba(0,0,0,0.6);"
+    >
+      Sejarah &amp; Asal Usul
+    </p>
     <h1
       id="sejarah-title"
-      class="mt-4 font-serif text-3xl md:text-6xl font-semibold leading-[1.05] text-balance max-w-4xl text-krem-50 break-words"
+      class="mt-4 font-serif text-3xl md:text-6xl font-semibold leading-[1.05] text-balance max-w-4xl text-white break-words"
+      style="text-shadow: 0 2px 6px rgba(0,0,0,0.45);"
     >
       Dari kisah tiga kalurahan, lahirlah Gerbosari.
     </h1>
     {#if pengantar}
-      <p class="mt-6 max-w-2xl text-base md:text-lg text-krem-100/90 leading-relaxed text-pretty break-words">
+      <p
+        class="mt-6 max-w-2xl text-base md:text-lg text-white leading-relaxed text-pretty break-words"
+        style="text-shadow: 0 1px 4px rgba(0,0,0,0.5);"
+      >
         {pengantar}
       </p>
     {/if}
