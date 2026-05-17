@@ -29,25 +29,24 @@ INSERT IGNORE INTO penduduk_ringkasan (id, pedukuhan, jumlah_kk, laki, perempuan
     ('11111111-0000-4000-8000-000000000019', 'Keceme',        80, 146, 146);
 
 -- ---------------------------------------------------------------------------
--- galeri: 12 rows. file_path is the URL path served by nginx, which aliases
+-- galeri: 11 rows. file_path is the URL path served by nginx, which aliases
 -- /images/ -> /var/www/gerbosari/content/images/. Filenames mirror those
 -- actually present under content/images/gallery/ (single source of truth).
 -- ---------------------------------------------------------------------------
 -- Galeri has no natural unique key, so we deduplicate by stable UUID via INSERT IGNORE
 -- on the primary key.
 INSERT IGNORE INTO galeri (id, judul, deskripsi, file_path, kategori, taken_at) VALUES
-    ('22222222-0000-4000-8000-000000000001', 'Panorama Puncak Suroloyo',                       'Pemandangan dari titik tertinggi perbukitan Menoreh di Pedukuhan Keceme, ketinggian sekitar 1.000 m dpl. Dari sini tampak Candi Borobudur dan rangkaian Merapi-Merbabu-Sundoro-Sumbing.', '/images/gallery/gerbosari-suroloyo-pemandangan.jpg', 'wisata',     '2024-08-17'),
-    ('22222222-0000-4000-8000-000000000002', 'Lanskap Perbukitan Menoreh',                     'Hamparan perbukitan Menoreh yang menjadi karakter geografis utama Desa Gerbosari, dengan ketinggian 400-900 m dpl dan suhu rata-rata 23 derajat Celsius.',                              '/images/gallery/gerbosari-bukit-menoreh.jpg',        'wisata',     '2024-09-22'),
-    ('22222222-0000-4000-8000-000000000003', 'Kegiatan Bersih Dusun Keceme',                   'Tradisi bersih dusun warga Pedukuhan Keceme yang rutin dilaksanakan setiap bulan Agustus sebagai bentuk syukur dan pelestarian lingkungan.',                                            '/images/gallery/gerbosari-kegiatan-01.jpg',          'budaya',     '2024-08-04'),
-    ('22222222-0000-4000-8000-000000000004', 'Agrowisata Kopi dan Teh Suroloyo',               'Hamparan perkebunan kopi dan teh di kawasan Zona I, komoditi unggulan yang mendukung wisata Puncak Suroloyo.',                                                                          '/images/gallery/gerbosari-kegiatan-02.jpg',          'agrowisata', '2025-02-11'),
-    ('22222222-0000-4000-8000-000000000005', 'Peternakan Kambing Peranakan Etawa',             'Kambing PE komoditas unggulan Zona II, tersebar di Kayugede, Menggermalang, Sumbo, Jati, Dukuh, Tlogo, dan Sendat.',                                                                    '/images/gallery/gerbosari-kegiatan-03.jpg',          'agrowisata', '2024-11-09'),
-    ('22222222-0000-4000-8000-000000000006', 'UKM Batik Menoreh',                              'Pengrajin batik dari Zona III (Jetis, Karang, Clumprit) yang mengangkat motif khas perbukitan Menoreh sebagai produk ekonomi kreatif desa.',                                            '/images/gallery/gerbosari-kegiatan-04.jpg',          'budaya',     '2024-10-15'),
-    ('22222222-0000-4000-8000-000000000007', 'Pertunjukan Jathilan',                           'Kesenian tradisional jathilan yang dipentaskan dalam rangka upacara bersih desa dan kirab budaya di kawasan Zona III.',                                                                 '/images/gallery/gerbosari-kegiatan-05.jpg',          'budaya',     '2025-03-29'),
-    ('22222222-0000-4000-8000-000000000008', 'Budidaya Ikan Pengos',                           'Kolam budidaya dan pembenihan ikan di Pedukuhan Pengos A dan Pengos B, salah satu sentra perikanan air tawar Zona IV.',                                                                 '/images/gallery/gerbosari-kegiatan-06.jpg',          'agrowisata', '2024-12-03'),
-    ('22222222-0000-4000-8000-000000000009', 'Pengolahan Minuman Tradisional Empon-empon',     'Produksi minuman herbal berbahan empon-empon di kawasan Zona IV (Sarimulyo, Manggis, Jeruk, Ketaon, Ngroto).',                                                                          '/images/gallery/gerbosari-kegiatan-07.jpg',          'agrowisata', '2025-01-18'),
-    ('22222222-0000-4000-8000-000000000010', 'Gardu Pandang Suroloyo',                         'Salah satu gardu pandang menuju puncak yang dibangun untuk wisatawan menikmati panorama 360 derajat perbukitan Menoreh.',                                                              '/images/gallery/gerbosari-kegiatan-08.jpg',          'wisata',     '2024-07-21'),
-    ('22222222-0000-4000-8000-000000000011', 'Kirab Pusaka Kraton Yogyakarta',                 'Upacara Kirap dan Jamasan Pusaka Tombak Kyai Manggolo Murti dan Songsong Kyai Manggolo Dewo dari tempat penyimpanan ke Sendang Kawidodaren, dilaksanakan setiap 1 Suro.',               '/images/gallery/gerbosari-kegiatan-09.jpg',          'budaya',     '2024-07-08'),
-    ('22222222-0000-4000-8000-000000000012', 'Gotong Royong Warga Desa Gerbosari',             'Dokumentasi kegiatan gotong royong warga di salah satu pedukuhan Desa Gerbosari.',                                                                                                    '/images/gallery/gerbosari-kegiatan-10.jpg',          'kegiatan',   '2025-04-12');
+    ('22222222-0000-4000-8000-000000000001', 'Gardu Pandang Puncak Suroloyo',                  'Gardu pandang Puncak Suroloyo di ketinggian 1.000 mdpl di Pedukuhan Keceme — ikon wisata utama Desa Gerbosari.',                                  '/images/gallery/gerbosari-puncak-suroloyo.png',         'wisata',     '2024-08-17'),
+    ('22222222-0000-4000-8000-000000000002', 'Panorama Perbukitan Menoreh',                    'Hamparan perbukitan Menoreh dilihat dari atas bukit batu di wilayah Gerbosari.',                                                                  '/images/gallery/gerbosari-view-bukit-batu.jpg',         'wisata',     '2024-09-22'),
+    ('22222222-0000-4000-8000-000000000003', 'Sendang Batu Air Hijau',                         'Sendang alami berbatu dengan air hijau jernih, tujuan wisata alam warga sekitar.',                                                                '/images/gallery/gerbosari-sendang-batu-hijau.jpg',      'wisata',     '2024-11-09'),
+    ('22222222-0000-4000-8000-000000000004', 'Sungai Jernih Berbatu',                          'Aliran sungai berbatu dengan air jernih — bagian dari kekayaan hidrologi Menoreh.',                                                               '/images/gallery/gerbosari-sungai-jernih.jpg',           'wisata',     '2024-12-03'),
+    ('22222222-0000-4000-8000-000000000005', 'Sendang Kawidodaren',                            'Lokasi ritual jamasan pusaka kraton Yogyakarta tiap 1 Suro di Pedukuhan Sendat.',                                                                 '/images/gallery/gerbosari-sendang-kawidodaren.png',     'budaya',     '2024-07-08'),
+    ('22222222-0000-4000-8000-000000000006', 'Tugu Agrowisata Krisan',                         'Gerbang Agrowisata Krisan Gerbosari di kawasan Zona III, sentra ekonomi kreatif desa.',                                                           '/images/gallery/gerbosari-tugu-agrowisata-krisan.jpg',  'agrowisata', '2025-02-11'),
+    ('22222222-0000-4000-8000-000000000007', 'Pengajian Akbar Warga',                          'Pengajian akbar warga Desa Gerbosari di lapangan terbuka, dipimpin ustadz tamu.',                                                                 '/images/gallery/gerbosari-pengajian-akbar.jpg',         'budaya',     '2025-03-29'),
+    ('22222222-0000-4000-8000-000000000008', 'Peringatan Maulid Nabi Muhammad SAW',            'Peringatan Maulid Nabi Muhammad SAW oleh masyarakat Pedukuhan Gerbosari.',                                                                        '/images/gallery/gerbosari-maulid-nabi.jpg',             'budaya',     '2024-10-15'),
+    ('22222222-0000-4000-8000-000000000009', 'Hari Olahraga Nasional 2025',                    'Peringatan Hari Olahraga Nasional 2025 tingkat Kapanewon Samigaluh, dihadiri perangkat desa.',                                                    '/images/gallery/gerbosari-haornas-2025.jpg',            'kegiatan',   '2025-09-09'),
+    ('22222222-0000-4000-8000-00000000000A', 'Sekolah Sepak Bola Binaan Desa',                 'Tim Sekolah Sepak Bola anak binaan desa, salah satu wadah pembinaan generasi muda.',                                                              '/images/gallery/gerbosari-ssb-sepakbola-anak.jpg',      'kegiatan',   '2025-04-12'),
+    ('22222222-0000-4000-8000-00000000000B', 'Kerja Bakti Pembersihan Saluran',                'Warga gotong royong membersihkan saluran air di kompleks balai desa.',                                                                            '/images/gallery/gerbosari-kerja-bakti-saluran.jpg',     'kegiatan',   '2025-05-18');
 
 -- ---------------------------------------------------------------------------
 -- lowongan: 6 rows tied to real local economy.
@@ -107,7 +106,7 @@ INSERT IGNORE INTO berita (id, judul, slug, kategori, ringkasan, konten, gambar_
      'berita',
      'Ruas jalan sepanjang 2,3 km menuju kawasan agrowisata kopi dan teh di Pedukuhan Keceme rampung dikerjakan dan siap dilewati kendaraan roda empat.',
      '## Akses Agrowisata Kini Lebih Mudah\n\nPemerintah Desa Gerbosari bersama Dinas PUPR Kulon Progo telah menyelesaikan tahap pertama pembangunan jalan akses agrowisata sepanjang **2,3 km** dari simpang Pedukuhan Karang menuju kawasan kebun kopi dan teh di Pedukuhan Keceme.\n\nProyek senilai Rp 1,8 miliar ini diharapkan mendorong arus kunjungan wisatawan ke sentra agrowisata Menoreh, sekaligus mempermudah petani mengangkut hasil panen.\n\nTahap II direncanakan dimulai pada triwulan ketiga 2026, mencakup pengerasan jalan penghubung antar kebun.',
-     '/images/gallery/gerbosari-kegiatan-03.jpg',
+     '/images/gallery/gerbosari-view-bukit-batu.jpg',
      NULL,
      'Sarimulyo, Gerbosari',
      'Pemerintah Desa Gerbosari',
@@ -118,7 +117,7 @@ INSERT IGNORE INTO berita (id, judul, slug, kategori, ringkasan, konten, gambar_
      'berita',
      'Kelompok tani kopi Keceme membukukan panen 12 ton biji merah pada musim 2026, naik 18 persen dibanding tahun sebelumnya.',
      '## Kopi Menoreh Naik Kelas\n\nMusim panen kopi robusta 2026 di Pedukuhan **Keceme** menorehkan hasil panen sebesar **12 ton biji merah (cherry)**, naik sekitar 18 persen dibanding musim 2025. Kenaikan diatribusikan pada curah hujan yang lebih stabil dan pendampingan intensif dari penyuluh pertanian.\n\nSebagian hasil panen sudah diserap oleh kedai kopi lokal di Suroloyo dan jaringan roastery di Yogyakarta. BUMDes Gerbosari juga mulai membuka kanal direct-trade ke pembeli kafe di Jakarta dan Bandung.',
-     '/images/gallery/gerbosari-kegiatan-02.jpg',
+     '/images/gallery/gerbosari-tugu-agrowisata-krisan.jpg',
      NULL,
      'Keceme, Gerbosari',
      'Pemerintah Desa Gerbosari',
@@ -129,7 +128,7 @@ INSERT IGNORE INTO berita (id, judul, slug, kategori, ringkasan, konten, gambar_
      'agenda',
      'Tradisi tahunan jamasan dan kirab pusaka kraton di Sendang Kawidodaren, terbuka untuk umum dengan pengaturan jalur kirab.',
      '## Tanggap Warso 1 Suro\n\nPemerintah Desa Gerbosari kembali menyelenggarakan **Tanggap Warso 1 Suro** dengan acara utama berupa **kirab pusaka kraton** menuju **Sendang Kawidodaren** untuk prosesi jamasan.\n\n- Waktu: 16 Juli 2026, pukul 19.00 WIB\n- Titik kumpul: Balai Desa Gerbosari\n- Rute kirab: Balai Desa - Pedukuhan Sendat - Sendang Kawidodaren\n- Dress code peserta kirab: busana adat Jawa\n\nMasyarakat umum dipersilakan menyaksikan di sepanjang rute. Parkir terpusat di lapangan Pedukuhan Sendat.',
-     '/images/gallery/gerbosari-kegiatan-09.jpg',
+     '/images/gallery/gerbosari-sendang-kawidodaren.png',
      '2026-07-16',
      'Sendang Kawidodaren, Pedukuhan Sendat',
      'Pemerintah Desa Gerbosari',
@@ -140,7 +139,7 @@ INSERT IGNORE INTO berita (id, judul, slug, kategori, ringkasan, konten, gambar_
      'agenda',
      'Gotong royong tahunan pembersihan lingkungan Pedukuhan Keceme dilanjutkan kenduri bersama warga.',
      '## Bersih Dusun Keceme\n\nWarga Pedukuhan Keceme menyelenggarakan agenda **Bersih Dusun** sebagai wujud rasa syukur dan pelestarian tradisi gotong royong.\n\n- Waktu: 17 Agustus 2026, mulai pukul 06.30 WIB\n- Lokasi: Sepanjang jalan utama dan kawasan Sendang Pedukuhan Keceme\n- Acara: Kerja bakti, doa bersama, kenduri\n- Catatan: Warga harap membawa peralatan kebersihan dari rumah masing-masing.',
-     '/images/gallery/gerbosari-kegiatan-01.jpg',
+     '/images/gallery/gerbosari-kerja-bakti-saluran.jpg',
      '2026-08-17',
      'Pedukuhan Keceme',
      'Pemerintah Desa Gerbosari',
@@ -151,7 +150,7 @@ INSERT IGNORE INTO berita (id, judul, slug, kategori, ringkasan, konten, gambar_
      'agenda',
      'Peringatan adat Saparan dengan kenduri dan pertunjukan jathilan terbuka untuk seluruh warga desa dan tamu undangan.',
      '## Saparan Gerbosari\n\nTradisi **Saparan** kembali digelar pada bulan Sapar di Balai Desa Gerbosari sebagai bentuk pelestarian budaya Jawa.\n\n- Waktu: 22 September 2026, pukul 19.30 WIB\n- Lokasi: Halaman Balai Desa Gerbosari\n- Susunan acara: Kenduri, doa bersama, pertunjukan jathilan oleh sanggar lokal\n- Open public, tidak memungut biaya\n\nDimohon kerja sama warga sekitar untuk pengaturan parkir dan keamanan.',
-     '/images/gallery/gerbosari-kegiatan-05.jpg',
+     '/images/gallery/gerbosari-pengajian-akbar.jpg',
      '2026-09-22',
      'Balai Desa Gerbosari',
      'Pemerintah Desa Gerbosari',

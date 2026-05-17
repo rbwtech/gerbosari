@@ -1,98 +1,90 @@
 [
   {
     "id": "gal-001",
-    "judul": "Panorama Puncak Suroloyo",
-    "deskripsi": "Pemandangan dari titik tertinggi perbukitan Menoreh di Pedukuhan Keceme, ketinggian sekitar 1.000 m dpl. Dari sini tampak Candi Borobudur dan rangkaian Gunung Merapi-Merbabu-Sundoro-Sumbing di latar utara.",
+    "judul": "Puncak Suroloyo",
+    "deskripsi": "Gardu pandang Puncak Suroloyo di ketinggian sekitar 1.000 m dpl, ikon wisata utama Desa Gerbosari yang berada di Pedukuhan Keceme. Dari puncak ini tampak Candi Borobudur dan deretan gunung di sisi utara.",
     "kategori": "wisata",
-    "gambar": "content/images/gallery/gerbosari-suroloyo-pemandangan.jpg",
+    "gambar": "content/images/gallery/gerbosari-puncak-suroloyo.png",
     "taken_at": "2024-08-17"
   },
   {
     "id": "gal-002",
-    "judul": "Lanskap Perbukitan Menoreh",
-    "deskripsi": "Hamparan perbukitan Menoreh yang menjadi karakter geografis utama Desa Gerbosari, dengan ketinggian 400-900 m dpl dan suhu rata-rata 23 derajat Celsius.",
+    "judul": "Panorama Perbukitan Menoreh dari Bukit Batu",
+    "deskripsi": "Hamparan perbukitan Menoreh yang membentang dilihat dari salah satu bukit batu di kawasan Gerbosari, memperlihatkan karakter geografis desa di ketinggian 400-900 m dpl.",
     "kategori": "wisata",
-    "gambar": "content/images/gallery/gerbosari-bukit-menoreh.jpg",
+    "gambar": "content/images/gallery/gerbosari-view-bukit-batu.jpg",
     "taken_at": "2024-09-22"
   },
   {
     "id": "gal-003",
-    "judul": "Kegiatan Bersih Dusun Keceme",
-    "deskripsi": "Tradisi bersih dusun warga Pedukuhan Keceme yang rutin dilaksanakan setiap bulan Agustus sebagai bentuk syukur dan pelestarian lingkungan.",
-    "kategori": "budaya",
-    "gambar": "content/images/gallery/gerbosari-kegiatan-01.jpg",
-    "taken_at": "2024-08-04"
+    "judul": "Sendang Batu Hijau",
+    "deskripsi": "Sendang alam berbatu dengan air jernih kehijauan yang menjadi salah satu daya tarik wisata alam Desa Gerbosari di lereng Menoreh.",
+    "kategori": "wisata",
+    "gambar": "content/images/gallery/gerbosari-sendang-batu-hijau.jpg",
+    "taken_at": "2024-10-05"
   },
   {
     "id": "gal-004",
-    "judul": "Agrowisata Kopi dan Teh Suroloyo",
-    "deskripsi": "Hamparan perkebunan kopi dan teh di kawasan Zona I, komoditi unggulan yang mendukung wisata Puncak Suroloyo.",
-    "kategori": "agrowisata",
-    "gambar": "content/images/gallery/gerbosari-kegiatan-02.jpg",
-    "taken_at": "2025-02-11"
+    "judul": "Sungai Berbatu Bening",
+    "deskripsi": "Aliran sungai berbatu dengan air bening yang melintasi kawasan Gerbosari, menjadi tujuan wisata alam sekaligus penopang ekosistem perbukitan Menoreh.",
+    "kategori": "wisata",
+    "gambar": "content/images/gallery/gerbosari-sungai-jernih.jpg",
+    "taken_at": "2024-11-12"
   },
   {
     "id": "gal-005",
-    "judul": "Peternakan Kambing Peranakan Etawa",
-    "deskripsi": "Kambing PE yang menjadi komoditas unggulan peternakan di Zona II, tersebar di Pedukuhan Kayugede, Menggermalang, Sumbo, Jati, Dukuh, Tlogo, dan Sendat.",
-    "kategori": "agrowisata",
-    "gambar": "content/images/gallery/gerbosari-kegiatan-03.jpg",
-    "taken_at": "2024-11-09"
-  },
-  {
-    "id": "gal-006",
-    "judul": "UKM Batik Menoreh",
-    "deskripsi": "Pengrajin batik dari Zona III (Jetis, Karang, Clumprit) yang mengangkat motif khas perbukitan Menoreh sebagai produk ekonomi kreatif desa.",
+    "judul": "Sendang Kawidodaren",
+    "deskripsi": "Prosesi sesaji di Sendang Kawidodaren, lokasi sakral yang menjadi tempat Jamasan Pusaka paringan dalem Kraton Yogyakarta setiap tanggal 1 Suro.",
     "kategori": "budaya",
-    "gambar": "content/images/gallery/gerbosari-kegiatan-04.jpg",
-    "taken_at": "2024-10-15"
-  },
-  {
-    "id": "gal-007",
-    "judul": "Pertunjukan Jathilan",
-    "deskripsi": "Kesenian tradisional jathilan yang dipentaskan dalam rangka upacara bersih desa dan kirab budaya di kawasan Zona III.",
-    "kategori": "budaya",
-    "gambar": "content/images/gallery/gerbosari-kegiatan-05.jpg",
-    "taken_at": "2025-03-29"
-  },
-  {
-    "id": "gal-008",
-    "judul": "Budidaya Ikan Pengos",
-    "deskripsi": "Kolam budidaya dan pembenihan ikan di Pedukuhan Pengos A dan Pengos B, salah satu sentra perikanan air tawar Zona IV.",
-    "kategori": "agrowisata",
-    "gambar": "content/images/gallery/gerbosari-kegiatan-06.jpg",
-    "taken_at": "2024-12-03"
-  },
-  {
-    "id": "gal-009",
-    "judul": "Pengolahan Minuman Tradisional Empon-empon",
-    "deskripsi": "Produksi minuman herbal berbahan empon-empon di kawasan Zona IV (Sarimulyo, Manggis, Jeruk, Ketaon, Ngroto).",
-    "kategori": "agrowisata",
-    "gambar": "content/images/gallery/gerbosari-kegiatan-07.jpg",
-    "taken_at": "2025-01-18"
-  },
-  {
-    "id": "gal-010",
-    "judul": "Gardu Pandang Suroloyo",
-    "deskripsi": "Salah satu gardu pandang menuju puncak yang dibangun untuk wisatawan menikmati panorama 360 derajat perbukitan Menoreh.",
-    "kategori": "wisata",
-    "gambar": "content/images/gallery/gerbosari-kegiatan-08.jpg",
-    "taken_at": "2024-07-21"
-  },
-  {
-    "id": "gal-011",
-    "judul": "Kirab Pusaka Kraton Yogyakarta",
-    "deskripsi": "Upacara Kirap dan Jamasan Pusaka Tombak Kyai Manggolo Murti dan Songsong Kyai Manggolo Dewo dari tempat penyimpanan ke Sendang Kawidodaren, dilaksanakan setiap 1 Suro.",
-    "kategori": "budaya",
-    "gambar": "content/images/gallery/gerbosari-kegiatan-09.jpg",
+    "gambar": "content/images/gallery/gerbosari-sendang-kawidodaren.png",
     "taken_at": "2024-07-08"
   },
   {
-    "id": "gal-012",
-    "judul": "Kegiatan Warga Desa Gerbosari",
-    "deskripsi": "Dokumentasi kegiatan gotong royong warga di salah satu pedukuhan Desa Gerbosari.",
+    "id": "gal-006",
+    "judul": "Tugu Agrowisata Krisan Gerbosari",
+    "deskripsi": "Gerbang Agrowisata Krisan Gerbosari di kawasan Zona III, salah satu ikon ekonomi kreatif desa yang memadukan pertanian bunga krisan dengan kunjungan wisatawan.",
+    "kategori": "agrowisata",
+    "gambar": "content/images/gallery/gerbosari-tugu-agrowisata-krisan.jpg",
+    "taken_at": "2025-02-11"
+  },
+  {
+    "id": "gal-007",
+    "judul": "Pengajian Akbar Warga Gerbosari",
+    "deskripsi": "Pengajian akbar yang dihadiri ratusan warga Desa Gerbosari, menjadi bagian rutin dari kehidupan keagamaan masyarakat lereng Menoreh.",
+    "kategori": "budaya",
+    "gambar": "content/images/gallery/gerbosari-pengajian-akbar.jpg",
+    "taken_at": "2025-03-15"
+  },
+  {
+    "id": "gal-008",
+    "judul": "Peringatan Maulid Nabi Muhammad SAW",
+    "deskripsi": "Peringatan Maulid Nabi Muhammad SAW yang diselenggarakan warga Desa Gerbosari sebagai wujud syiar dan kebersamaan antar pedukuhan.",
+    "kategori": "budaya",
+    "gambar": "content/images/gallery/gerbosari-maulid-nabi.jpg",
+    "taken_at": "2024-09-16"
+  },
+  {
+    "id": "gal-009",
+    "judul": "HAORNAS 2025 Kapanewon Samigaluh",
+    "deskripsi": "Perayaan Hari Olahraga Nasional 2025 tingkat Kapanewon Samigaluh yang diikuti warga Desa Gerbosari beserta pedukuhan sekitarnya.",
     "kategori": "kegiatan",
-    "gambar": "content/images/gallery/gerbosari-kegiatan-10.jpg",
-    "taken_at": "2025-04-12"
+    "gambar": "content/images/gallery/gerbosari-haornas-2025.jpg",
+    "taken_at": "2025-09-09"
+  },
+  {
+    "id": "gal-010",
+    "judul": "Sekolah Sepak Bola Anak Gerbosari",
+    "deskripsi": "Tim Sekolah Sepak Bola (SSB) binaan Desa Gerbosari berseragam kuning, salah satu wadah pembinaan olahraga anak di tingkat desa.",
+    "kategori": "kegiatan",
+    "gambar": "content/images/gallery/gerbosari-ssb-sepakbola-anak.jpg",
+    "taken_at": "2025-04-20"
+  },
+  {
+    "id": "gal-011",
+    "judul": "Kerja Bakti Pembersihan Saluran",
+    "deskripsi": "Warga gotong royong membersihkan saluran air di salah satu pedukuhan Desa Gerbosari, tradisi yang masih terjaga sebagai bentuk solidaritas warga.",
+    "kategori": "kegiatan",
+    "gambar": "content/images/gallery/gerbosari-kerja-bakti-saluran.jpg",
+    "taken_at": "2025-05-04"
   }
 ]

@@ -93,9 +93,9 @@
     ]
   },
   "gambar": {
-    "peta_administrasi": "content/images/peta/gerbosari-peta-administrasi.png",
-    "peta_zona": "content/images/peta/gerbosari-peta-zona.png",
-    "peta_pedukuhan": "content/images/peta/gerbosari-peta-pedukuhan.png"
+    "peta_administrasi": "content/images/peta/gerbosari-peta-google-maps.jpg",
+    "peta_zona": "content/images/peta/gerbosari-peta-google-maps.jpg",
+    "peta_pedukuhan": "content/images/peta/gerbosari-peta-google-maps.jpg"
   },
   "_meta": {
     "sumber": [

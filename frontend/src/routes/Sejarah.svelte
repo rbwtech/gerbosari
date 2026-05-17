@@ -40,7 +40,7 @@
   aria-labelledby="sejarah-title"
 >
   <img
-    src="/images/cover/gerbosari-suroloyo-pemandangan.jpg"
+    src="/images/cover/gerbosari-panorama-menoreh.jpg"
     alt=""
     class="absolute inset-0 -z-20 h-full w-full object-cover"
     loading="eager"

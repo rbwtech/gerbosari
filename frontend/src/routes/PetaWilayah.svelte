@@ -380,8 +380,8 @@
     <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
       <figure class="rounded-xl overflow-hidden border border-krem-200 bg-krem-100 aspect-[4/3]">
         <img
-          src="/images/gallery/gerbosari-suroloyo-pemandangan.jpg"
-          alt="Pemandangan dari Puncak Suroloyo"
+          src="/images/gallery/gerbosari-puncak-suroloyo.png"
+          alt="Gardu pandang Puncak Suroloyo"
           loading="lazy"
           decoding="async"
           class="w-full h-full object-cover"

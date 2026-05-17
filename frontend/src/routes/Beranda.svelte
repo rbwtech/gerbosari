@@ -77,7 +77,7 @@
   aria-labelledby="hero-title"
 >
   <img
-    src="/images/cover/gerbosari-hero-landscape.jpg"
+    src="/images/cover/gerbosari-panorama-sawah-menoreh.jpg"
     alt=""
     class="absolute inset-0 -z-20 h-full w-full object-cover"
     loading="eager"
@@ -291,8 +291,8 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
       <figure class="order-2 lg:order-1">
         <img
-          src="/images/gallery/gerbosari-suroloyo-pemandangan.jpg"
-          alt="Pemandangan dari Puncak Suroloyo, titik tertinggi perbukitan Menoreh"
+          src="/images/gallery/gerbosari-puncak-suroloyo.png"
+          alt="Gardu pandang Puncak Suroloyo, titik tertinggi perbukitan Menoreh"
           class="w-full aspect-[4/3] object-cover rounded-lg border border-krem-200"
           loading="lazy"
           decoding="async"
