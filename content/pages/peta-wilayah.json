@@ -1220,97 +1220,137 @@
     {
       "nama": "Sarimulyo",
       "zona": 4,
-      "deskripsi": "Kawasan empon-empon dan pengolahan minuman tradisional."
+      "deskripsi": "Kawasan empon-empon dan pengolahan minuman tradisional.",
+      "lat": -7.6881911,
+      "lon": 110.1686132
     },
     {
       "nama": "Kemiriombo",
       "zona": null,
-      "deskripsi": "Asal nama BO dari Gerbosari. Kawasan transisi."
+      "deskripsi": "Asal nama BO dari Gerbosari. Kawasan transisi.",
+      "lat": -7.685,
+      "lon": 110.17,
+      "lokasi_perkiraan": true
     },
     {
       "nama": "Jeruk",
       "zona": 4,
-      "deskripsi": "Kawasan empon-empon dan pengolahan minuman tradisional."
+      "deskripsi": "Kawasan empon-empon dan pengolahan minuman tradisional.",
+      "lat": -7.6877538,
+      "lon": 110.165475
     },
     {
       "nama": "Manggis",
       "zona": 4,
-      "deskripsi": "Kawasan empon-empon dan pengolahan minuman tradisional."
+      "deskripsi": "Kawasan empon-empon dan pengolahan minuman tradisional.",
+      "lat": -7.6817159,
+      "lon": 110.1721349
     },
     {
       "nama": "Pengos A",
       "zona": 4,
-      "deskripsi": "Kawasan budidaya dan pembenihan ikan."
+      "deskripsi": "Kawasan budidaya dan pembenihan ikan.",
+      "lat": -7.6857164,
+      "lon": 110.1784328
     },
     {
       "nama": "Pengos B",
       "zona": 4,
-      "deskripsi": "Kawasan budidaya dan pembenihan ikan."
+      "deskripsi": "Kawasan budidaya dan pembenihan ikan.",
+      "lat": -7.6825612,
+      "lon": 110.1789182
     },
     {
       "nama": "Ketaon",
       "zona": 4,
-      "deskripsi": "Kawasan empon-empon dan pengolahan minuman tradisional."
+      "deskripsi": "Kawasan empon-empon dan pengolahan minuman tradisional.",
+      "lat": -7.6809849,
+      "lon": 110.1648232
     },
     {
       "nama": "Ngroto",
       "zona": 4,
-      "deskripsi": "Kawasan empon-empon dan pengolahan minuman tradisional."
+      "deskripsi": "Kawasan empon-empon dan pengolahan minuman tradisional.",
+      "lat": -7.6775825,
+      "lon": 110.1623838
     },
     {
       "nama": "Clumprit",
       "zona": 3,
-      "deskripsi": "Agrowisata krisan, UKM batik, kerajinan topeng, dan budaya jathilan-bangilun-gejog lesung."
+      "deskripsi": "Agrowisata krisan, UKM batik, kerajinan topeng, dan budaya jathilan-bangilun-gejog lesung.",
+      "lat": -7.6729945,
+      "lon": 110.168864
     },
     {
       "nama": "Karang",
       "zona": 3,
-      "deskripsi": "Pusat pemerintahan desa (Kantor Desa Gerbosari). Agrowisata krisan dan UKM kreatif."
+      "deskripsi": "Pusat pemerintahan desa (Kantor Desa Gerbosari). Agrowisata krisan dan UKM kreatif.",
+      "lat": -7.6728483,
+      "lon": 110.1720464
     },
     {
       "nama": "Jetis",
       "zona": 3,
-      "deskripsi": "Agrowisata krisan, UKM batik, kerajinan alat musik tradisional."
+      "deskripsi": "Agrowisata krisan, UKM batik, kerajinan alat musik tradisional.",
+      "lat": -7.6691746,
+      "lon": 110.1685917
     },
     {
       "nama": "Tlogo",
       "zona": 2,
-      "deskripsi": "Agrowisata durian, peternakan kambing PE, dan budidaya cengkeh."
+      "deskripsi": "Agrowisata durian, peternakan kambing PE, dan budidaya cengkeh.",
+      "lat": -7.6594455,
+      "lon": 110.1698175
     },
     {
       "nama": "Jati",
       "zona": 2,
-      "deskripsi": "Agrowisata durian, peternakan kambing PE, dan budidaya cengkeh."
+      "deskripsi": "Agrowisata durian, peternakan kambing PE, dan budidaya cengkeh.",
+      "lat": -7.6653308,
+      "lon": 110.1663682
     },
     {
       "nama": "Sumbo",
       "zona": 2,
-      "deskripsi": "Agrowisata durian, peternakan kambing PE, dan budidaya cengkeh."
+      "deskripsi": "Agrowisata durian, peternakan kambing PE, dan budidaya cengkeh.",
+      "lat": -7.6591557,
+      "lon": 110.1737496
     },
     {
       "nama": "Dukuh",
       "zona": 2,
-      "deskripsi": "Petilasan Kyai Galuh (Makam Krajan). Durian dan kambing PE."
+      "deskripsi": "Petilasan Kyai Galuh (Makam Krajan). Durian dan kambing PE.",
+      "lat": -7.6637199,
+      "lon": 110.1738918
     },
     {
       "nama": "Sendat",
       "zona": 2,
-      "deskripsi": "Agrowisata durian, peternakan kambing PE, dan budidaya cengkeh."
+      "deskripsi": "Agrowisata durian, peternakan kambing PE, dan budidaya cengkeh.",
+      "lat": -7.662,
+      "lon": 110.176,
+      "lokasi_perkiraan": true
     },
     {
       "nama": "Kayugede",
       "zona": 2,
-      "deskripsi": "Agrowisata durian, peternakan kambing PE, dan budidaya cengkeh."
+      "deskripsi": "Agrowisata durian, peternakan kambing PE, dan budidaya cengkeh.",
+      "lat": -7.6594694,
+      "lon": 110.1770943
     },
     {
       "nama": "Menggermalang",
       "zona": 2,
-      "deskripsi": "Asal nama GER dari Gerbosari. Makam Temenggung Tringsingan."
+      "deskripsi": "Asal nama GER dari Gerbosari. Makam Temenggung Tringsingan.",
+      "lat": -7.662242,
+      "lon": 110.1822469
     },
     {
       "nama": "Keceme",
       "zona": 1,
-      "deskripsi": "Agrowisata komoditi unggulan kopi dan teh; lokasi Puncak Suroloyo (1000 m dpl) dan Pertapan Indrokilo."
+      "deskripsi": "Agrowisata komoditi unggulan kopi dan teh; lokasi Puncak Suroloyo (1000 m dpl) dan Pertapan Indrokilo.",
+      "lat": -7.6489451,
+      "lon": 110.1816675
     }
   ],
   "zona": [

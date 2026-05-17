@@ -23,22 +23,17 @@
   }> = data?.wilayah?.batas_koordinat ?? [];
 
   /**
-   * Deterministic offset around the village centre so each pedukuhan has a
-   * unique on-map position even though the source JSON lacks per-pedukuhan
-   * GPS data. Spreads markers in a ring with a small radial jitter per zona.
+   * Each pedukuhan carries real lat/lon from OpenStreetMap (Nominatim
+   * search per name, verified inside Gerbosari's relation 5615721 bbox).
+   * Two villages (Kemiriombo, Sendat) are estimated from neighbouring
+   * zona-members and marked with `lokasi_perkiraan: true`.
    */
-  function offsetFor(idx: number, total: number, zona: number | null): LatLngTuple {
-    const angle = (idx / total) * Math.PI * 2;
-    const baseRadius = 0.012;
-    const zonaRadius: Record<number, number> = { 1: 0.022, 2: 0.014, 3: 0.006, 4: 0.018 };
-    const r = zonaRadius[zona ?? 0] ?? baseRadius;
-    return [center[0] + Math.cos(angle) * r, center[1] + Math.sin(angle) * r];
-  }
-
-  const pedukuhanPoints = data.pedukuhan.map((p, i, arr) => ({
-    ...p,
-    position: offsetFor(i, arr.length, p.zona as unknown as number | null)
-  }));
+  const pedukuhanPoints = data.pedukuhan
+    .filter((p: any) => typeof p.lat === 'number' && typeof p.lon === 'number')
+    .map((p: any) => ({
+      ...p,
+      position: [p.lat, p.lon] as LatLngTuple
+    }));
 
   type ZonaKey = 1 | 2 | 3 | 4;
   const zonaMeta: Record<ZonaKey, { color: string; icon: typeof Coffee; theme: string }> = {
@@ -71,15 +66,15 @@
     activeZonesVersion++;
   }
 
-  $: visiblePedukuhan = pedukuhanPoints.filter((p) => {
+  $: visiblePedukuhan = pedukuhanPoints.filter((p: any) => {
     const z = p.zona as unknown as ZonaKey | null;
     return z !== null && activeZones.has(z);
   });
 
   $: groupedByZona = ([1, 2, 3, 4] as ZonaKey[]).map((z) => ({
     nomor: z,
-    tema: data.zona.find((d) => d.nomor === z)?.tema ?? zonaMeta[z].theme,
-    items: pedukuhanPoints.filter((p) => (p.zona as unknown as number) === z)
+    tema: data.zona.find((d: any) => d.nomor === z)?.tema ?? zonaMeta[z].theme,
+    items: pedukuhanPoints.filter((p: any) => (p.zona as unknown as number) === z)
   }));
 
   // ---------------------------------------------------------------------------
@@ -88,7 +83,6 @@
   let mapEl: HTMLDivElement;
   let mapInstance: LeafletMap | undefined;
   let markerByName = new Map<string, CircleMarker>();
-  let officeMarker: CircleMarker | undefined;
   let leafletLib: typeof import('leaflet') | undefined;
 
   async function initMap() {
@@ -158,7 +152,7 @@
     });
 
     // Kantor desa (office) - distinct ring marker
-    officeMarker = L.circleMarker(center, {
+    L.circleMarker(center, {
       radius: 10,
       color: '#b85c38',
       weight: 3,
@@ -189,20 +183,22 @@
     markerByName.forEach((m) => m.remove());
     markerByName = new Map();
 
-    visiblePedukuhan.forEach((p) => {
+    visiblePedukuhan.forEach((p: any) => {
       const z = p.zona as unknown as ZonaKey | null;
       const color = z ? zonaMeta[z].color : '#52493f';
+      const estimasi = p.lokasi_perkiraan === true;
       const m = L.circleMarker(p.position as LatLngTuple, {
         radius: 7,
         color,
         weight: 2,
         fillColor: color,
-        fillOpacity: 0.55
+        fillOpacity: estimasi ? 0.3 : 0.55,
+        dashArray: estimasi ? '3 2' : undefined
       }).bindPopup(
         `<div style="font-family:Inter,system-ui,sans-serif;min-width:200px">
            <div style="font-weight:600;color:#1a1816">${escapeHtml(p.nama)}</div>
            <div style="margin-top:2px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9a4a2c">
-             ${z ? `Zona ${romanZona[z]}` : 'Transisi'}
+             ${z ? `Zona ${romanZona[z]}` : 'Transisi'}${estimasi ? ' &middot; lokasi perkiraan' : ''}
            </div>
            ${p.deskripsi ? `<div style="margin-top:6px;color:#52493f;font-size:12px;line-height:1.5">${escapeHtml(p.deskripsi)}</div>` : ''}
          </div>`
@@ -329,7 +325,7 @@
       {#each [1, 2, 3, 4] as z (z)}
         {@const key = z as ZonaKey}
         {@const active = activeZones.has(key)}
-        {@const count = pedukuhanPoints.filter((p) => (p.zona as unknown as number) === z).length}
+        {@const count = pedukuhanPoints.filter((p: any) => (p.zona as unknown as number) === z).length}
         <button
           type="button"
           on:click={() => toggleZone(key)}
@@ -451,7 +447,7 @@
           {suroloyo.nama}
         </h2>
         <div class="mt-3 flex flex-wrap items-center gap-2 text-sm text-arang-700">
-          <Badge tone="menoreh">{suroloyo.ketinggian_m_dpl} m dpl</Badge>
+          <Badge variant="wisata">{suroloyo.ketinggian_m_dpl} m dpl</Badge>
           <span>·</span>
           <span>Pedukuhan {suroloyo.lokasi_pedukuhan}</span>
         </div>
