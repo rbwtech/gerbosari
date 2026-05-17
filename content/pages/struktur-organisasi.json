@@ -1,0 +1,52 @@
+{
+  "kepala_desa": {
+    "nama": "TBD",
+    "periode_terakhir_tercatat": "Damar, A.Md (2015 - 2021)",
+    "catatan": "Pejabat kepala desa terkini belum dikonfirmasi dari sumber dokumen. Mohon update dari aparatur desa."
+  },
+  "sekretaris_desa": {
+    "nama": "TBD",
+    "catatan": "Sekretaris desa periode terakhir tercatat: Dyah Yekti Indrajati, S.Si (penyusun buku profil bersama Kepala Desa Damar, A.Md). Perlu konfirmasi status terkini."
+  },
+  "kasi": [
+    { "jabatan": "Kasi Pemerintahan", "nama": "TBD" },
+    { "jabatan": "Kasi Kesejahteraan", "nama": "TBD" },
+    { "jabatan": "Kasi Pelayanan", "nama": "TBD" }
+  ],
+  "kaur": [
+    { "jabatan": "Kaur Tata Usaha dan Umum", "nama": "TBD" },
+    { "jabatan": "Kaur Keuangan", "nama": "TBD" },
+    { "jabatan": "Kaur Perencanaan", "nama": "TBD" }
+  ],
+  "kadus": [
+    { "pedukuhan": "Sarimulyo", "nama": "TBD" },
+    { "pedukuhan": "Kemiriombo", "nama": "TBD" },
+    { "pedukuhan": "Jeruk", "nama": "TBD" },
+    { "pedukuhan": "Manggis", "nama": "TBD" },
+    { "pedukuhan": "Pengos A", "nama": "TBD" },
+    { "pedukuhan": "Pengos B", "nama": "TBD" },
+    { "pedukuhan": "Ketaon", "nama": "TBD" },
+    { "pedukuhan": "Ngroto", "nama": "TBD" },
+    { "pedukuhan": "Clumprit", "nama": "TBD" },
+    { "pedukuhan": "Karang", "nama": "TBD" },
+    { "pedukuhan": "Jetis", "nama": "TBD" },
+    { "pedukuhan": "Tlogo", "nama": "TBD" },
+    { "pedukuhan": "Jati", "nama": "TBD" },
+    { "pedukuhan": "Sumbo", "nama": "TBD" },
+    { "pedukuhan": "Dukuh", "nama": "TBD" },
+    { "pedukuhan": "Sendat", "nama": "TBD" },
+    { "pedukuhan": "Kayugede", "nama": "TBD" },
+    { "pedukuhan": "Menggermalang", "nama": "TBD" },
+    { "pedukuhan": "Keceme", "nama": "TBD" }
+  ],
+  "bpd": {
+    "ketua": "TBD",
+    "anggota": "TBD"
+  },
+  "_meta": {
+    "catatan": "Nama-nama personalia kecuali kepala desa periode 2015-2021 (Damar, A.Md) tidak tercantum di dokumen sumber. Semua slot bertanda TBD harus diisi melalui konfirmasi langsung ke kantor desa atau update data RPJM terbaru.",
+    "sumber": [
+      "Buku Profil Desa Gerbosari (kepala desa dan sekretaris desa di sampul)"
+    ]
+  }
+}

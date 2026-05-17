@@ -1,0 +1,110 @@
+{
+  "pengantar": "Setiap desa memiliki sejarah dan latar belakang tersendiri yang merupakan pencerminan dari karakter khas suatu desa. Sejarah Desa Gerbosari tertuang dalam kisah dan dongeng dari pinisepuh yang diwariskan secara turun-temurun, baik lisan maupun tertulis, serta seringkali dihubungkan dengan tempat-tempat yang dianggap keramat.",
+
+  "asal_usul": {
+    "judul": "Asal Usul Desa Gerbosari",
+    "isi": "Pada zaman penjajahan Belanda, Kalurahan Gerbosari belum berdiri. Wilayah Gerbosari saat itu terbagi menjadi tiga kalurahan, yaitu Kalurahan Menggermalang (dipimpin Lurah Sastrowiyono, terdiri dari 6 pedukuhan: Sumbo, Dukuh, Sendat, Kayugede, Menggermalang, dan Keceme), Kalurahan Samigaluh (dipimpin Lurah R. Reki Wiryo Pranoto yang gugur pada pengeboman Maret 1949, terdiri dari 7 pedukuhan: Ketaon, Ngroto, Clumprit, Jetis, Jati, Tlogo, dan Karang), serta Kalurahan Kemiriombo (dipimpin Lurah Somenggolo Dipomenggolo, terdiri dari 6 pedukuhan: Sarimulyo, Kemiriombo, Jeruk, Manggis, Pengos A, dan Pengos B). Setelah kemerdekaan Republik Indonesia, pada tahun 1947 ketiga kalurahan ini digabungkan menjadi satu desa bernama Gerbosari.",
+    "kalurahan_asal": [
+      {
+        "nama": "Kalurahan Menggermalang",
+        "lurah": "Sastrowiyono",
+        "pedukuhan": ["Sumbo", "Dukuh", "Sendat", "Kayugede", "Menggermalang", "Keceme"]
+      },
+      {
+        "nama": "Kalurahan Samigaluh",
+        "lurah": "R. Reki Wiryo Pranoto",
+        "catatan": "Lurah gugur pada pengeboman Belanda 7 Maret 1949.",
+        "pedukuhan": ["Ketaon", "Ngroto", "Clumprit", "Jetis", "Jati", "Tlogo", "Karang"]
+      },
+      {
+        "nama": "Kalurahan Kemiriombo",
+        "lurah": "Somenggolo Dipomenggolo",
+        "pedukuhan": ["Sarimulyo", "Kemiriombo", "Jeruk", "Manggis", "Pengos A", "Pengos B"]
+      }
+    ]
+  },
+
+  "etimologi": {
+    "judul": "Etimologi Nama Gerbosari",
+    "isi": "Nama Gerbosari diambil dari penggabungan suku kata ketiga kalurahan yang dilebur pada tahun 1947.",
+    "komponen": [
+      { "suku_kata": "GER", "berasal_dari": "Menggermalang" },
+      { "suku_kata": "BO", "berasal_dari": "Kemiriombo" },
+      { "suku_kata": "SA", "berasal_dari": "Samigaluh" },
+      { "suku_kata": "RI", "berasal_dari": "Tambahan suku kata" }
+    ]
+  },
+
+  "peristiwa_1949": {
+    "judul": "Peristiwa 7 Maret 1949 di Samigaluh",
+    "kutipan": "Rumah saya menjadi rata dengan tanah",
+    "narator": "R. Ngb. Somoamijoyo (77 tahun), mantan anggota Detasemen Polisi Pamong Praja (DP3) dan kepala SD Samigaluh I",
+    "narasi": "Pada bulan Maret 1949, wilayah Kapanewonan Samigaluh banyak didatangi pejuang kemerdekaan dari berbagai kesatuan, antara lain Tentara Pelajar (TP), Brigade 10, Polisi, serta laskar-laskar. Pemerintahan kapanewon dipimpin Bapak Panewu Projonarmodo bersama Bapak Projowinarno. Pada tahun itu mulai dibentuk Detasemen Polisi Pamong Praja (DP3) yang asramanya menempati rumah R. Ngb. Somoamijoyo di dekat Kantor Kapanewon. Latihan perdana dijadwalkan dimulai tanggal 7 Maret 1949 di bawah pimpinan Inspektur Polisi R. Soebekti.\n\nHari Senin Wage, 7 Maret 1949, sekitar pukul 09.00 ketika ceramah pelajaran sedang berlangsung, seorang tentara datang dan membawa pergi Bapak Projonarmodo serta Bapak Projowinarno ke arah Gunung Bakal. Ceramah tetap dilanjutkan hingga pukul tiga sore karena Panewu tak kunjung kembali. Saat para peserta sedang menikmati makan siang, terdengar deru pesawat terbang. Tak lama kemudian, empat pesawat tempur Belanda datang bergantian, menjatuhkan bom, granat, dan menembaki asrama dengan mitraliur dari udara selama kurang lebih 45 menit. Serangan berhenti seiring turunnya hujan deras.\n\nKorban berjatuhan: saudara Pawiroyono gugur dengan luka di leher dan punggung, Ibu Sastrosudarmo bersama anak perempuannya meninggal seketika, saudara Supardi, Bedjo, dan seorang anak laki-laki gugur di RS Boro. Lurah Samigaluh R. Reki Wiryo Pranoto yang turut menjadi anggota DP3 ditemukan hanya berupa potongan tubuh kecil di lokasi pengeboman. Rumah R. Ngb. Somoamijoyo rata dengan tanah. Dua bom yang jatuh di Masjid Samigaluh, 30 meter dari rumahnya, secara ajaib tidak meledak. R. Ngb. Somoamijoyo dan istrinya selamat tanpa cedera.",
+    "korban_tercatat": [
+      "Pawiroyono",
+      "Ibu Sastrosudarmo dan anak perempuannya",
+      "Supardi",
+      "Bedjo",
+      "Seorang anak laki-laki tidak dikenal",
+      "Lurah Samigaluh R. Reki Wiryo Pranoto",
+      "Kromowitono (cacat permanen)",
+      "Sarip Sutodarmo (cacat permanen)",
+      "Djemu Harjoutomo (luka parah)"
+    ],
+    "penutup": "Sekali Merdeka Tetap Merdeka."
+  },
+
+  "legenda": [
+    {
+      "nama": "Legenda Nyai Sami dan Kyai Galuh",
+      "isi": "Nyai Sami dan Kyai Galuh adalah keturunan Kerajaan Sigaluh Cirebon yang pada masa penjajahan Belanda menyelamatkan diri hingga ke wilayah Gerbosari, ketika daerah ini masih berupa hutan belantara. Petilasan keduanya dianggap keramat hingga kini. Makam Nyai Sami ditemukan oleh pembantu setianya, Ki Condro Geni dan Ki Cantang Balung, dan terletak di Punggang Kresek Pedukuhan Karang. Kyai Galuh menetap di Krajan Dukuh hingga wafat dan dimakamkan di Makam Krajan Pedukuhan Dukuh. Dari kedua tokoh inilah nama Samigaluh berasal, yang kemudian ditetapkan sebagai nama kecamatan paling utara Kabupaten Kulon Progo."
+    },
+    {
+      "nama": "Legenda Sedowayah",
+      "isi": "Sedowayah adalah lokasi legendaris yang terletak di antara Pedukuhan Karang, Jetis, dan Clumprit. Konon pada masa Perang Diponegoro melawan Belanda, salah seorang wayah (cucu) Pangeran Diponegoro menyelamatkan diri hingga wilayah ini. Kuda tunggangannya tergelincir sehingga sang wayah meninggal (sedo) di tempat tersebut. Untuk mengenangnya, lokasi itu dinamakan Sedowayah."
+    },
+    {
+      "nama": "Legenda Gunung Bakal",
+      "isi": "Gunung Cikal Bakal terletak di perbatasan Desa Gerbosari dan Desa Ngargosari, tepatnya antara Pedukuhan Jetis dan Canden. Konon di atas Gunung Bakal akan dibangun sebuah candi, tetapi gagal terwujud. Menurut penuturan pinisepuh, batu-batu untuk membangun candi hanya sampai di Pedukuhan Sendat dan Karang, yang memang kini banyak dijumpai bongkahan batu besar. Di puncak Gunung Bakal terdapat Makam Panembahan Saloka Joyo yang dikeramatkan masyarakat sekitar."
+    },
+    {
+      "nama": "Legenda Temenggung Tringsingan",
+      "isi": "Asal usul Legenda Temenggung Tringsingan belum diketahui pasti, namun di Pedukuhan Menggermalang terdapat makam yang dikeramatkan, dipercaya sebagai Makam Temenggung Tringsingan."
+    },
+    {
+      "nama": "Legenda Dadung Awuk",
+      "isi": "Legenda Dadung Awuk dipercaya oleh masyarakat di sekitar bekas Kalurahan Kemiriombo. Dadung Awuk dikisahkan sebagai jin pamong rojokoyo (hewan ternak) di wilayah tersebut. Meskipun lahan bekas Kalurahan Kemiriombo tergolong kritis, kering, dan berbatu, para petani justru berhasil dalam beternak sapi dan kambing. Pada waktu tertentu konon terdengar suara gaib, dan hewan-hewan ternak akan menghadap ke arah asal suara tersebut."
+    },
+    {
+      "nama": "Riwayat Puncak Suroloyo",
+      "isi": "Konon Suroloyo adalah kahyangan para dewa dan dewi, tempat Bethara Guru bersemayam dibantu Patih Kaneko Putro serta para dewa dan bidadari, sehingga dianggap suci dan keramat. Menurut Kitab Cibolek, Raden Mas Rangsang (Sultan Agung di masa muda) bermimpi didatangi Kanjeng Sunan Kalijaga yang memerintahkannya berjalan ke arah barat sampai habis kekuatannya. Setelah pingsan di puncak bukit Suroloyo, ia ditemui seorang tampan yang mengaku sebagai Raden Janoko dan memintanya bertapa di Pertapan Indrokilo di lereng bukit Suroloyo. Tempat-tempat keramat lain di sekitar Suroloyo meliputi Puncak Sariloyo, Tegal Kepanasan, Sendang Kawidodaren, Sendang Kadewatan, Sendang Simbar Joyo, Pertapaan Mintorgo, Enceh Suci, serta Lawang Selomatangkep dan Kaendran."
+    }
+  ],
+
+  "pemerintahan": {
+    "perubahan_nama": [
+      { "periode": "1947 - 1975", "sebutan": "Kalurahan", "kepala": "Lurah" },
+      { "periode": "1975 - 1999", "sebutan": "Desa", "kepala": "Kepala Desa" },
+      { "periode": "1999 - 2006", "sebutan": "Desa", "kepala": "Lurah Desa" },
+      { "periode": "2006 - 2014", "sebutan": "Desa", "kepala": "Kepala Desa" }
+    ],
+    "kepemimpinan": [
+      { "periode": "1947 - 1975", "pemimpin": "Noto Sudiro", "jabatan": "Lurah" },
+      { "periode": "1975 - 1990", "pemimpin": "Noto Sudiro", "jabatan": "Lurah", "catatan": "Diberlakukannya UU No. 5 Tahun 1975." },
+      { "periode": "1990 - 1999", "pemimpin": "Ny. Dasilah Supriyo", "jabatan": "Kepala Desa" },
+      { "periode": "1999 - 2008", "pemimpin": "Ny. Dasilah Supriyo", "jabatan": "Kepala Desa" },
+      { "periode": "2008 - 2014", "pemimpin": "Sukardi, A.Md", "jabatan": "Kepala Desa" },
+      { "periode": "2014 - 2015", "pemimpin": "Saronto, BA", "jabatan": "Pj. Kepala Desa" },
+      { "periode": "2015 - 2021", "pemimpin": "Damar, A.Md", "jabatan": "Kepala Desa" }
+    ]
+  },
+
+  "_meta": {
+    "sumber": [
+      "Dokumen Profil Desa Gerbosari (kantor desa)",
+      "Penuturan R. Ngb. Somoamijoyo (1978)",
+      "Kitab Cibolek (riwayat Sultan Agung)",
+      "Dok RPJM Desa Gerbosari 2016-2021"
+    ]
+  }
+}

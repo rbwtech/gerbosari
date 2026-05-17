@@ -1,0 +1,37 @@
+{
+  "_meta": {
+    "total_jiwa": 4802,
+    "total_laki": 2380,
+    "total_perempuan": 2422,
+    "total_kk": 1268,
+    "catatan": "Distribusi per pedukuhan adalah estimasi proporsional berdasarkan luas relatif dan tipikal kepadatan pedukuhan dataran tinggi Menoreh. Total telah dikalibrasi agar sama persis dengan agregat resmi profil desa. Bila kantor desa merilis data rinci per pedukuhan, ganti angka-angka di sini.",
+    "sumber": "Profil Desa Gerbosari (agregat). Distribusi: estimasi internal tim konten."
+  },
+  "data": [
+    { "pedukuhan": "Sarimulyo",     "kk": 72, "laki": 138, "perempuan": 142, "total": 280 },
+    { "pedukuhan": "Kemiriombo",    "kk": 64, "laki": 122, "perempuan": 124, "total": 246 },
+    { "pedukuhan": "Jeruk",         "kk": 58, "laki": 110, "perempuan": 112, "total": 222 },
+    { "pedukuhan": "Manggis",       "kk": 61, "laki": 116, "perempuan": 118, "total": 234 },
+    { "pedukuhan": "Pengos A",      "kk": 70, "laki": 132, "perempuan": 134, "total": 266 },
+    { "pedukuhan": "Pengos B",      "kk": 68, "laki": 128, "perempuan": 130, "total": 258 },
+    { "pedukuhan": "Ketaon",        "kk": 55, "laki": 104, "perempuan": 106, "total": 210 },
+    { "pedukuhan": "Ngroto",        "kk": 63, "laki": 119, "perempuan": 121, "total": 240 },
+    { "pedukuhan": "Clumprit",      "kk": 71, "laki": 134, "perempuan": 136, "total": 270 },
+    { "pedukuhan": "Karang",        "kk": 88, "laki": 165, "perempuan": 169, "total": 334 },
+    { "pedukuhan": "Jetis",         "kk": 74, "laki": 140, "perempuan": 142, "total": 282 },
+    { "pedukuhan": "Tlogo",         "kk": 60, "laki": 113, "perempuan": 115, "total": 228 },
+    { "pedukuhan": "Jati",          "kk": 57, "laki": 108, "perempuan": 110, "total": 218 },
+    { "pedukuhan": "Sumbo",         "kk": 56, "laki": 106, "perempuan": 108, "total": 214 },
+    { "pedukuhan": "Dukuh",         "kk": 62, "laki": 117, "perempuan": 119, "total": 236 },
+    { "pedukuhan": "Sendat",        "kk": 59, "laki": 111, "perempuan": 113, "total": 224 },
+    { "pedukuhan": "Kayugede",      "kk": 66, "laki": 124, "perempuan": 126, "total": 250 },
+    { "pedukuhan": "Menggermalang", "kk": 73, "laki": 138, "perempuan": 142, "total": 280 },
+    { "pedukuhan": "Keceme",        "kk": 91, "laki": 155, "perempuan": 155, "total": 310 }
+  ],
+  "agama": {
+    "islam": 4616,
+    "katolik": 613,
+    "protestan": 99,
+    "_catatan": "Total agama (5.328) lebih tinggi dari total penduduk (4.802) pada dokumen sumber. Perlu verifikasi sumber primer; angka disajikan apa adanya sesuai profil desa."
+  }
+}

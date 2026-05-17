@@ -1,0 +1,56 @@
+# /etc/systemd/system/gerbosari-backend.service
+# Systemd unit for the Rust/Axum backend on an aaPanel host.
+# Install:
+#   sudo cp deploy/gerbosari-backend.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now gerbosari-backend
+[Unit]
+Description=Desa Gerbosari Backend (Axum)
+Documentation=https://gerbosari.rbwtech.io
+After=network-online.target mysqld.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+# aaPanel runs services under the `www` user/group by default.
+User=www
+Group=www
+WorkingDirectory=/www/wwwroot/gerbosari.rbwtech.io/_backend
+EnvironmentFile=/www/wwwroot/gerbosari.rbwtech.io/_backend/.env
+ExecStart=/www/wwwroot/gerbosari.rbwtech.io/_backend/gerbosari-backend
+
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=20
+
+# --- Hardening ---
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictNamespaces=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+SystemCallArchitectures=native
+
+# Allow writes only into the backend deploy tree.
+ReadWritePaths=/www/wwwroot/gerbosari.rbwtech.io/_backend
+
+# --- Resource caps ---
+LimitNOFILE=65535
+MemoryMax=1G
+TasksMax=512
+
+# --- Logging ---
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=gerbosari-backend
+
+[Install]
+WantedBy=multi-user.target

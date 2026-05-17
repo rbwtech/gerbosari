@@ -1,0 +1,48 @@
+[package]
+name = "gerbosari-backend"
+version = "0.1.0"
+edition = "2021"
+description = "Backend API for Desa Gerbosari village profile (dynamic features)"
+license = "MIT"
+
+[lib]
+name = "gerbosari_backend"
+path = "src/lib.rs"
+
+[[bin]]
+name = "gerbosari-backend"
+path = "src/main.rs"
+
+[dependencies]
+axum = { version = "0.7", features = ["macros"] }
+tokio = { version = "1", features = ["full"] }
+tower = "0.5"
+tower-http = { version = "0.5", features = ["cors", "trace"] }
+
+sqlx = { version = "0.8", default-features = false, features = [
+    "runtime-tokio-rustls",
+    "mysql",
+    "chrono",
+    "uuid",
+    "macros",
+    "migrate",
+] }
+
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+
+dotenvy = "0.15"
+thiserror = "1"
+anyhow = "1"
+validator = { version = "0.18", features = ["derive"] }
+async-trait = "0.1"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = "symbols"

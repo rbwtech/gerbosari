@@ -1,0 +1,31 @@
+{
+  "desa": {
+    "visi": "Mewujudkan Desa Gerbosari yang Sejahtera dan Mandiri sebagai Desa Wisata Berbasis Budaya dan Ekonomi Kreatif.",
+    "_visi_inferred": true,
+    "_visi_inferred_note": "Visi resmi desa tidak tercantum eksplisit di dokumen sumber. Kalimat ini diturunkan dari tagline resmi Desa Gerbosari yang muncul pada sampul Profil Desa: \"Sejahtera Mandiri - Desa Wisata Berbasis Budaya dan Ekonomi Kreatif\".",
+    "misi": [
+      "Mengembangkan empat zona ekonomi desa secara terpadu: agrowisata kopi-teh, peternakan dan perkebunan durian-cengkeh, UKM budaya, serta perikanan dan empon-empon.",
+      "Mendorong pelestarian budaya Jawa pegunungan seperti jathilan, bangilun, gejog lesung, upacara bersih desa, wiwitan, baritan, dan kirab budaya sebagai daya tarik wisata.",
+      "Meningkatkan kapasitas UMKM lokal di bidang batik Menoreh, kerajinan topeng, alat musik tradisional, dan minuman tradisional empon-empon.",
+      "Memperkuat tata kelola desa yang transparan, partisipatif, dan akuntabel berbasis data profil desa terkini.",
+      "Memajukan kawasan wisata unggulan Puncak Suroloyo serta titik wisata pendukung di 19 pedukuhan."
+    ],
+    "_misi_inferred": true,
+    "_misi_inferred_note": "Disusun berdasarkan empat zona ekonomi dan potensi yang tercatat resmi di dokumen profil desa. Perlu validasi dengan RPJM Desa terbaru."
+  },
+  "kabupaten": {
+    "visi": "Terwujudnya Kulon Progo yang makmur, mandiri, religius, berbudaya yang berkelanjutan.",
+    "misi": [
+      "Mewujudkan masyarakat Kulon Progo makmur, berbudaya dan religius.",
+      "Meningkatkan kemandirian dan daya saing daerah serta menciptakan pemerataan ekonomi.",
+      "Mewujudkan tata kelola pemerintah yang good governance, aspiratif, serta mewujudkan masyarakat yang aman dan demokratis.",
+      "Mewujudkan pemerataan pembangunan infrastruktur, lingkungan yang lestari dan tangguh bencana."
+    ]
+  },
+  "_meta": {
+    "sumber": [
+      "Dokumen Profil Desa Gerbosari (visi-misi kabupaten dikutip apa adanya)",
+      "Tagline resmi pada sampul Profil Desa Gerbosari (Damar, A.Md & Dyah Yekti Indrajati, S.Si)"
+    ]
+  }
+}

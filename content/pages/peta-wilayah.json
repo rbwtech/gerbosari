@@ -1,0 +1,107 @@
+{
+  "koordinat": {
+    "lat": -8.4878226840470315,
+    "lon": 116.04083776474,
+    "catatan": "Koordinat ini berasal dari website lama gerbosari-kulonprogo.desa.id. Bujur (116 BT) tampak melebihi rentang DIY (kira-kira 110 BT) dan perlu dikoreksi via GPS lapangan."
+  },
+  "luas_ha": 966.3465,
+  "luas_ha_bps_2017": 1076.61,
+  "luas_catatan": "Versi profil desa: 966.346,5 ha. Versi BPS Kulon Progo 2017: 1.076,61 ha (15,54% dari luas Kecamatan Samigaluh). Gunakan figur profil desa sebagai default.",
+  "ketinggian_min": 400,
+  "ketinggian_max": 900,
+  "ketinggian_satuan": "m dpl",
+  "suhu_rata_celsius": 23,
+  "topografi": {
+    "dataran_rendah_persen": 40,
+    "dataran_tinggi_persen": 60,
+    "lokasi": "Lereng perbukitan Menoreh"
+  },
+  "jarak_ibu_kota_kecamatan_km": 0.5,
+  "batas": {
+    "utara": "Kabupaten Magelang",
+    "timur": "Desa Sidoharjo / Kecamatan Kalibawang",
+    "selatan": "Desa Banjarsari / Kecamatan Girimulyo",
+    "barat": "Kabupaten Purworejo",
+    "catatan": "Batas administrasi level desa berdasarkan Peta Administrasi Kecamatan Samigaluh. Validasi ulang dengan peta resmi desa direkomendasikan."
+  },
+  "pedukuhan": [
+    { "nama": "Sarimulyo", "zona": 4, "deskripsi": "Kawasan empon-empon dan pengolahan minuman tradisional." },
+    { "nama": "Kemiriombo", "zona": null, "deskripsi": "Asal nama BO dari Gerbosari. Kawasan transisi." },
+    { "nama": "Jeruk", "zona": 4, "deskripsi": "Kawasan empon-empon dan pengolahan minuman tradisional." },
+    { "nama": "Manggis", "zona": 4, "deskripsi": "Kawasan empon-empon dan pengolahan minuman tradisional." },
+    { "nama": "Pengos A", "zona": 4, "deskripsi": "Kawasan budidaya dan pembenihan ikan." },
+    { "nama": "Pengos B", "zona": 4, "deskripsi": "Kawasan budidaya dan pembenihan ikan." },
+    { "nama": "Ketaon", "zona": 4, "deskripsi": "Kawasan empon-empon dan pengolahan minuman tradisional." },
+    { "nama": "Ngroto", "zona": 4, "deskripsi": "Kawasan empon-empon dan pengolahan minuman tradisional." },
+    { "nama": "Clumprit", "zona": 3, "deskripsi": "Agrowisata krisan, UKM batik, kerajinan topeng, dan budaya jathilan-bangilun-gejog lesung." },
+    { "nama": "Karang", "zona": 3, "deskripsi": "Pusat pemerintahan desa (Kantor Desa Gerbosari). Agrowisata krisan dan UKM kreatif." },
+    { "nama": "Jetis", "zona": 3, "deskripsi": "Agrowisata krisan, UKM batik, kerajinan alat musik tradisional." },
+    { "nama": "Tlogo", "zona": 2, "deskripsi": "Agrowisata durian, peternakan kambing PE, dan budidaya cengkeh." },
+    { "nama": "Jati", "zona": 2, "deskripsi": "Agrowisata durian, peternakan kambing PE, dan budidaya cengkeh." },
+    { "nama": "Sumbo", "zona": 2, "deskripsi": "Agrowisata durian, peternakan kambing PE, dan budidaya cengkeh." },
+    { "nama": "Dukuh", "zona": 2, "deskripsi": "Petilasan Kyai Galuh (Makam Krajan). Durian dan kambing PE." },
+    { "nama": "Sendat", "zona": 2, "deskripsi": "Agrowisata durian, peternakan kambing PE, dan budidaya cengkeh." },
+    { "nama": "Kayugede", "zona": 2, "deskripsi": "Agrowisata durian, peternakan kambing PE, dan budidaya cengkeh." },
+    { "nama": "Menggermalang", "zona": 2, "deskripsi": "Asal nama GER dari Gerbosari. Makam Temenggung Tringsingan." },
+    { "nama": "Keceme", "zona": 1, "deskripsi": "Agrowisata komoditi unggulan kopi dan teh; lokasi Puncak Suroloyo (1000 m dpl) dan Pertapan Indrokilo." }
+  ],
+  "zona": [
+    {
+      "nomor": 1,
+      "tema": "Kawasan agrowisata komoditi unggulan kopi dan teh (mendukung objek wisata Puncak Suroloyo selain wisata pemandangan dan legenda)",
+      "lokasi": ["Keceme"]
+    },
+    {
+      "nomor": 2,
+      "tema": "Kawasan agrowisata durian dan potensi peternakan kambing Peranakan Etawa (PE) serta budidaya cengkeh",
+      "lokasi": ["Kayugede", "Menggermalang", "Sumbo", "Jati", "Dukuh", "Tlogo", "Sendat"]
+    },
+    {
+      "nomor": 3,
+      "tema": "Kawasan perkotaan: agrowisata krisan, ekonomi kerakyatan (UKM batik, kerajinan topeng, alat musik), serta budaya (jathilan, bangilun, gejog lesung, upacara bersih desa, wiwitan, baritan, kirab budaya)",
+      "lokasi": ["Jetis", "Karang", "Clumprit"]
+    },
+    {
+      "nomor": 4,
+      "tema": "Kawasan perikanan, agrowisata, dan empon-empon kakao",
+      "lokasi_budidaya_ikan": ["Pengos A", "Pengos B"],
+      "lokasi_empon_empon": ["Sarimulyo", "Manggis", "Jeruk", "Ketaon", "Ngroto"]
+    }
+  ],
+  "wisata_unggulan": {
+    "nama": "Puncak Suroloyo",
+    "lokasi_pedukuhan": "Keceme",
+    "ketinggian_m_dpl": 1000,
+    "deskripsi": "Titik tertinggi perbukitan Menoreh. Dari puncaknya tampak Borobudur, Mendut, Pawon, Gunung Tidar, Merapi, Merbabu, Sundoro, Sumbing di utara; Candi Prambanan, Parangtritis, dan Sungai Progo di timur-selatan; serta perbukitan Menoreh di barat. Diresmikan sebagai tempat Wisata Suroloyo (Agro Wisata) pada Rabu Kliwon, 1 Suro Be 1888 (8 Agustus 1956).",
+    "tempat_keramat": [
+      "Puncak Sariloyo",
+      "Tegal Kepanasan",
+      "Sendang Kawidodaren",
+      "Sendang Kadewatan",
+      "Sendang Simbar Joyo",
+      "Pertapaan Indrakilo",
+      "Pertapaan Mintorgo",
+      "Enceh Suci",
+      "Lawang Selomatangkep",
+      "Kaendran"
+    ],
+    "akses": [
+      "Samigaluh - Totogan - Lawang Selomatangkep (2 km aspal, 1 km jalan kaki)",
+      "Samigaluh - Menggermalang - Gunung Jaran - Rajeg Wesi (jalan aspal lalu jalan kaki 1 km)",
+      "Samigaluh - Menggermalang - Sidoharjo - Suroloyo (jalan aspal, roda empat)",
+      "Kalibawang - Bendo Tanjung - Suroloyo (roda empat)"
+    ]
+  },
+  "gambar": {
+    "peta_administrasi": "content/images/peta/gerbosari-peta-administrasi.png",
+    "peta_zona": "content/images/peta/gerbosari-peta-zona.png",
+    "peta_pedukuhan": "content/images/peta/gerbosari-peta-pedukuhan.png"
+  },
+  "_meta": {
+    "sumber": [
+      "Buku Profil Desa Gerbosari (Tabel Kawasan Zona)",
+      "Jurnal Devi & Hidayati (2020) - data BPS dan BPTP",
+      "Peta Administrasi Kecamatan Samigaluh"
+    ]
+  }
+}

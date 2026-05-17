@@ -1,0 +1,173 @@
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+@import '@fontsource/lora/400.css';
+@import '@fontsource/lora/500.css';
+@import '@fontsource/lora/600.css';
+@import '@fontsource/lora/700.css';
+@import '@fontsource/lora/700-italic.css';
+@import 'leaflet/dist/leaflet.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+    /* Standard scrollbar styling — Firefox + modern engines */
+    scrollbar-color: theme('colors.menoreh.500') theme('colors.krem.100');
+    scrollbar-width: thin;
+  }
+
+  /* Respect reduced motion preferences globally */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    @apply bg-krem-50 text-arang-900 font-sans antialiased;
+    /* Inter character variants: cv11 = single-storey g, ss01 = stylistic set 1 */
+    font-feature-settings: 'cv11', 'ss01';
+    line-height: 1.65;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-arang-900;
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    line-height: 1.65;
+  }
+
+  ::selection {
+    background: theme('colors.menoreh.100');
+    color: theme('colors.menoreh.900');
+  }
+
+  /* Webkit scrollbar — subtle krem track, menoreh thumb */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: theme('colors.krem.100');
+  }
+  ::-webkit-scrollbar-thumb {
+    background: theme('colors.menoreh.500');
+    border-radius: 999px;
+    border: 2px solid theme('colors.krem.100');
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.menoreh.700');
+  }
+
+  a {
+    @apply outline-none;
+  }
+
+  /* Unified focus-visible ring across interactive elements */
+  a:focus-visible,
+  button:focus-visible,
+  [role='button']:focus-visible,
+  [role='tab']:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid theme('colors.menoreh.500');
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-6 md:px-8;
+  }
+
+  /*
+   * Long-form village prose: sejarah, legenda, berita detail.
+   * Restrained leading + serif headings to read like a museum caption.
+   */
+  .prose-village {
+    @apply max-w-prose text-arang-700;
+    line-height: 1.75;
+  }
+  .prose-village > * + * {
+    @apply mt-5;
+  }
+  .prose-village p {
+    @apply text-arang-700;
+    line-height: 1.75;
+  }
+  .prose-village h2 {
+    @apply font-serif text-2xl md:text-3xl font-semibold text-arang-900 mt-12 mb-4;
+    letter-spacing: -0.015em;
+  }
+  .prose-village h3 {
+    @apply font-serif text-xl md:text-2xl font-semibold text-arang-900 mt-8 mb-3;
+    letter-spacing: -0.01em;
+  }
+  .prose-village h4 {
+    @apply font-sans text-base font-semibold uppercase tracking-widest text-arang-700 mt-6 mb-2;
+  }
+  .prose-village a {
+    @apply text-menoreh-700 underline underline-offset-4 decoration-menoreh-300;
+    text-decoration-thickness: 1px;
+    transition: color 200ms ease-out, text-decoration-color 200ms ease-out;
+  }
+  .prose-village a:hover {
+    @apply text-menoreh-800 decoration-menoreh-500;
+  }
+  .prose-village blockquote {
+    @apply border-l-2 border-terakota-500 pl-5 italic font-serif text-arang-800 my-6;
+  }
+  .prose-village ul {
+    @apply list-disc pl-6 space-y-2 marker:text-menoreh-500;
+  }
+  .prose-village ol {
+    @apply list-decimal pl-6 space-y-2 marker:text-menoreh-700;
+  }
+  .prose-village strong {
+    @apply font-semibold text-arang-900;
+  }
+  .prose-village hr {
+    @apply border-0 border-t border-krem-300 my-10;
+  }
+  .prose-village figure figcaption {
+    @apply mt-2 text-xs uppercase tracking-widest text-arang-700/70;
+  }
+
+  /* Eyebrow label used on PageHeader and section intros */
+  .eyebrow {
+    @apply text-xs font-semibold uppercase text-terakota-600;
+    letter-spacing: 0.18em;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  /* Tabular numerals for stats, tables, data rows */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+}

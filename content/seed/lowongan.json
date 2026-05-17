@@ -1,0 +1,80 @@
+[
+  {
+    "id": "low-001",
+    "judul": "Barista Kopi Suroloyo",
+    "instansi": "Kedai Kopi Suroloyo Menoreh",
+    "kategori": "umkm",
+    "deskripsi": "Dibutuhkan 2 orang barista untuk kedai kopi di kawasan wisata Puncak Suroloyo. Tugas meliputi penyajian kopi single origin Menoreh (manual brew dan espresso), pelayanan tamu, serta perawatan alat. Pelatihan disediakan untuk pemula yang memiliki minat kuat di kopi specialty.",
+    "kontak": { "nama": "Sdr. Wahyu", "wa": "+62 812-2700-1949", "email": null },
+    "gaji_min": 1800000,
+    "gaji_max": 2500000,
+    "deadline": "2025-06-30",
+    "lokasi_pedukuhan": "Keceme",
+    "tipe_kerja": "Full-time"
+  },
+  {
+    "id": "low-002",
+    "judul": "Pengrajin Batik Menoreh",
+    "instansi": "Kelompok Batik Sekar Menoreh",
+    "kategori": "umkm",
+    "deskripsi": "Membuka kesempatan bagi 4 pengrajin batik tulis dan cap untuk mengembangkan motif khas Menoreh. Pengalaman membatik minimal 1 tahun. Sistem kerja honor per lembar plus bonus produktivitas. Tersedia pelatihan pewarnaan alami.",
+    "kontak": { "nama": "Bu Sumiyati", "wa": "+62 813-2856-7081", "email": "batiksekarmenoreh@gmail.com" },
+    "gaji_min": 1500000,
+    "gaji_max": 3000000,
+    "deadline": "2025-07-15",
+    "lokasi_pedukuhan": "Jetis",
+    "tipe_kerja": "Borongan"
+  },
+  {
+    "id": "low-003",
+    "judul": "Peternak Kambing Peranakan Etawa (PE)",
+    "instansi": "Kelompok Ternak Maju Bersama",
+    "kategori": "umkm",
+    "deskripsi": "Dibutuhkan 1 orang untuk membantu pemeliharaan 40 ekor kambing PE: pemberian pakan, sanitasi kandang, dan pendampingan kelahiran. Pengalaman beternak ruminansia diutamakan. Disediakan mess di area peternakan.",
+    "kontak": { "nama": "Pak Sarjono", "wa": "+62 877-3812-4455", "email": null },
+    "gaji_min": 2000000,
+    "gaji_max": 2800000,
+    "deadline": "2025-06-20",
+    "lokasi_pedukuhan": "Kayugede",
+    "tipe_kerja": "Full-time"
+  },
+  {
+    "id": "low-004",
+    "judul": "Pengelola Homestay Agrowisata",
+    "instansi": "Homestay Griya Menoreh",
+    "kategori": "formal",
+    "deskripsi": "Mencari 1 pengelola homestay berkapasitas 6 kamar yang melayani wisatawan agrowisata kopi-teh dan pendaki Suroloyo. Tugas: front-desk, koordinasi housekeeping, manajemen booking via OTA, dan paket tur kebun. Wajib menguasai dasar Bahasa Inggris.",
+    "kontak": { "nama": "Mbak Ratna", "wa": "+62 858-7822-9013", "email": "griyamenoreh.stay@gmail.com" },
+    "gaji_min": 2500000,
+    "gaji_max": 3500000,
+    "deadline": "2025-07-05",
+    "lokasi_pedukuhan": "Keceme",
+    "tipe_kerja": "Full-time"
+  },
+  {
+    "id": "low-005",
+    "judul": "Admin BUMDes Gerbosari",
+    "instansi": "BUMDes Sejahtera Mandiri Gerbosari",
+    "kategori": "formal",
+    "deskripsi": "Dicari admin BUMDes untuk pencatatan keuangan unit usaha (simpan pinjam, wisata, pertanian), penyusunan laporan bulanan, dan administrasi mitra UMKM. Pendidikan minimal SMA/SMK Akuntansi atau D3 sederajat. Familiar Microsoft Excel dan aplikasi keuangan sederhana.",
+    "kontak": { "nama": "Sekretariat BUMDes", "wa": "+62 274-2820979", "email": "bumdes.gerbosari@gmail.com" },
+    "gaji_min": 2200000,
+    "gaji_max": 2800000,
+    "deadline": "2025-06-25",
+    "lokasi_pedukuhan": "Karang",
+    "tipe_kerja": "Full-time"
+  },
+  {
+    "id": "low-006",
+    "judul": "Pembudidaya dan Pembenih Ikan",
+    "instansi": "Kelompok Mina Tani Pengos",
+    "kategori": "freelance",
+    "deskripsi": "Dibutuhkan 2 orang untuk membantu pembenihan ikan nila dan lele di kolam terpadu Pedukuhan Pengos B. Tugas meliputi pengelolaan induk, seleksi benih, kontrol kualitas air, dan panen. Sistem bagi hasil per siklus panen plus uang harian.",
+    "kontak": { "nama": "Pak Tri", "wa": "+62 821-3690-5572", "email": null },
+    "gaji_min": 1700000,
+    "gaji_max": 2400000,
+    "deadline": "2025-07-31",
+    "lokasi_pedukuhan": "Pengos B",
+    "tipe_kerja": "Paruh waktu"
+  }
+]

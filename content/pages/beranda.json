@@ -1,0 +1,51 @@
+{
+  "hero": {
+    "judul": "Desa Gerbosari",
+    "subjudul": "Sejahtera Mandiri",
+    "tagline": "Desa Wisata Berbasis Budaya dan Ekonomi Kreatif",
+    "deskripsi_singkat": "Desa di lereng perbukitan Menoreh, Kecamatan Samigaluh, Kabupaten Kulon Progo, Daerah Istimewa Yogyakarta. Rumah bagi Puncak Suroloyo, agrowisata kopi-teh, dan ragam budaya Jawa pegunungan.",
+    "gambar_utama": "content/images/cover/gerbosari-hero-landscape.jpg",
+    "gambar_sekunder": "content/images/cover/gerbosari-suroloyo-pemandangan.jpg"
+  },
+  "alamat": {
+    "kantor": "Jl. Pangaji-Plono KM 4.2, Karang, Gerbosari, Samigaluh",
+    "kecamatan": "Samigaluh",
+    "kabupaten": "Kulon Progo",
+    "provinsi": "Daerah Istimewa Yogyakarta",
+    "kode_pos": "55673",
+    "telepon": "0274-2820979",
+    "email": null,
+    "website_lama": "http://gerbosari-kulonprogo.desa.id"
+  },
+  "quick_stats": [
+    { "label": "Luas Wilayah", "nilai": "966.346,5", "satuan": "hektar" },
+    { "label": "Jumlah Penduduk", "nilai": "4.802", "satuan": "jiwa" },
+    { "label": "Pedukuhan", "nilai": "19", "satuan": "pedukuhan" },
+    { "label": "Rukun Warga", "nilai": "38", "satuan": "RW" },
+    { "label": "Rukun Tetangga", "nilai": "75", "satuan": "RT" },
+    { "label": "Rumah Tangga", "nilai": "1.268", "satuan": "KK" },
+    { "label": "Ketinggian", "nilai": "400 - 900", "satuan": "m dpl" },
+    { "label": "Suhu Rata-rata", "nilai": "23", "satuan": "derajat Celsius" }
+  ],
+  "highlights": [
+    {
+      "judul": "Puncak Suroloyo",
+      "deskripsi": "Titik tertinggi perbukitan Menoreh di Pedukuhan Keceme, dipercaya sebagai kahyangan para dewa dan pertapaan Sultan Agung muda."
+    },
+    {
+      "judul": "Empat Zona Ekonomi",
+      "deskripsi": "Kawasan agrowisata kopi-teh, durian dan kambing PE, agrowisata krisan dan UKM batik, hingga perikanan dan empon-empon kakao."
+    },
+    {
+      "judul": "Juara II Lomba Desa DIY 2018",
+      "deskripsi": "Pengakuan tingkat provinsi atas pengelolaan desa yang sejahtera dan mandiri."
+    }
+  ],
+  "_meta": {
+    "sumber": [
+      "Buku Profil Desa Gerbosari (Damar, A.Md & Dyah Yekti Indrajati)",
+      "Jurnal Pengabdian dan Pengembangan Masyarakat Vol 3 No 2 (Devi & Hidayati, 2020)",
+      "gerbosari-kulonprogo.desa.id"
+    ]
+  }
+}
