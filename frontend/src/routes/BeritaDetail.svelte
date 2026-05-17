@@ -175,16 +175,20 @@
       <!-- Meta strip -->
       <dl class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-arang-700">
         {#if item.author}
-          <div class="inline-flex items-center gap-1.5">
-            <User class="h-4 w-4 text-arang-400" strokeWidth={1.75} aria-hidden="true" />
+          <div>
             <dt class="sr-only">Penulis</dt>
-            <dd class="break-words">{item.author}</dd>
+            <dd class="inline-flex items-center gap-1.5 break-words">
+              <User class="h-4 w-4 text-arang-400" strokeWidth={1.75} aria-hidden="true" />
+              <span>{item.author}</span>
+            </dd>
           </div>
         {/if}
-        <div class="inline-flex items-center gap-1.5">
-          <Calendar class="h-4 w-4 text-arang-400" strokeWidth={1.75} aria-hidden="true" />
+        <div>
           <dt class="sr-only">Diterbitkan</dt>
-          <dd>{formatDate(item.published_at)}</dd>
+          <dd class="inline-flex items-center gap-1.5">
+            <Calendar class="h-4 w-4 text-arang-400" strokeWidth={1.75} aria-hidden="true" />
+            <span>{formatDate(item.published_at)}</span>
+          </dd>
         </div>
       </dl>
 

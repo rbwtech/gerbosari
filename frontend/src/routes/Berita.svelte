@@ -209,12 +209,14 @@
           </p>
           <dl class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-arang-700">
             <div class="inline-flex items-center gap-1.5">
-              <Calendar class="h-4 w-4 text-arang-400" strokeWidth={1.75} aria-hidden="true" />
               <dt class="sr-only">Tanggal</dt>
-              <dd>{formatDate(relevantDate(featured))}</dd>
+              <dd class="inline-flex items-center gap-1.5">
+                <Calendar class="h-4 w-4 text-arang-400" strokeWidth={1.75} aria-hidden="true" />
+                <span>{formatDate(relevantDate(featured))}</span>
+              </dd>
             </div>
             {#if featured.author}
-              <div class="inline-flex items-center gap-1.5">
+              <div>
                 <dt class="sr-only">Penulis</dt>
                 <dd class="text-arang-500 break-words">oleh {featured.author}</dd>
               </div>
@@ -277,10 +279,12 @@
                     {item?.ringkasan ?? ''}
                   </p>
                   <dl class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-arang-500">
-                    <div class="inline-flex items-center gap-1">
-                      <Calendar class="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
+                    <div>
                       <dt class="sr-only">Tanggal</dt>
-                      <dd>{formatDate(relevantDate(item))}</dd>
+                      <dd class="inline-flex items-center gap-1">
+                        <Calendar class="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
+                        <span>{formatDate(relevantDate(item))}</span>
+                      </dd>
                     </div>
                   </dl>
                 </div>
