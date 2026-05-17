@@ -1,5 +1,7 @@
+import { get } from 'svelte/store';
 import type { ApiError } from '../types';
 import type { RequestOptions } from '../api/client';
+import { navigate, location } from '../router';
 import { clearAuth, getAuth } from './store';
 
 const BASE_URL = import.meta.env.VITE_API_BASE ?? '/api';
@@ -28,13 +30,10 @@ async function parseError(response: Response): Promise<ApiError> {
 /**
  * Centralised 401 handler. Clears the local session and bounces the user to
  * the login screen so a stale token cannot keep a protected page mounted.
- * Router is lazy-imported to avoid a cycle with the store.
  */
-async function handleUnauthorized(): Promise<void> {
+function handleUnauthorized(): void {
   clearAuth();
   if (typeof window === 'undefined') return;
-  const { navigate, location } = await import('../router');
-  const { get } = await import('svelte/store');
   const path = get(location);
   if (!path.startsWith('/admin/login')) {
     navigate('/admin/login');
