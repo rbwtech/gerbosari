@@ -1,12 +1,26 @@
 use std::env;
 use std::net::SocketAddr;
 
+/// Minimum acceptable JWT secret length (bytes). Below this, HS256 brute-force
+/// is trivial on commodity hardware — refuse to boot rather than ship insecure.
+pub const JWT_SECRET_MIN_LEN: usize = 32;
+
+/// Default token lifetime (hours). 24h matches typical admin SPA sessions
+/// without requiring background refresh wiring.
+pub const JWT_DEFAULT_EXPIRY_HOURS: u32 = 24;
+
 #[derive(Debug, Clone)]
 pub struct AppConfig {
     pub database_url: String,
     pub bind_addr: SocketAddr,
     pub cors_origins: Vec<String>,
     pub app_env: AppEnv,
+    pub jwt_secret: String,
+    pub jwt_expiry_hours: u32,
+    pub admin_username: String,
+    /// `None` if `ADMIN_PASSWORD` was not set — bootstrap will skip the
+    /// upsert path and rely on the admin row already existing in the DB.
+    pub admin_password: Option<String>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -32,6 +46,9 @@ pub enum ConfigError {
         #[source]
         source: anyhow::Error,
     },
+
+    #[error("JWT_SECRET must be at least {min} bytes; got {got}")]
+    WeakJwtSecret { min: usize, got: usize },
 }
 
 impl AppConfig {
@@ -67,11 +84,43 @@ impl AppConfig {
             _ => AppEnv::Development,
         };
 
+        // --- Auth ---
+        let jwt_secret =
+            env::var("JWT_SECRET").map_err(|_| ConfigError::Missing("JWT_SECRET"))?;
+        if jwt_secret.len() < JWT_SECRET_MIN_LEN {
+            return Err(ConfigError::WeakJwtSecret {
+                min: JWT_SECRET_MIN_LEN,
+                got: jwt_secret.len(),
+            });
+        }
+
+        let jwt_expiry_hours = match env::var("JWT_EXPIRY_HOURS") {
+            Ok(raw) => raw.parse::<u32>().map_err(|e| ConfigError::Invalid {
+                var: "JWT_EXPIRY_HOURS",
+                source: anyhow::Error::from(e),
+            })?,
+            Err(_) => JWT_DEFAULT_EXPIRY_HOURS,
+        };
+
+        let admin_username =
+            env::var("ADMIN_USERNAME").unwrap_or_else(|_| "admin".to_string());
+
+        // ADMIN_PASSWORD is optional — empty / unset just means "don't
+        // rotate at boot". Operator can populate the admin row manually or
+        // set it on the next deploy.
+        let admin_password = env::var("ADMIN_PASSWORD")
+            .ok()
+            .filter(|s| !s.is_empty());
+
         Ok(Self {
             database_url,
             bind_addr,
             cors_origins,
             app_env,
+            jwt_secret,
+            jwt_expiry_hours,
+            admin_username,
+            admin_password,
         })
     }
 }

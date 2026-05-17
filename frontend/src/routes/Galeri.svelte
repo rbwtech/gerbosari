@@ -22,7 +22,7 @@
   let lightboxCloseBtn: HTMLButtonElement | undefined;
   let lastTriggerEl: HTMLElement | null = null;
 
-  // Canonical filter order — keep stable even if backend returns out of order
+  // Canonical filter order - keep stable even if backend returns out of order
   const KATEGORI_ORDER = ['Wisata', 'Budaya', 'Agrowisata', 'Kegiatan'];
 
   // Indonesian long-date formatter, e.g. "12 Februari 2025"

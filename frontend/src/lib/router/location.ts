@@ -19,7 +19,7 @@ export function navigate(path: string): void {
   if (typeof window === 'undefined') return;
   const next = path.startsWith('/') ? path : `/${path}`;
   if (window.location.hash === `#${next}`) {
-    // hashchange won't fire if identical — force store update
+    // hashchange won't fire if identical - force store update
     location.set(next);
   } else {
     window.location.hash = `#${next}`;

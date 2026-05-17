@@ -1,10 +1,10 @@
 use async_trait::async_trait;
 use chrono::{NaiveDate, NaiveDateTime};
 use sqlx::mysql::MySqlPool;
-use sqlx::FromRow;
+use sqlx::{FromRow, QueryBuilder};
 use uuid::Uuid;
 
-use crate::domain::galeri::{Galeri, KategoriGaleri};
+use crate::domain::galeri::{Galeri, GaleriPatch, KategoriGaleri, NewGaleri};
 use crate::domain::repository::GaleriRepository;
 use crate::error::AppError;
 
@@ -88,5 +88,99 @@ impl GaleriRepository for MysqlGaleriRepository {
             Some(r) => Galeri::try_from(r),
             None => Err(AppError::NotFound),
         }
+    }
+
+    async fn create(&self, input: NewGaleri) -> Result<Galeri, AppError> {
+        // Server-side id generation keeps `id` stable even if the client retries
+        // an insert. v4 is sufficient for our scale; v7 would need an extra
+        // crate feature flag.
+        let id = Uuid::new_v4();
+        let id_str = id.to_string();
+
+        sqlx::query(
+            "INSERT INTO galeri (id, judul, deskripsi, file_path, kategori, taken_at) \
+             VALUES (?, ?, ?, ?, ?, ?)",
+        )
+        .bind(&id_str)
+        .bind(&input.judul)
+        .bind(&input.deskripsi)
+        .bind(&input.file_path)
+        .bind(input.kategori.as_str())
+        .bind(input.taken_at)
+        .execute(&self.pool)
+        .await?;
+
+        // Re-fetch so created_at reflects the DB DEFAULT timestamp the row was
+        // actually written with — avoids client/server clock drift.
+        self.get_by_id(id).await
+    }
+
+    async fn update(
+        &self,
+        id: Uuid,
+        patch: GaleriPatch,
+    ) -> Result<Option<Galeri>, AppError> {
+        // No-op patch: confirm the row exists (so callers get 404 vs 200 with
+        // no changes) and return it unchanged.
+        if patch.judul.is_none()
+            && patch.deskripsi.is_none()
+            && patch.file_path.is_none()
+            && patch.kategori.is_none()
+            && patch.taken_at.is_none()
+        {
+            return match self.get_by_id(id).await {
+                Ok(g) => Ok(Some(g)),
+                Err(AppError::NotFound) => Ok(None),
+                Err(e) => Err(e),
+            };
+        }
+
+        let mut qb: QueryBuilder<sqlx::MySql> = QueryBuilder::new("UPDATE galeri SET ");
+        let mut sep = qb.separated(", ");
+
+        if let Some(judul) = patch.judul.as_ref() {
+            sep.push("judul = ").push_bind_unseparated(judul);
+        }
+        if let Some(deskripsi) = patch.deskripsi.as_ref() {
+            sep.push("deskripsi = ").push_bind_unseparated(deskripsi.clone());
+        }
+        if let Some(file_path) = patch.file_path.as_ref() {
+            sep.push("file_path = ").push_bind_unseparated(file_path);
+        }
+        if let Some(kategori) = patch.kategori {
+            sep.push("kategori = ").push_bind_unseparated(kategori.as_str());
+        }
+        if let Some(taken_at) = patch.taken_at.as_ref() {
+            sep.push("taken_at = ").push_bind_unseparated(*taken_at);
+        }
+
+        qb.push(" WHERE id = ").push_bind(id.to_string());
+
+        let result = qb.build().execute(&self.pool).await?;
+
+        // rows_affected == 0 could mean either "no such id" or "values matched
+        // existing row". Disambiguate with a follow-up SELECT.
+        if result.rows_affected() == 0 {
+            return match self.get_by_id(id).await {
+                Ok(g) => Ok(Some(g)),
+                Err(AppError::NotFound) => Ok(None),
+                Err(e) => Err(e),
+            };
+        }
+
+        match self.get_by_id(id).await {
+            Ok(g) => Ok(Some(g)),
+            Err(AppError::NotFound) => Ok(None),
+            Err(e) => Err(e),
+        }
+    }
+
+    async fn delete(&self, id: Uuid) -> Result<bool, AppError> {
+        let result = sqlx::query("DELETE FROM galeri WHERE id = ?")
+            .bind(id.to_string())
+            .execute(&self.pool)
+            .await?;
+
+        Ok(result.rows_affected() > 0)
     }
 }

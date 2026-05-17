@@ -1,6 +1,6 @@
 /**
  * Single import surface for lucide-svelte icons used across the app.
- * Keep this list curated — bundling every icon balloons the build.
+ * Keep this list curated - bundling every icon balloons the build.
  */
 export {
   // Navigation & chrome
@@ -47,7 +47,7 @@ export {
   AlertTriangle,
   Loader2,
 
-  // Domain — village character
+  // Domain - village character
   Mountain,
   Sprout,
   Leaf,
@@ -61,5 +61,11 @@ export {
   Briefcase,
   Wallet,
   Sparkles,
-  Award
+  Award,
+
+  // Admin chrome (auth + dashboard shell)
+  LogOut,
+  Lock,
+  LayoutDashboard,
+  Settings
 } from 'lucide-svelte';

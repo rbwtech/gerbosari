@@ -245,7 +245,7 @@
         </p>
       {/if}
 
-      <!-- Konten markdown (trusted admin source — see file header note) -->
+      <!-- Konten markdown (trusted admin source - see file header note) -->
       <div class="mt-6">
         <Prose>
           {@html htmlContent}

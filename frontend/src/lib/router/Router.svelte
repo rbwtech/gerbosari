@@ -1,8 +1,11 @@
 <script lang="ts">
-  import type { ComponentType, SvelteComponent } from 'svelte';
   import { location } from './location';
 
-  type AnyComponent = ComponentType<SvelteComponent>;
+  // svelte-check 4 + Svelte 5 type for `.svelte` imports is the new
+  // `__sveltets_2_IsomorphicComponent`, not the legacy `ComponentType`.
+  // `any` here keeps the API permissive across both Svelte 4 + 5 worlds.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  type AnyComponent = any;
 
   /**
    * Path pattern → component. Special keys:

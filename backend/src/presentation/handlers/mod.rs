@@ -1,3 +1,4 @@
+pub mod auth;
 pub mod berita;
 pub mod galeri;
 pub mod health;

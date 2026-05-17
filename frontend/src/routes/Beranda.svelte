@@ -19,7 +19,7 @@
   } from '../lib/components/icons';
 
   /**
-   * Beranda — magazine-style cover page. Pulls hero, stats, zona, and key
+   * Beranda - magazine-style cover page. Pulls hero, stats, zona, and key
    * highlights from content/pages/beranda.json + peta-wilayah.json. All data
    * is read defensively because the source JSON can drift ahead of the typed
    * shape during the content pipeline.
@@ -100,7 +100,7 @@
       {hero?.judul ?? 'Desa Gerbosari'}
     </h1>
     <p class="mt-5 font-serif text-xl md:text-2xl italic text-krem-100/95 max-w-3xl text-balance">
-      {hero?.subjudul ?? 'Sejahtera Mandiri'} &mdash; {hero?.tagline ?? 'Desa Wisata Berbasis Budaya dan Ekonomi Kreatif'}
+      {hero?.subjudul ?? 'Sejahtera Mandiri'} - {hero?.tagline ?? 'Desa Wisata Berbasis Budaya dan Ekonomi Kreatif'}
     </p>
 
     <!-- Honor mention pill row -->
@@ -163,8 +163,8 @@
         <p>{hero?.deskripsi_singkat ?? ''}</p>
         <p>
           Nama <em>Gerbosari</em> sendiri tersusun dari potongan suku kata tiga kalurahan
-          yang dileburkan tahun 1947 &mdash; Mengger<strong>mal</strong>ang, Kemiri<strong>om</strong>bo, dan <strong>Sa</strong>migaluh
-          &mdash; ditambah satu suku kata penutup, <strong>RI</strong>.
+          yang dileburkan tahun 1947 - Mengger<strong>mal</strong>ang, Kemiri<strong>om</strong>bo, dan <strong>Sa</strong>migaluh
+          - ditambah satu suku kata penutup, <strong>RI</strong>.
         </p>
       </div>
     </div>
@@ -200,7 +200,7 @@
         Empat Kawasan Ekonomi
       </h2>
       <p class="mt-4 text-arang-700 leading-relaxed">
-        Sembilan belas pedukuhan disusun ke dalam empat zona tematik &mdash; dari kopi-teh
+        Sembilan belas pedukuhan disusun ke dalam empat zona tematik - dari kopi-teh
         Suroloyo hingga perikanan dan empon-empon di lembah timur.
       </p>
     </div>
@@ -308,11 +308,11 @@
           id="suroloyo-title"
           class="mt-3 font-serif text-3xl md:text-4xl font-semibold text-arang-900 leading-tight text-balance"
         >
-          Puncak Suroloyo &mdash; kahyangan para dewa di ketinggian seribu meter.
+          Puncak Suroloyo - kahyangan para dewa di ketinggian seribu meter.
         </h2>
         <p class="mt-5 text-arang-700 leading-relaxed">
           Titik tertinggi perbukitan Menoreh, sekitar 1.000 m dpl, dipercaya sebagai
-          tempat bertapa Raden Mas Rangsang &mdash; Sultan Agung muda &mdash; setelah didatangi
+          tempat bertapa Raden Mas Rangsang - Sultan Agung muda - setelah didatangi
           Sunan Kalijaga dalam mimpi. Dari puncaknya tampak siluet Borobudur, Merapi-Merbabu,
           Sumbing-Sundoro, hingga Sungai Progo di kejauhan.
         </p>

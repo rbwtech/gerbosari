@@ -1,6 +1,6 @@
 <script lang="ts">
   /**
-   * Lowongan kerja board for Desa Gerbosari — UMKM, formal, freelance.
+   * Lowongan kerja board for Desa Gerbosari - UMKM, formal, freelance.
    * Client-side filter/search/sort over a single API call. No detail page;
    * cards are visually interactive but do not link out.
    */
@@ -75,7 +75,7 @@
     }, 150);
   }
 
-  // Reactive counts per kategori — drives chip badges.
+  // Reactive counts per kategori - drives chip badges.
   $: counts = items.reduce(
     (acc, it) => {
       acc.all += 1;
@@ -120,7 +120,7 @@
 
   function formatGaji(min: number | null, max: number | null): string {
     if (!min && !max) return 'Akan didiskusikan';
-    if (min && max) return `Rp ${nf.format(min)} – ${nf.format(max)}`;
+    if (min && max) return `Rp ${nf.format(min)} - ${nf.format(max)}`;
     if (min) return `Mulai Rp ${nf.format(min)}`;
     return `Hingga Rp ${nf.format(max as number)}`;
   }
@@ -144,7 +144,7 @@
     return 'open';
   }
 
-  // Detect kontak channel — phone/WA digits vs email vs free-text fallback.
+  // Detect kontak channel - phone/WA digits vs email vs free-text fallback.
   function kontakKind(k: string): 'email' | 'phone' | 'text' {
     if (k.includes('@')) return 'email';
     if (/(\+?\d[\d\s-]{6,})/.test(k)) return 'phone';

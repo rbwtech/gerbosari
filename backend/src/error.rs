@@ -16,6 +16,23 @@ pub enum AppError {
     #[error("bad request: {0}")]
     BadRequest(String),
 
+    /// 401 with structured Indonesian copy. Used by auth login + JWT middleware.
+    /// `code` is a stable machine identifier; `message` is the user-facing text.
+    #[error("unauthorized: {message}")]
+    Unauthorized {
+        code: &'static str,
+        message: String,
+    },
+
+    /// 429 with a Retry-After hint. Used by the login throttle to slow down
+    /// brute-force credential stuffing. `retry_after_secs` becomes the
+    /// HTTP `Retry-After` header so clients can back off correctly.
+    #[error("too many requests; retry after {retry_after_secs}s")]
+    TooManyRequests {
+        message: String,
+        retry_after_secs: u64,
+    },
+
     #[error(transparent)]
     Database(#[from] sqlx::Error),
 
@@ -31,6 +48,21 @@ struct ErrorBody {
 
 impl IntoResponse for AppError {
     fn into_response(self) -> Response {
+        // TooManyRequests is special: needs Retry-After header, handled below.
+        if let AppError::TooManyRequests { message, retry_after_secs } = &self {
+            let retry = retry_after_secs.to_string();
+            let body = Json(ErrorBody {
+                error: "too_many_requests",
+                message: message.clone(),
+            });
+            return (
+                StatusCode::TOO_MANY_REQUESTS,
+                [(axum::http::header::RETRY_AFTER, retry.as_str())],
+                body,
+            )
+                .into_response();
+        }
+
         let (status, code, message): (StatusCode, &'static str, String) = match &self {
             AppError::NotFound => (
                 StatusCode::NOT_FOUND,
@@ -39,6 +71,9 @@ impl IntoResponse for AppError {
             ),
             AppError::Validation(msg) => (StatusCode::BAD_REQUEST, "validation_error", msg.clone()),
             AppError::BadRequest(msg) => (StatusCode::BAD_REQUEST, "bad_request", msg.clone()),
+            AppError::Unauthorized { code, message } => {
+                (StatusCode::UNAUTHORIZED, *code, message.clone())
+            }
             AppError::Database(err) => {
                 if matches!(err, sqlx::Error::RowNotFound) {
                     (
@@ -62,6 +97,11 @@ impl IntoResponse for AppError {
                     "internal_error",
                     "An internal error occurred".to_string(),
                 )
+            }
+            AppError::TooManyRequests { .. } => {
+                // Handled by the early-return branch above; this arm exists only
+                // so the outer match is exhaustive.
+                unreachable!("TooManyRequests handled above")
             }
         };
 

@@ -33,7 +33,7 @@
     mobileOpen = false;
   }
 
-  // Lightweight scroll listener with rAF coalescing — toggles the elevated
+  // Lightweight scroll listener with rAF coalescing - toggles the elevated
   // navbar treatment once the user scrolls past the 8px threshold.
   let ticking = false;
   function onScroll() {
@@ -73,7 +73,7 @@
       on:click={closeMobile}
       aria-label="Beranda Desa Gerbosari"
     >
-      <!-- Stylized hill silhouette + sun dot — references the Menoreh range -->
+      <!-- Stylized hill silhouette + sun dot - references the Menoreh range -->
       <svg
         viewBox="0 0 32 32"
         class="w-8 h-8"

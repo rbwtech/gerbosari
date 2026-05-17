@@ -14,7 +14,7 @@
     lg: 'p-8'
   };
 
-  // No drop shadows — flat surface with 1px border, subtle hover swap.
+  // No drop shadows - flat surface with 1px border, subtle hover swap.
   const base =
     'bg-white border border-krem-200 rounded-lg transition-colors duration-200 ease-out';
   const interactiveCls = interactive

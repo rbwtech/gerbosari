@@ -9,6 +9,6 @@ export function listLowongan(query: LowonganQuery = {}, options: RequestOptions 
   return apiGet<Lowongan[]>('/lowongan', { ...options, query });
 }
 
-export function getLowongan(id: number, options: RequestOptions = {}): Promise<Lowongan> {
-  return apiGet<Lowongan>(`/lowongan/${id}`, options);
+export function getLowongan(id: string, options: RequestOptions = {}): Promise<Lowongan> {
+  return apiGet<Lowongan>(`/lowongan/${encodeURIComponent(id)}`, options);
 }

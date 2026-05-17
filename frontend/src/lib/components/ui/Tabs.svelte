@@ -6,9 +6,9 @@
     label: string;
   }
 
-  /** List of tabs to render — stable identity by `id`. */
+  /** List of tabs to render - stable identity by `id`. */
   export let tabs: Tab[] = [];
-  /** Active tab id. Controlled — the parent updates this from the change event. */
+  /** Active tab id. Controlled - the parent updates this from the change event. */
   export let value: string;
   /** Optional aria label for the tablist when no visible heading is nearby. */
   export let ariaLabel: string | undefined = undefined;

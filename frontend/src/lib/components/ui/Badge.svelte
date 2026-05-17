@@ -19,7 +19,7 @@
     | 'neutral';
 
   export let variant: BadgeVariant = 'neutral';
-  /** Optional label prop — overridden by default slot if content provided. */
+  /** Optional label prop - overridden by default slot if content provided. */
   export let label = '';
 
   let cls = '';
@@ -32,7 +32,7 @@
     agrowisata: 'bg-tanah-100 text-tanah-800',
     kegiatan: 'bg-krem-200 text-arang-700',
 
-    // Lowongan kerja tiers — complementary tones, no palette clash
+    // Lowongan kerja tiers - complementary tones, no palette clash
     umkm: 'bg-terakota-50 text-terakota-700',
     formal: 'bg-menoreh-50 text-menoreh-700',
     freelance: 'bg-tanah-50 text-tanah-700',

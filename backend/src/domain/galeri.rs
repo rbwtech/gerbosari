@@ -40,3 +40,26 @@ pub struct Galeri {
     pub taken_at: Option<NaiveDate>,
     pub created_at: DateTime<Utc>,
 }
+
+/// Payload for inserting a new `galeri` row. The repository generates `id`
+/// and `created_at`, so they are intentionally omitted here.
+#[derive(Debug, Clone)]
+pub struct NewGaleri {
+    pub judul: String,
+    pub deskripsi: Option<String>,
+    pub file_path: String,
+    pub kategori: KategoriGaleri,
+    pub taken_at: Option<NaiveDate>,
+}
+
+/// Partial update for an existing `galeri` row. `Option::None` means
+/// "do not change"; `Option::Some(None)` (for nullable columns) clears the
+/// value. Distinguished via `Option<Option<T>>` for nullable fields.
+#[derive(Debug, Clone, Default)]
+pub struct GaleriPatch {
+    pub judul: Option<String>,
+    pub deskripsi: Option<Option<String>>,
+    pub file_path: Option<String>,
+    pub kategori: Option<KategoriGaleri>,
+    pub taken_at: Option<Option<NaiveDate>>,
+}

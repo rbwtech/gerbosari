@@ -10,6 +10,6 @@ export function listGaleri(query: GaleriQuery = {}, options: RequestOptions = {}
   return apiGet<Galeri[]>('/galeri', { ...options, query });
 }
 
-export function getGaleri(id: number, options: RequestOptions = {}): Promise<Galeri> {
-  return apiGet<Galeri>(`/galeri/${id}`, options);
+export function getGaleri(id: string, options: RequestOptions = {}): Promise<Galeri> {
+  return apiGet<Galeri>(`/galeri/${encodeURIComponent(id)}`, options);
 }

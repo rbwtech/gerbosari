@@ -6,7 +6,7 @@
   export let title: string;
   /** Lead paragraph under the title. */
   export let subtitle: string | undefined = undefined;
-  /** Legacy alias for subtitle — kept so existing routes don't churn. */
+  /** Legacy alias for subtitle - kept so existing routes don't churn. */
   export let description: string | undefined = undefined;
   /** Background image URL for hero variant. Falls back to flat surface. */
   export let image: string | undefined = undefined;
@@ -23,7 +23,7 @@
     style={image ? `background-image: url('${image}'); background-size: cover; background-position: center;` : undefined}
   >
     {#if image}
-      <!-- Alpha gradient overlay — the only place a gradient is permitted -->
+      <!-- Alpha gradient overlay - the only place a gradient is permitted -->
       <div
         class="absolute inset-0 bg-gradient-to-b from-arang-900/70 via-arang-900/55 to-arang-900/75"
         aria-hidden="true"

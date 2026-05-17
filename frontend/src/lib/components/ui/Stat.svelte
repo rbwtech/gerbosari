@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { ComponentType, SvelteComponent } from 'svelte';
 
-  /** Big number — caller is responsible for formatting (locale, separators). */
+  /** Big number - caller is responsible for formatting (locale, separators). */
   export let value: string | number;
   /** Short descriptor below the value. Rendered in caption style. */
   export let label: string;

@@ -9,19 +9,18 @@
   import { MapPin, Mountain, Compass, Coffee, Wheat, Palette, Fish } from '../lib/components/icons';
 
   // ---------------------------------------------------------------------------
-  // Data + coordinate sanity check
-  // The source JSON has `lon` ≈ 116 BT which is east of Sulawesi. DIY sits at
-  // ≈ 110 BT, so we fall back to a hand-picked centre near Samigaluh and surface
-  // a non-blocking debug note in the UI rather than crashing or hiding the issue.
+  // Data + boundary metadata
   // ---------------------------------------------------------------------------
-  const data = getPetaWilayah();
-  const SAFE_CENTER: LatLngTuple = [-7.675, 110.11];
-  const rawCenter: LatLngTuple = [data.koordinat.lat, data.koordinat.lon];
-  const coordOutOfRange = data.koordinat.lon > 115 || data.koordinat.lon < 105;
-  const center: LatLngTuple = coordOutOfRange ? SAFE_CENTER : rawCenter;
-  const coordNote = coordOutOfRange
-    ? 'Koordinat sumber sedang divalidasi — peta menggunakan titik referensi sementara di sekitar Samigaluh.'
-    : '';
+  const data = getPetaWilayah() as any;
+  const center: LatLngTuple = [data.koordinat.lat, data.koordinat.lon];
+  const officeLabel: string = data.koordinat.lokasi ?? 'Kantor Desa Gerbosari';
+  const boundaryPolygon: LatLngTuple[] = (data?.wilayah?.polygon ?? []) as LatLngTuple[];
+  const batasPoints: Array<{
+    arah: string;
+    lat: number;
+    lon: number;
+    berbatasan_dengan: string;
+  }> = data?.wilayah?.batas_koordinat ?? [];
 
   /**
    * Deterministic offset around the village centre so each pedukuhan has a
@@ -98,7 +97,7 @@
     leafletLib = L;
 
     mapInstance = L.map(mapEl, {
-      scrollWheelZoom: false,
+      scrollWheelZoom: true,
       zoomControl: true,
       attributionControl: true
     }).setView(center, 13);
@@ -110,7 +109,55 @@
 
     L.control.scale({ imperial: false, position: 'bottomleft' }).addTo(mapInstance);
 
-    // Kantor desa (office) — distinct ring marker
+    // Village boundary polygon (scaled visual reconstruction, ~966 ha).
+    // Not survey-grade — replace with BPN/BPS GeoJSON when available.
+    if (boundaryPolygon.length >= 3) {
+      L.polygon(boundaryPolygon, {
+        color: '#2f5233',
+        weight: 2,
+        dashArray: '6 4',
+        fillColor: '#2f5233',
+        fillOpacity: 0.08
+      })
+        .bindTooltip('Wilayah Desa Gerbosari (perkiraan visual, ~966,3 ha)', {
+          sticky: true,
+          direction: 'top'
+        })
+        .addTo(mapInstance);
+    }
+
+    // Cardinal-direction boundary markers (small triangles via divIcon).
+    batasPoints.forEach((b) => {
+      const icon = L.divIcon({
+        className: 'gerbosari-batas-icon',
+        html: `<div style="
+          width:22px;height:22px;border-radius:50%;
+          background:#fff;border:2px solid #244226;
+          display:flex;align-items:center;justify-content:center;
+          font-family:Inter,system-ui,sans-serif;font-size:10px;font-weight:700;
+          color:#244226;letter-spacing:.04em;
+        ">${b.arah.charAt(0).toUpperCase()}</div>`,
+        iconSize: [22, 22],
+        iconAnchor: [11, 11]
+      });
+      L.marker([b.lat, b.lon], { icon })
+        .bindPopup(
+          `<div style="font-family:Inter,system-ui,sans-serif;min-width:200px">
+             <div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#9a4a2c;font-weight:600">
+               Batas ${escapeHtml(b.arah)}
+             </div>
+             <div style="margin-top:4px;color:#1a1816;font-weight:500;line-height:1.4">
+               ${escapeHtml(b.berbatasan_dengan)}
+             </div>
+             <div style="margin-top:6px;font-size:11px;color:#7a6a5c;font-family:'JetBrains Mono',ui-monospace,monospace">
+               ${b.lat.toFixed(6)}, ${b.lon.toFixed(6)}
+             </div>
+           </div>`
+        )
+        .addTo(mapInstance!);
+    });
+
+    // Kantor desa (office) - distinct ring marker
     officeMarker = L.circleMarker(center, {
       radius: 10,
       color: '#b85c38',
@@ -119,9 +166,15 @@
       fillOpacity: 1
     })
       .bindPopup(
-        `<div style="font-family:Inter,system-ui,sans-serif;min-width:180px">
-           <div style="font-weight:600;color:#1a1816">Kantor Desa Gerbosari</div>
-           <div style="margin-top:4px;color:#52493f;font-size:12px">Pedukuhan Karang, Samigaluh, Kulon Progo</div>
+        `<div style="font-family:Inter,system-ui,sans-serif;min-width:220px">
+           <div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#9a4a2c;font-weight:600">
+             Kantor Kelurahan
+           </div>
+           <div style="margin-top:4px;font-weight:600;color:#1a1816">Desa Gerbosari</div>
+           <div style="margin-top:4px;color:#52493f;font-size:12px;line-height:1.5">${escapeHtml(officeLabel)}</div>
+           <div style="margin-top:6px;font-size:11px;color:#7a6a5c;font-family:'JetBrains Mono',ui-monospace,monospace">
+             ${center[0].toFixed(6)}, ${center[1].toFixed(6)}
+           </div>
          </div>`
       )
       .addTo(mapInstance);
@@ -167,6 +220,8 @@
       bounds.push([ll.lat, ll.lng]);
     });
     bounds.push(center);
+    batasPoints.forEach((b) => bounds.push([b.lat, b.lon]));
+    boundaryPolygon.forEach((p) => bounds.push(p));
     mapInstance.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
   }
 
@@ -203,7 +258,7 @@
     mapInstance = undefined;
   });
 
-  // Quick facts — present both luas figures, larger primary, smaller as tooltip.
+  // Quick facts - present both luas figures, larger primary, smaller as tooltip.
   const luasPrimary = Math.max(data.luas_ha, (data as unknown as { luas_ha_bps_2017?: number }).luas_ha_bps_2017 ?? 0);
   const luasSecondary = Math.min(data.luas_ha, (data as unknown as { luas_ha_bps_2017?: number }).luas_ha_bps_2017 ?? data.luas_ha);
   const quickFacts: Array<{ label: string; value: string; hint?: string }> = [
@@ -215,10 +270,10 @@
     { label: 'Pedukuhan', value: '19' },
     { label: 'RT / RW', value: '75 / 38' },
     { label: 'Suhu rata-rata', value: `${data.suhu_rata_celsius} °C` },
-    { label: 'Ketinggian', value: `${data.ketinggian_min}–${data.ketinggian_max} m dpl` }
+    { label: 'Ketinggian', value: `${data.ketinggian_min}-${data.ketinggian_max} m dpl` }
   ];
 
-  // Suroloyo profile — pulled from JSON's wisata_unggulan field
+  // Suroloyo profile - pulled from JSON's wisata_unggulan field
   type Wisata = {
     nama: string;
     lokasi_pedukuhan: string;
@@ -240,7 +295,7 @@
 <PageHeader
   eyebrow="Geografi & Kawasan"
   title="Peta Wilayah Desa Gerbosari"
-  description="Lereng perbukitan Menoreh, ketinggian 400–900 m dpl, 19 pedukuhan terbagi dalam 4 kawasan pembangunan."
+  description="Lereng perbukitan Menoreh, ketinggian 400-900 m dpl, 19 pedukuhan terbagi dalam 4 kawasan pembangunan."
 />
 
 <section class="container-page py-12 md:py-16 space-y-14">
@@ -268,10 +323,6 @@
         aria-label="Peta interaktif Desa Gerbosari"
       ></div>
     </div>
-    {#if coordNote}
-      <p class="mt-3 text-xs text-arang-700/80 italic">{coordNote}</p>
-    {/if}
-
     <!-- Legend & filter chips -->
     <div class="mt-5 flex flex-wrap items-center gap-2">
       <span class="text-xs font-semibold uppercase tracking-[0.14em] text-arang-700/70 mr-1">Filter zona</span>
@@ -445,7 +496,7 @@
 </section>
 
 <style>
-  /* Leaflet popups + container — keep typography consistent with the rest of
+  /* Leaflet popups + container - keep typography consistent with the rest of
      the site. The leaflet base CSS is already imported globally in app.css. */
   :global(.leaflet-container) {
     font-family: 'Inter', system-ui, sans-serif;

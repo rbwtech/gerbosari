@@ -11,7 +11,7 @@
   export let disabled = false;
   /** Renders inline spinner and blocks interaction without changing layout. */
   export let loading = false;
-  /** Optional anchor target — only applied when `href` is set. */
+  /** Optional anchor target - only applied when `href` is set. */
   export let target: string | undefined = undefined;
   export let rel: string | undefined = undefined;
 

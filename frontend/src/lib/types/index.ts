@@ -1,6 +1,6 @@
 /**
  * Shared DTOs mirroring the Rust backend's serde-serialized response shape.
- * Field names are kept verbatim — do not rename without updating the backend
+ * Field names are kept verbatim - do not rename without updating the backend
  * `presentation/dto/*` modules and the consuming routes in lockstep.
  */
 
@@ -66,4 +66,24 @@ export interface ApiError {
   status: number;
   message: string;
   detail?: string;
+}
+
+/**
+ * Authenticated admin principal. Mirrors the backend's `presentation/dto/auth.rs`
+ * AdminUserDto - `id` is a UUID string, `username` is lowercase alphanumeric.
+ */
+export interface AdminUser {
+  id: string;
+  username: string;
+}
+
+/**
+ * Response payload from POST /api/auth/login. `expires_at` is an ISO-8601
+ * timestamp; the auth store evicts the token client-side once it elapses so the
+ * UI redirects to /admin/login before the backend issues a 401.
+ */
+export interface AuthToken {
+  token: string;
+  expires_at: string;
+  user: AdminUser;
 }

@@ -2,7 +2,7 @@
   /** Visually highlights when the chip's facet is the current filter. */
   export let active = false;
   export let label: string;
-  /** Optional count badge — e.g., '12' next to "Wisata". */
+  /** Optional count badge - e.g., '12' next to "Wisata". */
   export let count: number | undefined = undefined;
   export let disabled = false;
 

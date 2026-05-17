@@ -3,7 +3,7 @@
   import { ChevronDown, BookOpen, Landmark } from '../lib/components/icons';
 
   /**
-   * Sejarah Desa — long-form, magazine-style narrative. Reads the rich JSON
+   * Sejarah Desa - long-form, magazine-style narrative. Reads the rich JSON
    * shape directly (the legacy types.ts is intentionally bypassed via `any`
    * to avoid coupling this page to an outdated interface).
    */
@@ -201,7 +201,7 @@
           </div>
           <ul class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 text-sm text-arang-700">
             {#each peristiwa.korban_tercatat as nama}
-              <li class="flex gap-2"><span class="text-arang-700/40">&mdash;</span>{nama}</li>
+              <li class="flex gap-2"><span class="text-arang-700/40">-</span>{nama}</li>
             {/each}
           </ul>
         </div>

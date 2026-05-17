@@ -5,12 +5,16 @@ use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 use tracing_subscriber::EnvFilter;
 
+use gerbosari_backend::application::auth_service::AuthService;
 use gerbosari_backend::application::berita_service::BeritaService;
 use gerbosari_backend::application::galeri_service::GaleriService;
 use gerbosari_backend::application::lowongan_service::LowonganService;
 use gerbosari_backend::application::penduduk_service::PendudukService;
 use gerbosari_backend::config::{AppConfig, AppEnv};
+use gerbosari_backend::domain::repository::AdminUserRepository;
+use gerbosari_backend::infrastructure::auth::{hash_password, JwtConfig, JwtEncoder};
 use gerbosari_backend::infrastructure::db;
+use gerbosari_backend::infrastructure::persistence::admin_user_repo::MysqlAdminUserRepository;
 use gerbosari_backend::infrastructure::persistence::berita_repo::MysqlBeritaRepository;
 use gerbosari_backend::infrastructure::persistence::galeri_repo::MysqlGaleriRepository;
 use gerbosari_backend::infrastructure::persistence::lowongan_repo::MysqlLowonganRepository;
@@ -45,12 +49,39 @@ async fn main() -> anyhow::Result<()> {
     let penduduk_repo = Arc::new(MysqlPendudukRepository::new(pool.clone()));
     let lowongan_repo = Arc::new(MysqlLowonganRepository::new(pool.clone()));
     let berita_repo = Arc::new(MysqlBeritaRepository::new(pool.clone()));
+    let admin_user_repo: Arc<dyn AdminUserRepository> =
+        Arc::new(MysqlAdminUserRepository::new(pool.clone()));
+
+    // --- Auth wiring ---
+    let jwt_encoder = Arc::new(JwtEncoder::new(JwtConfig::new(
+        config.jwt_secret.clone(),
+        config.jwt_expiry_hours,
+    )));
+    let auth_service = Arc::new(AuthService::new(
+        admin_user_repo.clone(),
+        jwt_encoder.clone(),
+    ));
+
+    // --- Admin bootstrap ---
+    // Behaviour matrix:
+    //   ADMIN_PASSWORD set    -> hash + upsert the row (rotate on each boot)
+    //   ADMIN_PASSWORD unset  -> require the row to already exist, else log
+    //                            a loud error but keep serving (operator can
+    //                            fix on next deploy without losing uptime).
+    bootstrap_admin(
+        admin_user_repo.as_ref(),
+        &config.admin_username,
+        config.admin_password.as_deref(),
+    )
+    .await?;
 
     let state = AppState {
         galeri: Arc::new(GaleriService::new(galeri_repo)),
         penduduk: Arc::new(PendudukService::new(penduduk_repo)),
         lowongan: Arc::new(LowonganService::new(lowongan_repo)),
         berita: Arc::new(BeritaService::new(berita_repo)),
+        auth: auth_service,
+        jwt: jwt_encoder,
     };
 
     let app = build_router(state, &config.cors_origins);
@@ -66,6 +97,47 @@ async fn main() -> anyhow::Result<()> {
         .await
         .map_err(|e| anyhow::anyhow!("server error: {e}"))?;
 
+    Ok(())
+}
+
+/// Idempotent admin user provisioning. Runs once at startup. Never panics —
+/// any failure is logged so the API can keep serving public routes.
+async fn bootstrap_admin(
+    repo: &dyn AdminUserRepository,
+    username: &str,
+    password: Option<&str>,
+) -> anyhow::Result<()> {
+    match password {
+        Some(pw) => {
+            // Hashing happens off the request path so the 250ms bcrypt cost
+            // is paid at boot, not per-login.
+            let hash = hash_password(pw)
+                .map_err(|e| anyhow::anyhow!("failed to hash admin password: {e}"))?;
+            repo.upsert(username, &hash)
+                .await
+                .map_err(|e| anyhow::anyhow!("admin upsert failed: {e}"))?;
+            tracing::info!(username = %username, "admin bootstrapped");
+        }
+        None => {
+            match repo.find_by_username(username).await {
+                Ok(Some(_)) => {
+                    tracing::info!(
+                        username = %username,
+                        "admin already provisioned; skipping bootstrap"
+                    );
+                }
+                Ok(None) => {
+                    tracing::error!(
+                        username = %username,
+                        "ADMIN_PASSWORD not set and no admin row exists — login will fail until populated"
+                    );
+                }
+                Err(e) => {
+                    tracing::error!(error = %e, "failed to verify admin presence at boot");
+                }
+            }
+        }
+    }
     Ok(())
 }
 
