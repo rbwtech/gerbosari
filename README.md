@@ -1,141 +1,251 @@
-# Desa Gerbosari — Profil Desa Berbasis Cloud
+# Desa Gerbosari
 
-Cloud-hosted village profile site for **Desa Gerbosari, Kecamatan Samigaluh, Kabupaten Kulon Progo, DIY**. Built as the final project for the *Komputasi Awan* (Cloud Computing) course at UIN Sunan Kalijaga, semester 6.
+Website profil resmi **Desa Gerbosari, Kecamatan Samigaluh, Kabupaten Kulon Progo, Daerah Istimewa Yogyakarta**.
 
-Live: <https://gerbosari.rbwtech.io>
+Tayang di <https://gerbosari.rbwtech.io>.
 
-## Why two deployables
+## Daftar Isi
 
-The brief grades the split between **static profile content** and **dynamic CRUD features** — they are deployed as independent layers, not bundled into a single monolith:
+- [Ringkasan](#ringkasan)
+- [Arsitektur](#arsitektur)
+- [Tumpukan Teknologi](#tumpukan-teknologi)
+- [Struktur Repository](#struktur-repository)
+- [Pengembangan Lokal](#pengembangan-lokal)
+- [Build Produksi](#build-produksi)
+- [Deployment](#deployment)
+- [Konvensi](#konvensi)
+- [Roadmap](#roadmap)
+- [Sumber Konten](#sumber-konten)
 
+## Ringkasan
+
+Situs ini menyajikan dua lapisan konten yang dideploy secara terpisah:
+
+1. **Konten statis** — sejarah desa, visi & misi, struktur organisasi, dan peta wilayah. Sumbernya `content/pages/*.json`, dirakit ke dalam bundel SPA pada saat build.
+2. **Konten dinamis** — galeri foto, ringkasan data penduduk per pedukuhan, lowongan kerja UMKM/lokal, serta berita & agenda kegiatan. Disajikan oleh REST API yang membaca MySQL.
+
+Pendekatan dua-lapisan ini memungkinkan halaman profil dapat di-cache penuh oleh CDN sementara fitur dinamis tetap dapat diperbarui melalui kanal terpisah tanpa men-deploy ulang frontend.
+
+## Arsitektur
+
+### Topologi runtime
+
+```mermaid
+flowchart LR
+    Browser([Pengunjung]) -->|HTTPS| CF[Cloudflare CDN]
+    CF -->|gerbosari.rbwtech.io| Nginx[nginx<br/>aaPanel]
+
+    Nginx -->|/| Static[Frontend SPA<br/>Svelte + Vite<br/>dist/]
+    Nginx -->|/images/| Images[(content/images/<br/>gallery, cover, peta)]
+    Nginx -->|/api/* proxy| Backend[Backend API<br/>Axum<br/>127.0.0.1:3000]
+    Backend -->|sqlx pool| MySQL[(MySQL 8)]
+
+    classDef edge fill:#1a3019,stroke:#0d1a0c,color:#f5ebe0
+    classDef app fill:#2f5233,stroke:#0d1a0c,color:#f5ebe0
+    classDef data fill:#b85c38,stroke:#7c3a22,color:#fcf3ee
+    class CF,Nginx edge
+    class Static,Backend app
+    class Images,MySQL data
 ```
-                +-------------------+         +--------------------+
-  Browser ----> | nginx (aaPanel)   | --------| Frontend (static)  |
-                |   gerbosari.      |         | Svelte + Vite SPA  |
-                |   rbwtech.io      |         +--------------------+
-                |                   |
-                |  /api/* proxy --> | --------> Backend (dynamic)
-                +-------------------+          Rust + Axum + sqlx
-                                               127.0.0.1:3000
-                                                      |
-                                                      v
-                                               MySQL 8 (local)
+
+Frontend dan backend dibangun, di-versioning, dan dideploy secara independen — bukan satu monolit. nginx satu-satunya komponen yang tahu kedua-duanya.
+
+### Clean Architecture backend
+
+```mermaid
+flowchart TB
+    subgraph Presentation
+        Router[Axum Router<br/>+ CORS + tracing]
+        Handlers[HTTP Handlers]
+        DTOs[DTOs serde]
+    end
+
+    subgraph Application
+        Services[Use Case Services<br/>generic over Repository]
+    end
+
+    subgraph Domain
+        Entities[Entities<br/>Galeri, Lowongan,<br/>Berita, Penduduk]
+        Traits[Repository Traits<br/>async, dyn]
+    end
+
+    subgraph Infrastructure
+        Repos[sqlx Repositories]
+        Pool[MySqlPool]
+        Migrations[sqlx::migrate!]
+    end
+
+    Router --> Handlers --> DTOs
+    Handlers --> Services
+    Services --> Traits
+    Repos -.implements.-> Traits
+    Repos --> Pool
+    Pool --> Migrations
+
+    classDef domain fill:#fcf3ee,stroke:#7c3a22,color:#2d2a26
+    classDef inner fill:#f5ebe0,stroke:#2f5233,color:#2d2a26
+    class Entities,Traits domain
+    class Services,Router,Handlers,DTOs,Repos,Pool,Migrations inner
 ```
 
-Static pages (sejarah, visi-misi, struktur organisasi, peta wilayah) are pre-rendered into the SPA bundle from `content/pages/*.json`. Dynamic features (galeri, data penduduk, lowongan, berita & agenda) hit the Axum API and round-trip through MySQL.
+Panah dependensi mengarah ke dalam. `domain` tidak tahu apa-apa tentang Axum atau sqlx; `application` hanya bergantung pada trait di `domain`; implementasi konkrit dibatasi ke `infrastructure` dan `presentation`. Konsekuensinya: backend dapat di-test dengan repository mock dan ditukar database engine-nya tanpa menyentuh logika bisnis.
 
-## Stack
+### Alur data konten
 
-| Layer | Tech | Why |
+```mermaid
+flowchart TB
+    Source[(content/<br/>JSON canonical)]
+
+    Source -->|build-time import| FE[Frontend SPA<br/>halaman statis]
+    Source -->|seed migration| DB[(MySQL galeri,<br/>lowongan, berita,<br/>penduduk_ringkasan)]
+    DB --> API[API Axum]
+    API --> FE2[Frontend SPA<br/>halaman dinamis]
+
+    classDef canon fill:#b85c38,stroke:#7c3a22,color:#fcf3ee
+    classDef sink fill:#2f5233,stroke:#0d1a0c,color:#f5ebe0
+    class Source canon
+    class FE,FE2,DB,API sink
+```
+
+Folder `content/` adalah satu-satunya sumber kebenaran teks dan gambar desa. Frontend mengimpor JSON di waktu build; backend membaca seed yang setara di migration awal. Tidak ada duplikasi teks ke dalam source code mana pun.
+
+## Tumpukan Teknologi
+
+| Lapisan | Teknologi | Alasan |
 |---|---|---|
-| Frontend | Svelte 4 + Vite 5 + TypeScript + Tailwind 3 | SPA on a static host. No SvelteKit — keeps the build artifact a plain `dist/` folder that any CDN or nginx instance can serve. |
-| Routing  | svelte-spa-router | Hash-based, zero server config. |
-| Maps     | Leaflet + OpenStreetMap | No API key, no quota. |
-| Backend  | Rust 1.x stable + Axum 0.7 + sqlx 0.8 (mysql, runtime-tokio-rustls) + tokio | Async-only. Clean-arch layers: `domain → application → infrastructure → presentation`. |
-| Database | MySQL 8 | Managed by aaPanel on the same host. |
-| Web      | nginx (aaPanel-managed) | Reverse-proxies `/api/*`, aliases `/images/`, serves the SPA. |
-| Service  | systemd | `gerbosari-backend.service` runs the release binary as user `www`. |
+| Frontend | Svelte 4 + Vite 5 + TypeScript + Tailwind 3 | SPA murni. Bundle akhir adalah folder `dist/` statis yang bisa disajikan oleh CDN atau nginx mana pun. |
+| Router | svelte-spa-router | Berbasis hash, nol konfigurasi server. |
+| Peta | Leaflet + OpenStreetMap | Tanpa kunci API dan tanpa kuota. |
+| Backend | Rust stable + Axum 0.7 + sqlx 0.8 (mysql, tokio-rustls) + tokio | Async penuh. Empat lapisan clean architecture: `domain → application → infrastructure → presentation`. |
+| Database | MySQL 8 | Dikelola oleh aaPanel pada host yang sama. |
+| Web server | nginx (vhost dikelola aaPanel) | Reverse proxy `/api/*`, alias `/images/`, dan menyajikan SPA. |
+| Layanan | systemd | Unit `gerbosari-backend.service` menjalankan binary `release` sebagai user `www`. |
 
-Design palette is intentionally not generic: `menoreh` (deep teal-green forest), `terakota` (warm batik red), `krem` (paper cream), `tanah` (umber for historical sections), `arang` (warm slate text). Lora serif for sejarah/legenda; Inter for UI.
+Palet warna sengaja tidak generik: `menoreh` (hijau-teal hutan), `terakota` (merah batik hangat), `krem` (krem kertas), `tanah` (umber untuk seksi sejarah), `arang` (slate hangat untuk teks). Tipografi: Lora serif untuk sejarah & legenda, Inter untuk antarmuka.
 
-## Repository layout
+## Struktur Repository
 
 ```
-tugas-akhir/
-├── content/                  # Single source of truth for village content
-│   ├── pages/*.json          # sejarah, visi-misi, struktur-organisasi, peta-wilayah, beranda
-│   ├── seed/*.json           # galeri, lowongan, berita, penduduk-ringkasan
-│   └── images/               # Renamed from .docx extracts (cover/, gallery/, peta/)
-├── frontend/                 # Svelte 4 SPA — deploys to webroot
+.
+├── content/                    Sumber kebenaran konten desa
+│   ├── pages/*.json            sejarah, visi-misi, struktur-organisasi, peta-wilayah, beranda
+│   ├── seed/*.json             galeri, lowongan, berita, penduduk-ringkasan
+│   └── images/                 cover/, gallery/, peta/
+│
+├── frontend/                   Svelte 4 SPA — di-deploy ke webroot
 │   └── src/
-│       ├── lib/api/          # Backend client (typed fetch wrappers)
-│       ├── lib/components/   # Layout + UI primitives (Stat, Chip, Tabs, ...)
-│       ├── lib/content/      # Static-content loaders (import build-time JSON)
-│       ├── lib/types/        # DTO interfaces mirroring backend response shape
-│       └── routes/           # One Svelte page per route, hash-based
-├── backend/                  # Rust + Axum + sqlx — deploys to _backend/
-│   ├── migrations/           # SQL files applied at startup via sqlx::migrate!
+│       ├── lib/api/            klien backend (typed fetch wrappers)
+│       ├── lib/components/     layout + primitif UI (Stat, Chip, Tabs, ...)
+│       ├── lib/content/        loader konten statis (impor JSON saat build)
+│       ├── lib/types/          DTO interface yang mencerminkan respons backend
+│       └── routes/             satu file Svelte per route, berbasis hash
+│
+├── backend/                    Rust + Axum + sqlx — di-deploy ke _backend/
+│   ├── migrations/             file SQL diterapkan saat startup via sqlx::migrate!
 │   └── src/
-│       ├── domain/           # Entities + repository traits (pure, no I/O)
-│       ├── application/      # Use cases (services generic over repo trait)
-│       ├── infrastructure/   # sqlx repository impls + connection pool
-│       └── presentation/     # Axum router, handlers, DTOs (serde)
-└── deploy/                   # Production artifacts (see deploy/README.md)
+│       ├── domain/             entitas + repository trait (murni, tanpa I/O)
+│       ├── application/        use case (service generik atas trait repo)
+│       ├── infrastructure/     implementasi repository sqlx + pool koneksi
+│       └── presentation/       router Axum, handler, DTO (serde)
+│
+└── deploy/                     artefak produksi (lihat deploy/README.md)
 ```
 
-`content/` is canonical. The frontend imports `pages/*.json` at build time; the backend's seed migration mirrors the same row identities. Do not duplicate village text into either side.
+## Pengembangan Lokal
 
-## Quickstart — local development
+Prasyarat: Node 20+, Rust stable, MySQL 8.
 
-Requires Node 20+, Rust stable, MySQL 8.
-
-**Backend:**
+### Backend
 
 ```bash
 cd backend
-cp .env.example .env                # adjust DATABASE_URL if needed
+cp .env.example .env
 mysql -uroot -p -e "CREATE DATABASE gerbosari CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
-cargo run                            # migrations auto-apply on startup; binds 0.0.0.0:3000
+cargo run
 ```
 
-**Frontend** (separate terminal):
+Migrations otomatis dijalankan saat startup. Server mendengarkan di `0.0.0.0:3000` (konfigurasi via `BIND_ADDR` di `.env`).
+
+### Frontend
 
 ```bash
 cd frontend
-cp .env.example .env.local           # VITE_API_BASE=http://localhost:3000/api
+cp .env.example .env.local
 npm install
-npm run dev                          # http://localhost:5173
+npm run dev
 ```
 
-Open <http://localhost:5173>. Nine routes are wired: `/`, `/sejarah`, `/visi-misi`, `/struktur-organisasi`, `/peta-wilayah`, `/galeri`, `/data-penduduk`, `/lowongan`, `/berita`, `/berita/:slug`.
+Buka <http://localhost:5173>. Sembilan rute terpasang: `/`, `/sejarah`, `/visi-misi`, `/struktur-organisasi`, `/peta-wilayah`, `/galeri`, `/data-penduduk`, `/lowongan`, `/berita`, `/berita/:slug`.
 
-## Production build
+## Build Produksi
 
-Both layers build into independent artifacts.
+Kedua lapisan menghasilkan artefak independen.
 
 ```bash
-# Frontend → ./frontend/dist/  (index.html, assets/, favicon.svg)
+# Frontend → ./frontend/dist/   (index.html, assets/, favicon.svg)
 cd frontend && npm ci && npm run build
 
-# Backend → ./backend/target/release/gerbosari-backend  (single binary)
+# Backend → ./backend/target/release/gerbosari-backend
 cd backend && cargo build --release
 ```
 
-Vite reads `frontend/.env.production` during build, which pins `VITE_API_BASE=/api` so the SPA shares an origin with the API behind nginx.
+Vite membaca `frontend/.env.production` saat build, yang menetapkan `VITE_API_BASE=/api` sehingga SPA berbagi origin dengan API di belakang nginx.
 
 ## Deployment
 
-Target host runs aaPanel; webroot is `/www/wwwroot/gerbosari.rbwtech.io/`. Full runbook in [`deploy/aapanel-setup.md`](deploy/aapanel-setup.md).
+Host produksi menjalankan aaPanel; webroot di `/www/wwwroot/gerbosari.rbwtech.io/`. Runbook lengkap di [`deploy/aapanel-setup.md`](deploy/aapanel-setup.md).
 
-Final layout on the server:
+Tata letak akhir di server:
 
 ```
 /www/wwwroot/gerbosari.rbwtech.io/
-├── index.html, assets/, favicon.svg   # frontend dist (publicly served)
-├── content/images/                    # nginx alias /images/ -> here
-└── _backend/                          # location ^~ /_backend/ deny all
-    ├── gerbosari-backend              # systemd ExecStart
-    ├── migrations/                    # bundled sqlx migrations
-    └── .env                           # 0600, owner www
+├── index.html, assets/, favicon.svg     frontend dist (publik)
+├── content/images/                      nginx alias /images/ -> sini
+└── _backend/                            location ^~ /_backend/ deny all
+    ├── gerbosari-backend                ExecStart systemd
+    ├── migrations/                      file SQL terbundel
+    └── .env                             mode 0600, owner www
 ```
 
-Migrations are bundled via `sqlx::migrate!("./migrations")` and apply automatically on backend startup — no manual `sqlx-cli migrate run` step in the deploy flow.
+Migrations dibundel ke binary lewat `sqlx::migrate!("./migrations")` dan diterapkan otomatis saat backend startup — tidak ada langkah `sqlx-cli migrate run` manual dalam alur deploy.
 
-## Conventions
+```mermaid
+sequenceDiagram
+    participant Dev as Developer
+    participant Repo as Repository
+    participant Build as Build pipeline
+    participant Server as Server aaPanel
 
-- Source content is in Indonesian. UI copy must be Indonesian. Code identifiers, comments, and commit messages stay in English.
-- No emoji anywhere in the UI. Use inline SVG (Lucide-style stroke icons) or `<svg>` files. Audited via `grep`.
-- API field names are snake_case to mirror Rust's serde output verbatim. The frontend's `lib/types/index.ts` is the contract document — change it only in lockstep with `backend/src/presentation/dto/*.rs`.
-- Cards carry zero drop shadows by default. Subtle 1px borders + bg contrast only. No glassmorphism, no animated gradients (the single permitted gradient is the hero alpha overlay).
-- Cloud target is AWS-class (aaPanel runs on any cloud VM — current: AWS EC2). Do not silently swap deploy targets.
+    Dev->>Repo: git push
+    Repo->>Build: git pull --ff-only
+    Build->>Build: npm ci && npm run build
+    Build->>Build: cargo build --release
+    Build->>Server: rsync frontend/dist/
+    Build->>Server: install binary + migrations + .env
+    Build->>Server: rsync content/images/
+    Build->>Server: systemctl restart gerbosari-backend
+    Server-->>Dev: gerbosari.rbwtech.io
+```
 
-## What would come next given more time
+## Konvensi
 
-- **Admin CRUD UI.** Backend exposes read-only endpoints today; write methods exist in `domain::repository` traits but are not wired into handlers. An `/admin` SPA route + JWT-protected POST/PATCH/DELETE is the natural next step.
-- **Real per-pedukuhan coordinates.** Current map uses a deterministic ring layout around the village office. Replace with surveyed lat/lon when available.
-- **Image optimization pipeline.** Content images ship as-is from the source `.docx`. A `vite-plugin-imagetools` pass for `.webp` + `srcset` variants would cut LCP measurably.
-- **OpenTelemetry.** Backend already wires `tracing`; an OTLP exporter to a hosted collector closes the observability loop.
+- Konten dan teks antarmuka dalam Bahasa Indonesia. Identifier kode, komentar, dan pesan commit tetap dalam Bahasa Inggris.
+- Tidak ada emoji dalam UI. Gunakan SVG inline (gaya stroke Lucide) atau berkas `<svg>`. Diaudit dengan `grep` setelah setiap perubahan signifikan.
+- Field name API dalam `snake_case` agar mencerminkan output serde Rust apa adanya. `frontend/src/lib/types/index.ts` adalah dokumen kontrak — diubah hanya bersamaan dengan `backend/src/presentation/dto/*.rs`.
+- Card tanpa drop shadow secara default. Hanya border 1 px dan kontras background. Tidak ada glassmorphism dan tidak ada animasi gradient (kecuali overlay alpha pada hero).
+- Migration bersifat append-only — gunakan migration baru untuk perubahan skema, jangan edit migration yang sudah dipublikasikan.
 
-## License & academic note
+## Roadmap
 
-Educational project for the Komputasi Awan course, UIN Sunan Kalijaga. Content sourced from the `.docx` village profile (Devi & Hidayati, 2020), the Wikipedia entry on Gerbosari, and `gerbosari-kulonprogo.desa.id`. Source attribution preserved inside individual content files.
+- **UI admin CRUD.** Backend saat ini hanya membuka endpoint read. Method write sudah tersedia di trait `domain::repository`, tinggal dihubungkan ke handler. Langkah berikutnya: route `/admin` di SPA dengan POST/PATCH/DELETE yang diproteksi JWT.
+- **Koordinat per pedukuhan.** Peta saat ini memakai layout cincin deterministik di sekitar kantor desa. Akan diganti dengan lat/lon hasil survei lapangan.
+- **Pipeline optimasi gambar.** Aset gambar masih ukuran asli dari sumber. Penambahan `vite-plugin-imagetools` untuk varian `.webp` + `srcset` akan menurunkan LCP secara signifikan.
+- **OpenTelemetry.** `tracing` sudah terpasang di backend; tinggal menambah exporter OTLP ke collector untuk menutup loop observabilitas.
+
+## Sumber Konten
+
+- Buku Profil Desa Gerbosari (Devi & Hidayati, 2020).
+- Situs resmi <https://gerbosari-kulonprogo.desa.id>.
+- Wikipedia (entri Gerbosari, Samigaluh, dan Kulon Progo).
+
+Atribusi sumber disimpan di setiap berkas konten yang relevan di dalam `content/`.
