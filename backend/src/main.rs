@@ -14,6 +14,7 @@ use gerbosari_backend::config::{AppConfig, AppEnv};
 use gerbosari_backend::domain::repository::AdminUserRepository;
 use gerbosari_backend::infrastructure::auth::{hash_password, JwtConfig, JwtEncoder};
 use gerbosari_backend::infrastructure::db;
+use gerbosari_backend::infrastructure::rate_limit::LoginThrottle;
 use gerbosari_backend::infrastructure::persistence::admin_user_repo::MysqlAdminUserRepository;
 use gerbosari_backend::infrastructure::persistence::berita_repo::MysqlBeritaRepository;
 use gerbosari_backend::infrastructure::persistence::galeri_repo::MysqlGaleriRepository;
@@ -75,6 +76,20 @@ async fn main() -> anyhow::Result<()> {
     )
     .await?;
 
+    // --- Login rate limiter ---
+    // 5 attempts per 60s per client IP. Sweeps stale entries every 5 minutes
+    // so the map doesn't grow unbounded on a long-lived process.
+    let login_throttle = Arc::new(LoginThrottle::new());
+    {
+        let throttle = login_throttle.clone();
+        tokio::spawn(async move {
+            loop {
+                tokio::time::sleep(std::time::Duration::from_secs(300)).await;
+                throttle.sweep();
+            }
+        });
+    }
+
     let state = AppState {
         galeri: Arc::new(GaleriService::new(galeri_repo)),
         penduduk: Arc::new(PendudukService::new(penduduk_repo)),
@@ -82,6 +97,7 @@ async fn main() -> anyhow::Result<()> {
         berita: Arc::new(BeritaService::new(berita_repo)),
         auth: auth_service,
         jwt: jwt_encoder,
+        login_throttle,
     };
 
     let app = build_router(state, &config.cors_origins);
@@ -92,10 +108,15 @@ async fn main() -> anyhow::Result<()> {
 
     tracing::info!(addr = %config.bind_addr, "listening");
 
-    axum::serve(listener, app)
-        .with_graceful_shutdown(shutdown_signal())
-        .await
-        .map_err(|e| anyhow::anyhow!("server error: {e}"))?;
+    // `into_make_service_with_connect_info::<SocketAddr>()` so the
+    // login handler can extract the peer's IP via `ConnectInfo`.
+    axum::serve(
+        listener,
+        app.into_make_service_with_connect_info::<std::net::SocketAddr>(),
+    )
+    .with_graceful_shutdown(shutdown_signal())
+    .await
+    .map_err(|e| anyhow::anyhow!("server error: {e}"))?;
 
     Ok(())
 }
