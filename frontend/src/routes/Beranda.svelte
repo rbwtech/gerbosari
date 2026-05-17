@@ -73,7 +73,7 @@
 
 <!-- ============================================================ HERO ============================================================ -->
 <section
-  class="relative isolate overflow-hidden border-b border-arang-900/20"
+  class="relative isolate overflow-hidden border-b border-arang-900/20 flex items-center min-h-[55vh] md:min-h-[60vh]"
   aria-labelledby="hero-title"
 >
   <img
@@ -89,7 +89,7 @@
     aria-hidden="true"
   ></div>
 
-  <div class="container-page pt-20 pb-16 md:pt-32 md:pb-28 text-krem-50">
+  <div class="container-page py-12 md:py-16 text-krem-50 w-full">
     <p class="eyebrow !text-terakota-300 break-words">
       Kabupaten Kulon Progo &middot; Daerah Istimewa Yogyakarta
     </p>
