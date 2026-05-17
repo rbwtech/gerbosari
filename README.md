@@ -114,7 +114,7 @@ Folder `content/` adalah satu-satunya sumber kebenaran teks dan gambar desa. Fro
 | Lapisan | Teknologi | Alasan |
 |---|---|---|
 | Frontend | Svelte 5 + Vite 8 + TypeScript + Tailwind 3 | SPA murni. Bundle akhir adalah folder `dist/` statis yang bisa disajikan oleh CDN atau nginx mana pun. |
-| Router | Router buatan sendiri (lib/router) — berbasis hash, nol konfigurasi server. | Berbasis hash, nol konfigurasi server. |
+| Router | Hash router buatan sendiri di `frontend/src/lib/router/` | Nol dependency pihak ketiga, kompatibel dengan host statis (tanpa URL rewrite di server). |
 | Peta | Leaflet + OpenStreetMap | Tanpa kunci API dan tanpa kuota. |
 | Backend | Rust stable + Axum 0.7 + sqlx 0.8 (mysql, tokio-rustls) + tokio | Async penuh. Empat lapisan clean architecture: `domain → application → infrastructure → presentation`. |
 | Database | MySQL 9 | Dikelola oleh aaPanel pada host yang sama. |
