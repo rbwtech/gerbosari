@@ -6,6 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Profil resmi Desa Gerbosari, Kecamatan Samigaluh, Kabupaten Kulon Progo, Daerah Istimewa Yogyakarta." />
     <title>Desa Gerbosari — Samigaluh, Kulon Progo</title>
+
+    <!-- LCP image: hero cover di Beranda. Preload high-priority so the browser
+         starts the fetch in parallel with the JS bundle, not after parse. -->
+    <link
+      rel="preload"
+      as="image"
+      href="/images/cover/gerbosari-panorama-sawah-menoreh.jpg"
+      fetchpriority="high"
+    />
   </head>
   <body>
     <div id="app"></div>

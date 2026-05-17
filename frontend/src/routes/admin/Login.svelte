@@ -5,7 +5,7 @@
   import { setAuth, getAuth, isAuthenticated } from '../../lib/auth';
   import { isApiError } from '../../lib/api/client';
   import Button from '../../lib/components/ui/Button.svelte';
-  import { Lock, AlertCircle } from '../../lib/components/icons';
+  import { Lock, AlertCircle, ArrowLeft } from '../../lib/components/icons';
 
   let username = '';
   let password = '';
@@ -153,5 +153,16 @@
     <p class="mt-6 text-center text-xs text-arang-500">
       Akses terbatas untuk perangkat desa. Hubungi pengurus jika lupa kredensial.
     </p>
+
+    <div class="mt-6 text-center">
+      <a
+        href="/"
+        on:click|preventDefault={() => navigate('/')}
+        class="inline-flex items-center gap-2 text-sm font-medium text-menoreh-700 hover:text-menoreh-800 transition-colors duration-200"
+      >
+        <ArrowLeft class="w-4 h-4" strokeWidth={2} aria-hidden="true" />
+        Kembali ke Beranda
+      </a>
+    </div>
   </div>
 </div>

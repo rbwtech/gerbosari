@@ -82,6 +82,7 @@
     class="absolute inset-0 -z-20 h-full w-full object-cover"
     loading="eager"
     decoding="async"
+    fetchpriority="high"
   />
   <!-- Tonal scrim: deep arang at bottom for legibility, subtle menoreh tint up top. -->
   <div
@@ -90,7 +91,7 @@
   ></div>
 
   <div class="container-page py-12 md:py-16 text-krem-50 w-full">
-    <p class="eyebrow !text-terakota-300 break-words">
+    <p class="eyebrow !text-terakota-200 break-words">
       Kabupaten Kulon Progo &middot; Daerah Istimewa Yogyakarta
     </p>
     <h1
@@ -99,7 +100,7 @@
     >
       {hero?.judul ?? 'Desa Gerbosari'}
     </h1>
-    <p class="mt-5 font-serif text-lg md:text-2xl italic text-krem-100/95 max-w-3xl text-balance break-words">
+    <p class="mt-5 font-serif text-lg md:text-2xl italic text-krem-50 max-w-3xl text-balance break-words">
       {hero?.subjudul ?? 'Sejahtera Mandiri'} &middot; {hero?.tagline ?? 'Desa Wisata Berbasis Budaya dan Ekonomi Kreatif'}
     </p>
 
@@ -133,7 +134,7 @@
       <a
         href="/sejarah"
         use:link
-        class="inline-flex min-h-11 h-11 items-center justify-center gap-2 rounded-md bg-terakota-500 px-5 text-sm font-medium text-krem-50 transition-colors hover:bg-terakota-600"
+        class="inline-flex min-h-11 h-11 items-center justify-center gap-2 rounded-md bg-terakota-700 px-5 text-sm font-medium text-krem-50 transition-colors hover:bg-terakota-800"
       >
         Telusuri Sejarah
         <ArrowRight class="h-4 w-4" strokeWidth={2} />
