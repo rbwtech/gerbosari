@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { link } from 'svelte-spa-router';
+  import { link } from '../lib/router';
   import { ChevronLeft } from '../lib/components/icons';
 </script>
 

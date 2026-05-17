@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { link } from 'svelte-spa-router';
+  import { link } from '../lib/router';
   import { getBeranda, getPetaWilayah } from '../lib/content';
   import Button from '../lib/components/ui/Button.svelte';
   import Card from '../lib/components/ui/Card.svelte';

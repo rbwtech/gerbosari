@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { link } from 'svelte-spa-router';
+  import { link } from '../../router';
   import { MapPin, Phone, Award } from '../icons';
 
   const tahun = new Date().getFullYear();

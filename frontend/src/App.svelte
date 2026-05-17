@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Router from 'svelte-spa-router';
+  import { Router } from './lib/router';
   import Navbar from './lib/components/layout/Navbar.svelte';
   import Footer from './lib/components/layout/Footer.svelte';
 

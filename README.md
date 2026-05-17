@@ -38,7 +38,7 @@ flowchart LR
     Nginx -->|/| Static[Frontend SPA<br/>Svelte + Vite<br/>dist/]
     Nginx -->|/images/| Images[(content/images/<br/>gallery, cover, peta)]
     Nginx -->|/api/* proxy| Backend[Backend API<br/>Axum<br/>127.0.0.1:3000]
-    Backend -->|sqlx pool| MySQL[(MySQL 8)]
+    Backend -->|sqlx pool| MySQL[(MySQL 9)]
 
     classDef edge fill:#1a3019,stroke:#0d1a0c,color:#f5ebe0
     classDef app fill:#2f5233,stroke:#0d1a0c,color:#f5ebe0
@@ -113,11 +113,11 @@ Folder `content/` adalah satu-satunya sumber kebenaran teks dan gambar desa. Fro
 
 | Lapisan | Teknologi | Alasan |
 |---|---|---|
-| Frontend | Svelte 4 + Vite 5 + TypeScript + Tailwind 3 | SPA murni. Bundle akhir adalah folder `dist/` statis yang bisa disajikan oleh CDN atau nginx mana pun. |
-| Router | svelte-spa-router | Berbasis hash, nol konfigurasi server. |
+| Frontend | Svelte 5 + Vite 8 + TypeScript + Tailwind 3 | SPA murni. Bundle akhir adalah folder `dist/` statis yang bisa disajikan oleh CDN atau nginx mana pun. |
+| Router | Router buatan sendiri (lib/router) — berbasis hash, nol konfigurasi server. | Berbasis hash, nol konfigurasi server. |
 | Peta | Leaflet + OpenStreetMap | Tanpa kunci API dan tanpa kuota. |
 | Backend | Rust stable + Axum 0.7 + sqlx 0.8 (mysql, tokio-rustls) + tokio | Async penuh. Empat lapisan clean architecture: `domain → application → infrastructure → presentation`. |
-| Database | MySQL 8 | Dikelola oleh aaPanel pada host yang sama. |
+| Database | MySQL 9 | Dikelola oleh aaPanel pada host yang sama. |
 | Web server | nginx (vhost dikelola aaPanel) | Reverse proxy `/api/*`, alias `/images/`, dan menyajikan SPA. |
 | Layanan | systemd | Unit `gerbosari-backend.service` menjalankan binary `release` sebagai user `www`. |
 
@@ -132,7 +132,7 @@ Palet warna sengaja tidak generik: `menoreh` (hijau-teal hutan), `terakota` (mer
 │   ├── seed/*.json             galeri, lowongan, berita, penduduk-ringkasan
 │   └── images/                 cover/, gallery/, peta/
 │
-├── frontend/                   Svelte 4 SPA — di-deploy ke webroot
+├── frontend/                   Svelte 5 SPA — di-deploy ke webroot
 │   └── src/
 │       ├── lib/api/            klien backend (typed fetch wrappers)
 │       ├── lib/components/     layout + primitif UI (Stat, Chip, Tabs, ...)
@@ -153,7 +153,7 @@ Palet warna sengaja tidak generik: `menoreh` (hijau-teal hutan), `terakota` (mer
 
 ## Pengembangan Lokal
 
-Prasyarat: Node 20+, Rust stable, MySQL 8.
+Prasyarat: Node 20+, Rust stable, MySQL 9.
 
 ### Backend
 

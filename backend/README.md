@@ -5,7 +5,7 @@ Backend API for the Desa Gerbosari village profile site. Serves dynamic features
 ## Prerequisites
 
 - Rust stable (toolchain file pins `stable`)
-- MySQL 8.x running locally or reachable from the dev machine
+- MySQL 9.x running locally or reachable from the dev machine
 - `sqlx-cli` is optional; migrations run automatically at startup
 
 ## Setup

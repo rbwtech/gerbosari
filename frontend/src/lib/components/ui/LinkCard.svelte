@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { ComponentType, SvelteComponent } from 'svelte';
-  import { link } from 'svelte-spa-router';
+  import { link } from '../../router';
   import { ArrowRight } from '../icons';
 
   /** Internal SPA route. External URLs should use a plain `<a>` instead. */

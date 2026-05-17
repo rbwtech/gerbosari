@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
   import { fly } from 'svelte/transition';
-  import { location, link } from 'svelte-spa-router';
+  import { location, link } from '../../router';
   import { Menu, X } from '../icons';
 
   interface NavItem {

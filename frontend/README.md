@@ -1,11 +1,11 @@
 # Gerbosari Frontend
 
-SPA profil Desa Gerbosari. Vanilla Svelte 4 + Vite 5 + TypeScript, hash routing via `svelte-spa-router`, styled with Tailwind 3.
+SPA profil Desa Gerbosari. Vanilla Svelte 5 + Vite 8 + TypeScript, hash routing via in-repo hash router (`src/lib/router/`), styled with Tailwind 3.
 
 ## Stack
 
-- Svelte 4 (bukan SvelteKit)
-- Vite 5 + TypeScript
+- Svelte 5 (bukan SvelteKit)
+- Vite 8 + TypeScript
 - Tailwind CSS 3 dengan tema khas Menoreh (menoreh / terakota / krem / arang)
 - Lucide icons (`lucide-svelte`)
 - Leaflet + OpenStreetMap untuk peta

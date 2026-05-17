@@ -26,7 +26,7 @@
     Newspaper
   } from '../lib/components/icons';
 
-  // svelte-spa-router params prop.
+  // Hash router params prop (matched in lib/router).
   export let params: { slug?: string } = {};
 
   let item: Berita | null = null;
