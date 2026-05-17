@@ -188,15 +188,20 @@
     </table>
   </div>
 
-  <!-- Mobile: stack of cards -->
-  <div class="md:hidden space-y-3">
+  <!-- Mobile: stack of cards. Each row becomes a self-contained card with
+       small-caps label / value rows, with action buttons in a sticky footer
+       inside the card. Labels stack above values on phone widths so long
+       Indonesian copy doesn't get squashed into 40% of viewport. -->
+  <div class="md:hidden flex flex-col gap-3">
     {#each sortedRows as row (getId(row))}
       <div class="rounded-lg border border-krem-200 bg-white p-4">
-        <dl class="space-y-2">
+        <dl class="flex flex-col gap-2.5">
           {#each columns.filter((c) => !c.hideOnMobile) as col (col.key)}
-            <div class="flex items-start justify-between gap-3">
-              <dt class="text-xs font-semibold uppercase tracking-wider text-arang-500">{col.label}</dt>
-              <dd class="text-sm text-arang-800 text-right max-w-[60%] break-words">
+            <div class="flex flex-col gap-0.5">
+              <dt class="text-[10px] font-semibold uppercase tracking-wider text-arang-500">
+                {col.label}
+              </dt>
+              <dd class="text-sm text-arang-800 break-words">
                 <slot name="cell" {row} {col}>
                   {#if col.render}
                     {@html col.render(row)}
@@ -209,7 +214,7 @@
           {/each}
         </dl>
         {#if $$slots.mobileActions}
-          <div class="mt-3 pt-3 border-t border-krem-100">
+          <div class="mt-4 pt-3 border-t border-krem-100">
             <slot name="mobileActions" {row} />
           </div>
         {/if}

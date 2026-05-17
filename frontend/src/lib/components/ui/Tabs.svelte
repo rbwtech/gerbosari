@@ -45,10 +45,15 @@
   }
 </script>
 
+<!--
+  Mobile fallback: when tab labels exceed the viewport width, swipe to scroll
+  horizontally. Negative inset margins on small screens let the scroll runway
+  flush to the page edge while keeping desktop alignment unchanged.
+-->
 <div
   role="tablist"
   aria-label={ariaLabel}
-  class="inline-flex items-center gap-1 border-b border-krem-300 {cls}"
+  class="flex items-center gap-1 border-b border-krem-300 overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible {cls}"
 >
   {#each tabs as tab, i (tab.id)}
     {@const active = tab.id === value}
@@ -60,7 +65,7 @@
       aria-selected={active}
       aria-controls={`panel-${tab.id}`}
       tabindex={active ? 0 : -1}
-      class="relative px-4 h-11 text-sm font-medium transition-colors duration-200 ease-out
+      class="relative shrink-0 px-4 h-11 min-h-11 text-sm font-medium transition-colors duration-200 ease-out
              {active ? 'text-menoreh-800' : 'text-arang-700 hover:text-menoreh-700'}"
       on:click={() => select(tab.id)}
       on:keydown={(e) => onKeydown(e, i)}

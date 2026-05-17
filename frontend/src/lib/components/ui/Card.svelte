@@ -8,10 +8,12 @@
   let cls = '';
   export { cls as class };
 
+  // Responsive padding scale: mobile uses a tighter step so 360px viewports
+  // don't feel cramped at the edges, while desktop keeps the airy rhythm.
   const paddings: Record<string, string> = {
-    sm: 'p-4',
-    md: 'p-6',
-    lg: 'p-8'
+    sm: 'p-4 md:p-5',
+    md: 'p-5 md:p-6',
+    lg: 'p-6 md:p-8'
   };
 
   // No drop shadows - flat surface with 1px border, subtle hover swap.

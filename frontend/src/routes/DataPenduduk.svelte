@@ -111,7 +111,7 @@
   description="Ringkasan demografis 19 pedukuhan."
 />
 
-<!-- Summary stats on hijau mist — signals civic / landscape framing. -->
+<!-- Summary stats on hijau mist - signals civic / landscape framing. -->
 <SectionShell variant="mist" padding="md">
   <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
     {#if loading}
@@ -179,7 +179,7 @@
           title="Perempuan: {nf.format(totalPerempuan)} jiwa ({pf.format(pctPerempuan)}%)"
         ></div>
       </div>
-      <div class="flex flex-wrap gap-x-6 gap-y-1 text-sm text-arang-700">
+      <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-arang-700">
         <span class="inline-flex items-center gap-2">
           <span class="inline-block h-2.5 w-2.5 rounded-full bg-menoreh-600" aria-hidden="true"></span>
           Laki-laki <span class="tnum text-arang-500">{pf.format(pctLaki)}%</span>
@@ -193,10 +193,10 @@
   </SectionShell>
 {/if}
 
-<!-- Per-pedukuhan table on batik motif — reads like printed civic document. -->
+<!-- Per-pedukuhan table on batik motif - reads like printed civic document. -->
 <SectionShell variant="batik" padding="lg">
   <div class="space-y-4">
-    <div class="flex items-baseline justify-between">
+    <div class="flex flex-wrap items-baseline justify-between gap-2">
       <h2 class="font-serif text-xl font-semibold text-arang-900">Sebaran per Pedukuhan</h2>
       {#if !loading && ringkasan}
         <span class="text-xs uppercase tracking-widest text-arang-500 tnum">
@@ -204,6 +204,36 @@
         </span>
       {/if}
     </div>
+
+    <!-- Mobile-only sort selector: replaces sortable table headers on narrow viewports. -->
+    {#if !loading && ringkasan && sortedPedukuhan.length > 0}
+      <div class="md:hidden flex items-center gap-2">
+        <label class="flex flex-1 items-center gap-2 text-sm text-arang-700">
+          <span class="text-xs font-semibold uppercase tracking-widest text-arang-500 flex-none">Urutkan</span>
+          <select
+            bind:value={sortKey}
+            class="h-11 flex-1 rounded-md border border-krem-300 bg-white px-2 text-base text-arang-900 focus:border-menoreh-500"
+            aria-label="Urutkan per pedukuhan"
+          >
+            {#each cols as col (col.key)}
+              <option value={col.key}>{col.label}</option>
+            {/each}
+          </select>
+        </label>
+        <button
+          type="button"
+          on:click={() => (sortDir = sortDir === 'asc' ? 'desc' : 'asc')}
+          class="inline-flex items-center gap-1 min-h-11 h-11 px-3 rounded-md border border-krem-300 bg-white text-sm text-arang-700"
+          aria-label={sortDir === 'asc' ? 'Urutan naik' : 'Urutan turun'}
+        >
+          {#if sortDir === 'asc'}
+            <ChevronUp class="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+          {:else}
+            <ChevronDown class="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+          {/if}
+        </button>
+      </div>
+    {/if}
 
     {#if loading}
       <!-- Loading: table skeleton -->
@@ -295,20 +325,20 @@
       <ul class="md:hidden space-y-3" aria-label="Daftar pedukuhan">
         {#each sortedPedukuhan as row (row.pedukuhan)}
           <li class="rounded-lg border border-krem-200 bg-white p-4">
-            <div class="flex items-center justify-between">
-              <h3 class="font-medium text-arang-900">{row.pedukuhan}</h3>
-              <span class="text-xs uppercase tracking-widest text-arang-500">Total {nf.format(row.total_penduduk)}</span>
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h3 class="font-medium text-arang-900 break-words min-w-0">{row.pedukuhan}</h3>
+              <span class="text-xs uppercase tracking-widest text-arang-500 tnum">Total {nf.format(row.total_penduduk)}</span>
             </div>
             <dl class="mt-3 grid grid-cols-3 gap-3 text-sm">
-              <div>
+              <div class="min-w-0">
                 <dt class="text-[0.65rem] uppercase tracking-widest text-arang-500">KK</dt>
                 <dd class="tnum font-medium text-arang-900">{nf.format(row.total_kk)}</dd>
               </div>
-              <div>
+              <div class="min-w-0">
                 <dt class="text-[0.65rem] uppercase tracking-widest text-arang-500">Laki</dt>
                 <dd class="tnum font-medium text-arang-900">{nf.format(row.total_laki)}</dd>
               </div>
-              <div>
+              <div class="min-w-0">
                 <dt class="text-[0.65rem] uppercase tracking-widest text-arang-500">Perempuan</dt>
                 <dd class="tnum font-medium text-arang-900">{nf.format(row.total_perempuan)}</dd>
               </div>
@@ -316,20 +346,20 @@
           </li>
         {/each}
         <li class="rounded-lg border border-arang-200 bg-krem-100/70 p-4">
-          <div class="flex items-center justify-between">
+          <div class="flex flex-wrap items-center justify-between gap-2">
             <h3 class="text-xs font-semibold uppercase tracking-widest text-arang-700">Jumlah</h3>
             <span class="tnum font-semibold text-arang-900">{nf.format(totalPenduduk)} jiwa</span>
           </div>
           <dl class="mt-3 grid grid-cols-3 gap-3 text-sm">
-            <div>
+            <div class="min-w-0">
               <dt class="text-[0.65rem] uppercase tracking-widest text-arang-500">KK</dt>
               <dd class="tnum font-semibold text-arang-900">{nf.format(totalKK)}</dd>
             </div>
-            <div>
+            <div class="min-w-0">
               <dt class="text-[0.65rem] uppercase tracking-widest text-arang-500">Laki</dt>
               <dd class="tnum font-semibold text-arang-900">{nf.format(totalLaki)}</dd>
             </div>
-            <div>
+            <div class="min-w-0">
               <dt class="text-[0.65rem] uppercase tracking-widest text-arang-500">Perempuan</dt>
               <dd class="tnum font-semibold text-arang-900">{nf.format(totalPerempuan)}</dd>
             </div>
@@ -343,7 +373,7 @@
 <!-- Catatan kaki: small muted text, no shell wrap. -->
 {#if !loading && ringkasan}
   <div class="container-page py-6">
-    <p class="text-xs italic text-arang-500 leading-relaxed max-w-prose">
+    <p class="text-xs italic text-arang-500 leading-relaxed max-w-prose break-words">
       {#if ringkasan?.per_pedukuhan?.[0]?.updated_at}
         Data diperbarui {formatTanggal(ringkasan.per_pedukuhan[0].updated_at)}.
       {/if}

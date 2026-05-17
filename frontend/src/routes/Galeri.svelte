@@ -154,7 +154,7 @@
           type="button"
           on:click={() => setKategori(null)}
           aria-pressed={activeKategori === null}
-          class="inline-flex items-center gap-2 h-9 px-3.5 rounded-full text-sm border transition-colors {activeKategori === null
+          class="inline-flex flex-none items-center gap-2 min-h-11 h-11 px-4 rounded-full text-sm border transition-colors {activeKategori === null
             ? 'bg-arang-900 text-krem-50 border-arang-900'
             : 'bg-white text-arang-700 border-krem-200 hover:border-arang-300'}"
         >
@@ -167,7 +167,7 @@
             type="button"
             on:click={() => setKategori(k)}
             aria-pressed={isActive}
-            class="inline-flex items-center gap-2 h-9 px-3.5 rounded-full text-sm border transition-colors {isActive
+            class="inline-flex flex-none items-center gap-2 min-h-11 h-11 px-4 rounded-full text-sm border transition-colors {isActive
               ? 'bg-arang-900 text-krem-50 border-arang-900'
               : 'bg-white text-arang-700 border-krem-200 hover:border-arang-300'}"
           >
@@ -183,9 +183,9 @@
 <!-- Grid surface: slightly cooler krem-100 makes the images visually dominant. -->
 <SectionShell variant="default" padding="lg" class="bg-krem-100">
   {#if loading}
-    <div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4">
+    <div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-3 sm:gap-4">
       {#each Array(8) as _, i (i)}
-        <div class="mb-4 break-inside-avoid" style="height:{180 + ((i * 47) % 140)}px">
+        <div class="mb-3 sm:mb-4 break-inside-avoid" style="height:{180 + ((i * 47) % 140)}px">
           <Skeleton class="w-full h-full rounded-lg" />
         </div>
       {/each}
@@ -196,7 +196,7 @@
       title="Tidak dapat memuat galeri"
       description={errorMessage}
     >
-      <Button variant="secondary" size="sm" on:click={load}>Coba lagi</Button>
+      <Button variant="secondary" size="sm" on:click={load} class="min-h-11 w-full sm:w-auto">Coba lagi</Button>
     </EmptyState>
   {:else if items.length === 0}
     <EmptyState
@@ -210,15 +210,15 @@
       title="Tidak ada foto pada kategori ini"
       description="Pilih kategori lain atau kembali ke Semua untuk melihat seluruh dokumentasi."
     >
-      <Button variant="secondary" size="sm" on:click={() => setKategori(null)}>Lihat semua</Button>
+      <Button variant="secondary" size="sm" on:click={() => setKategori(null)} class="min-h-11 w-full sm:w-auto">Lihat semua</Button>
     </EmptyState>
   {:else}
-    <div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4">
+    <div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-3 sm:gap-4">
       {#each filtered as item, i (item.id)}
         <button
           type="button"
           on:click={(e) => openLightbox(i, e.currentTarget)}
-          class="group relative mb-4 block w-full break-inside-avoid overflow-hidden rounded-lg border border-krem-200 bg-white text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-menoreh-500 focus-visible:ring-offset-2"
+          class="group relative mb-3 sm:mb-4 block w-full break-inside-avoid overflow-hidden rounded-lg border border-krem-200 bg-white text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-menoreh-500 focus-visible:ring-offset-2"
           aria-label={`Buka foto: ${item?.judul ?? ''}`}
         >
           <img
@@ -226,7 +226,7 @@
             alt={item.judul}
             loading="lazy"
             decoding="async"
-            class="block w-full h-auto"
+            class="block w-full h-auto max-w-full"
           />
           <!-- Hover gradient overlay with caption -->
           <div
@@ -254,7 +254,7 @@
     aria-label={active.judul}
   >
     <!-- Top bar -->
-    <div class="flex items-center justify-between px-4 md:px-6 py-3 text-krem-50">
+    <div class="flex items-center justify-between px-3 md:px-6 py-2 md:py-3 text-krem-50">
       <div class="flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-krem-100/70">
         <ImageIcon class="w-3.5 h-3.5" strokeWidth={1.75} />
         {(lightboxIndex ?? 0) + 1} / {filtered.length}
@@ -264,14 +264,14 @@
         type="button"
         on:click={closeLightbox}
         aria-label="Tutup"
-        class="inline-flex h-10 w-10 items-center justify-center rounded-full text-krem-50 hover:bg-krem-50/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-krem-50"
+        class="inline-flex min-h-11 min-w-11 h-11 w-11 items-center justify-center rounded-full text-krem-50 hover:bg-krem-50/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-krem-50"
       >
         <X class="w-5 h-5" strokeWidth={2} />
       </button>
     </div>
 
     <!-- Image area -->
-    <div class="flex-1 flex items-center justify-center gap-3 md:gap-6 px-4 md:px-6 min-h-0">
+    <div class="flex-1 flex items-center justify-center gap-3 md:gap-6 px-3 md:px-6 min-h-0">
       <button
         type="button"
         on:click={prev}
@@ -284,7 +284,7 @@
       <img
         src={active.file_path}
         alt={active.judul}
-        class="max-w-7xl max-h-[calc(100vh-12rem)] w-auto h-auto object-contain rounded"
+        class="max-w-full max-h-[calc(100vh-180px)] md:max-h-[calc(100vh-12rem)] md:max-w-7xl w-auto h-auto object-contain rounded"
       />
 
       <button
@@ -298,7 +298,7 @@
     </div>
 
     <!-- Caption -->
-    <div class="px-4 md:px-8 py-5 md:py-6 border-t border-krem-50/10 bg-arang-900/60 backdrop-blur-sm">
+    <div class="px-3 md:px-8 py-4 md:py-6 border-t border-krem-50/10 bg-arang-900/60 backdrop-blur-sm">
       <div class="max-w-4xl mx-auto">
         <div class="flex flex-wrap items-center gap-2 mb-2">
           <Badge variant={(active.kategori ?? '').toLowerCase()}>{normalize(active.kategori)}</Badge>
@@ -309,31 +309,33 @@
             </span>
           {/if}
         </div>
-        <h2 class="font-serif text-xl md:text-2xl font-semibold text-krem-50 leading-snug">
+        <h2 class="font-serif text-lg sm:text-xl md:text-2xl font-semibold text-krem-50 leading-snug max-w-prose break-words">
           {active.judul}
         </h2>
         {#if active.deskripsi}
-          <p class="mt-2 text-sm text-krem-100/80 leading-relaxed max-w-2xl">{active.deskripsi}</p>
+          <p class="mt-2 text-sm md:text-base text-krem-100/80 leading-relaxed max-w-prose break-words">{active.deskripsi}</p>
         {/if}
       </div>
 
-      <!-- Mobile prev/next under caption -->
-      <div class="md:hidden mt-4 flex items-center justify-between max-w-4xl mx-auto">
+      <!-- Mobile prev/next under caption: full-width tap targets -->
+      <div class="md:hidden mt-4 flex items-center gap-3 max-w-4xl mx-auto">
         <button
           type="button"
           on:click={prev}
           aria-label="Foto sebelumnya"
-          class="inline-flex h-10 w-10 items-center justify-center rounded-full text-krem-50 bg-krem-50/10 hover:bg-krem-50/20"
+          class="inline-flex flex-1 min-h-11 h-11 items-center justify-center gap-2 rounded-full text-sm text-krem-50 bg-krem-50/10 hover:bg-krem-50/20"
         >
-          <ArrowLeft class="w-5 h-5" strokeWidth={2} />
+          <ArrowLeft class="w-4 h-4" strokeWidth={2} />
+          Sebelumnya
         </button>
         <button
           type="button"
           on:click={next}
           aria-label="Foto berikutnya"
-          class="inline-flex h-10 w-10 items-center justify-center rounded-full text-krem-50 bg-krem-50/10 hover:bg-krem-50/20"
+          class="inline-flex flex-1 min-h-11 h-11 items-center justify-center gap-2 rounded-full text-sm text-krem-50 bg-krem-50/10 hover:bg-krem-50/20"
         >
-          <ArrowRight class="w-5 h-5" strokeWidth={2} />
+          Berikutnya
+          <ArrowRight class="w-4 h-4" strokeWidth={2} />
         </button>
       </div>
     </div>

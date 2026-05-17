@@ -105,7 +105,7 @@
     L.control.scale({ imperial: false, position: 'bottomleft' }).addTo(mapInstance);
 
     // Village boundary polygon (scaled visual reconstruction, ~966 ha).
-    // Not survey-grade — replace with BPN/BPS GeoJSON when available.
+    // Not survey-grade - replace with BPN/BPS GeoJSON when available.
     if (boundaryPolygon.length >= 3) {
       L.polygon(boundaryPolygon, {
         color: '#2f5233',
@@ -121,33 +121,21 @@
         .addTo(mapInstance);
     }
 
-    // Cardinal-direction boundary markers (small triangles via divIcon).
+    // Cardinal-direction boundary markers (small ring badges via divIcon).
+    const batasIconStyle =
+      'width:22px;height:22px;border-radius:50%;background:#fff;border:2px solid #244226;' +
+      'display:flex;align-items:center;justify-content:center;font-family:Inter,system-ui,sans-serif;' +
+      'font-size:10px;font-weight:700;color:#244226;letter-spacing:.04em';
     batasPoints.forEach((b) => {
       const icon = L.divIcon({
         className: 'gerbosari-batas-icon',
-        html: `<div style="
-          width:22px;height:22px;border-radius:50%;
-          background:#fff;border:2px solid #244226;
-          display:flex;align-items:center;justify-content:center;
-          font-family:Inter,system-ui,sans-serif;font-size:10px;font-weight:700;
-          color:#244226;letter-spacing:.04em;
-        ">${b.arah.charAt(0).toUpperCase()}</div>`,
+        html: `<div style="${batasIconStyle}">${b.arah.charAt(0).toUpperCase()}</div>`,
         iconSize: [22, 22],
         iconAnchor: [11, 11]
       });
       L.marker([b.lat, b.lon], { icon })
         .bindPopup(
-          `<div style="font-family:Inter,system-ui,sans-serif;min-width:200px">
-             <div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#9a4a2c;font-weight:600">
-               Batas ${escapeHtml(b.arah)}
-             </div>
-             <div style="margin-top:4px;color:#1a1816;font-weight:500;line-height:1.4">
-               ${escapeHtml(b.berbatasan_dengan)}
-             </div>
-             <div style="margin-top:6px;font-size:11px;color:#7a6a5c;font-family:'JetBrains Mono',ui-monospace,monospace">
-               ${b.lat.toFixed(6)}, ${b.lon.toFixed(6)}
-             </div>
-           </div>`
+          `<div style="font-family:Inter,system-ui,sans-serif;min-width:200px"><div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#9a4a2c;font-weight:600">Batas ${escapeHtml(b.arah)}</div><div style="margin-top:4px;color:#1a1816;font-weight:500;line-height:1.4">${escapeHtml(b.berbatasan_dengan)}</div><div style="margin-top:6px;font-size:11px;color:#7a6a5c;font-family:'JetBrains Mono',ui-monospace,monospace">${b.lat.toFixed(6)}, ${b.lon.toFixed(6)}</div></div>`
         )
         .addTo(mapInstance!);
     });
@@ -161,16 +149,7 @@
       fillOpacity: 1
     })
       .bindPopup(
-        `<div style="font-family:Inter,system-ui,sans-serif;min-width:220px">
-           <div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#9a4a2c;font-weight:600">
-             Kantor Kelurahan
-           </div>
-           <div style="margin-top:4px;font-weight:600;color:#1a1816">Desa Gerbosari</div>
-           <div style="margin-top:4px;color:#52493f;font-size:12px;line-height:1.5">${escapeHtml(officeLabel)}</div>
-           <div style="margin-top:6px;font-size:11px;color:#7a6a5c;font-family:'JetBrains Mono',ui-monospace,monospace">
-             ${center[0].toFixed(6)}, ${center[1].toFixed(6)}
-           </div>
-         </div>`
+        `<div style="font-family:Inter,system-ui,sans-serif;min-width:220px"><div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#9a4a2c;font-weight:600">Kantor Kelurahan</div><div style="margin-top:4px;font-weight:600;color:#1a1816">Desa Gerbosari</div><div style="margin-top:4px;color:#52493f;font-size:12px;line-height:1.5">${escapeHtml(officeLabel)}</div><div style="margin-top:6px;font-size:11px;color:#7a6a5c;font-family:'JetBrains Mono',ui-monospace,monospace">${center[0].toFixed(6)}, ${center[1].toFixed(6)}</div></div>`
       )
       .addTo(mapInstance);
 
@@ -196,13 +175,7 @@
         fillOpacity: estimasi ? 0.3 : 0.55,
         dashArray: estimasi ? '3 2' : undefined
       }).bindPopup(
-        `<div style="font-family:Inter,system-ui,sans-serif;min-width:200px">
-           <div style="font-weight:600;color:#1a1816">${escapeHtml(p.nama)}</div>
-           <div style="margin-top:2px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9a4a2c">
-             ${z ? `Zona ${romanZona[z]}` : 'Transisi'}${estimasi ? ' &middot; lokasi perkiraan' : ''}
-           </div>
-           ${p.deskripsi ? `<div style="margin-top:6px;color:#52493f;font-size:12px;line-height:1.5">${escapeHtml(p.deskripsi)}</div>` : ''}
-         </div>`
+        `<div style="font-family:Inter,system-ui,sans-serif;min-width:200px"><div style="font-weight:600;color:#1a1816">${escapeHtml(p.nama)}</div><div style="margin-top:2px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9a4a2c">${z ? `Zona ${romanZona[z]}` : 'Transisi'}${estimasi ? ' &middot; lokasi perkiraan' : ''}</div>${p.deskripsi ? `<div style="margin-top:6px;color:#52493f;font-size:12px;line-height:1.5">${escapeHtml(p.deskripsi)}</div>` : ''}</div>`
       );
       m.addTo(mapInstance!);
       markerByName.set(p.nama, m);
@@ -295,34 +268,42 @@
   description="Lereng perbukitan Menoreh, ketinggian 400-900 m dpl, 19 pedukuhan terbagi dalam 4 kawasan pembangunan."
 />
 
-<section class="container-page py-12 md:py-16 space-y-14">
-  <!-- Quick facts strip -->
+<!-- Quick facts on hijau mist - signals geography section. -->
+<SectionShell variant="mist" padding="sm">
   <div class="-mx-6 md:mx-0 overflow-x-auto md:overflow-visible">
     <ul class="flex md:grid md:grid-cols-5 gap-3 px-6 md:px-0 min-w-max md:min-w-0">
       {#each quickFacts as fact}
         <li
-          class="flex-none md:flex-auto min-w-[160px] rounded-lg border border-krem-200 bg-white px-4 py-3"
+          class="flex-none md:flex-auto min-w-[160px] md:min-w-0 rounded-lg border border-krem-200 bg-white px-4 py-3"
           title={fact.hint ?? ''}
         >
           <div class="text-[11px] font-semibold uppercase tracking-[0.14em] text-terakota-600">{fact.label}</div>
-          <div class="mt-1 text-lg font-semibold text-arang-900 tnum">{fact.value}</div>
+          <div class="mt-1 text-lg font-semibold text-arang-900 tnum break-words">{fact.value}</div>
         </li>
       {/each}
     </ul>
   </div>
+</SectionShell>
 
-  <!-- Map -->
-  <div>
-    <div class="rounded-xl border border-krem-200 bg-white overflow-hidden">
-      <div
-        bind:this={mapEl}
-        class="h-[360px] md:h-[480px] lg:h-[560px] w-full"
-        aria-label="Peta interaktif Desa Gerbosari"
-      ></div>
-    </div>
-    <!-- Legend & filter chips -->
-    <div class="mt-5 flex flex-wrap items-center gap-2">
-      <span class="text-xs font-semibold uppercase tracking-[0.14em] text-arang-700/70 mr-1">Filter zona</span>
+<!-- Map: plain container, neutral white wrapper so Leaflet controls breathe.
+     overflow-hidden on the wrapper is critical — without it Leaflet tiles
+     can spill past the SectionShell into the page sidebar/viewport edge on
+     narrow screens. -->
+<div class="container-page py-8 md:py-10 overflow-hidden">
+  <div class="rounded-xl border border-krem-200 bg-white overflow-hidden w-full max-w-full">
+    <div
+      bind:this={mapEl}
+      class="w-full max-w-full h-[55vh] sm:h-[480px] md:h-[520px] lg:h-[560px] rounded-lg overflow-hidden border border-krem-200"
+      aria-label="Peta interaktif Desa Gerbosari"
+    ></div>
+  </div>
+</div>
+
+<!-- Legend + filter chips strip. -->
+<SectionShell variant="default" padding="sm">
+  <div class="-mx-4 px-4 sm:mx-0 sm:px-0 overflow-x-auto sm:overflow-visible">
+    <div class="flex items-center gap-2 min-w-max sm:min-w-0 sm:flex-wrap">
+      <span class="text-xs font-semibold uppercase tracking-[0.14em] text-arang-700/70 mr-1 flex-none">Filter zona</span>
       {#each [1, 2, 3, 4] as z (z)}
         {@const key = z as ZonaKey}
         {@const active = activeZones.has(key)}
@@ -330,7 +311,7 @@
         <button
           type="button"
           on:click={() => toggleZone(key)}
-          class="inline-flex items-center gap-2 h-8 pl-1.5 pr-3 rounded-full text-sm border transition-colors {active
+          class="inline-flex flex-none items-center gap-2 min-h-11 h-11 pl-2 pr-3 rounded-full text-sm border transition-colors {active
             ? 'bg-arang-900 text-krem-50 border-arang-900'
             : 'bg-white text-arang-700 border-krem-200 hover:border-arang-300'}"
           aria-pressed={active}
@@ -346,75 +327,14 @@
       {/each}
     </div>
   </div>
-
-  <!-- Daftar Pedukuhan per Kawasan -->
-  <section>
-    <div class="mb-6">
-      <p class="eyebrow">Pembagian Kawasan</p>
-      <h2 class="mt-2 font-serif text-2xl md:text-3xl font-semibold text-arang-900">Daftar Pedukuhan</h2>
-      <p class="mt-2 text-arang-700 max-w-2xl">
-        Empat zona pembangunan yang mengelompokkan sembilan belas pedukuhan menurut potensi pertanian, kebudayaan, dan kerajinan.
-      </p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-      {#each groupedByZona as group (group.nomor)}
-        {@const meta = zonaMeta[group.nomor]}
-        {@const Icon = meta.icon}
-        {@const dim = !activeZones.has(group.nomor)}
-        <div
-          class="rounded-xl border border-krem-200 bg-white overflow-hidden transition-opacity {dim ? 'opacity-50' : ''}"
-        >
-          <header class="flex items-start gap-3 p-5 border-b border-krem-200">
-            <span
-              class="font-serif text-4xl leading-none font-semibold"
-              style="color:{meta.color}"
-              aria-hidden="true">{romanZona[group.nomor]}</span
-            >
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-arang-700/70">
-                <Icon class="w-3.5 h-3.5" strokeWidth={1.75} />
-                {zonaMeta[group.nomor].theme}
-              </div>
-              <p class="mt-1 text-sm text-arang-700 leading-snug line-clamp-3">{group.tema}</p>
-            </div>
-          </header>
-          <ul class="divide-y divide-krem-200">
-            {#each group.items as p (p.nama)}
-              <li>
-                <button
-                  type="button"
-                  on:click={() => focusPedukuhan(p.nama)}
-                  on:mouseenter={() => focusPedukuhan(p.nama)}
-                  class="w-full text-left px-5 py-3 hover:bg-krem-50 transition-colors {$selected === p.nama ? 'bg-krem-100' : ''}"
-                >
-                  <div class="flex items-center justify-between gap-3">
-                    <span class="font-medium text-arang-900">{p.nama}</span>
-                    <MapPin class="w-3.5 h-3.5 text-arang-700/40 flex-none" strokeWidth={1.75} />
-                  </div>
-                  {#if p.deskripsi}
-                    <p class="mt-1 text-xs text-arang-700/80 leading-relaxed line-clamp-2">{p.deskripsi}</p>
-                  {/if}
-                </button>
-              </li>
-            {/each}
-            {#if group.items.length === 0}
-              <li class="px-5 py-4 text-xs text-arang-700/60 italic">Belum ada pedukuhan terdata.</li>
-            {/if}
-          </ul>
-        </div>
-      {/each}
-    </div>
-  </section>
-
-  <!-- Batas wilayah ringkas -->
-  <Card padding="lg" class="bg-krem-50">
+  <!-- Batas wilayah ringkas - compact summary alongside the legend. -->
+  <Card padding="md" class="mt-8 bg-krem-50">
     <div class="flex items-center gap-2 mb-4">
       <Compass class="w-4 h-4 text-terakota-600" strokeWidth={1.75} />
       <span class="text-xs font-semibold uppercase tracking-[0.14em] text-terakota-600">Batas Wilayah</span>
     </div>
     <dl class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
-      {#each [['Utara', data.batas.utara], ['Timur', data.batas.timur], ['Selatan', data.batas.selatan], ['Barat', data.batas.barat]] as [arah, isi]}
+      {#each [['Utara', data?.batas?.utara], ['Timur', data?.batas?.timur], ['Selatan', data?.batas?.selatan], ['Barat', data?.batas?.barat]] as [arah, isi]}
         <div>
           <dt class="text-[11px] font-semibold uppercase tracking-[0.14em] text-arang-700/60">{arah}</dt>
           <dd class="mt-1 text-arang-900">{isi}</dd>
@@ -422,10 +342,74 @@
       {/each}
     </dl>
   </Card>
+</SectionShell>
 
-  <!-- Profil Suroloyo -->
-  {#if suroloyo}
-    <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+
+<!-- Daftar Pedukuhan on batik motif - each zona column carries an accent border-top. -->
+<SectionShell variant="batik" padding="lg">
+  <div class="mb-6">
+    <p class="eyebrow">Pembagian Kawasan</p>
+    <h2 class="mt-2 font-serif text-2xl md:text-3xl font-semibold text-arang-900">Daftar Pedukuhan</h2>
+    <p class="mt-2 text-arang-700 max-w-2xl">
+      Empat zona pembangunan yang mengelompokkan sembilan belas pedukuhan menurut potensi pertanian, kebudayaan, dan kerajinan.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+    {#each groupedByZona as group (group.nomor)}
+      {@const meta = zonaMeta[group.nomor]}
+      {@const Icon = meta.icon}
+      {@const dim = !activeZones.has(group.nomor)}
+      <div
+        class="rounded-xl border border-krem-200 bg-white overflow-hidden transition-opacity {dim ? 'opacity-50' : ''}"
+        style="border-top:3px solid {meta.color}"
+      >
+        <header class="flex items-start gap-3 p-4 sm:p-5 border-b border-krem-200">
+          <span
+            class="font-serif text-4xl leading-none font-semibold flex-none"
+            style="color:{meta.color}"
+            aria-hidden="true">{romanZona[group.nomor]}</span
+          >
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-arang-700/70">
+              <Icon class="w-3.5 h-3.5 flex-none" strokeWidth={1.75} />
+              <span class="break-words">{zonaMeta[group.nomor].theme}</span>
+            </div>
+            <p class="mt-1 text-sm text-arang-700 leading-snug line-clamp-3 break-words">{group.tema}</p>
+          </div>
+        </header>
+        <ul class="divide-y divide-krem-200">
+          {#each group.items as p (p.nama)}
+            <li>
+              <button
+                type="button"
+                on:click={() => focusPedukuhan(p.nama)}
+                on:mouseenter={() => focusPedukuhan(p.nama)}
+                class="w-full text-left px-4 sm:px-5 py-3 min-h-11 hover:bg-krem-50 transition-colors {$selected === p.nama ? 'bg-krem-100' : ''}"
+              >
+                <div class="flex items-center justify-between gap-3">
+                  <span class="font-medium text-arang-900 break-words min-w-0">{p.nama}</span>
+                  <MapPin class="w-3.5 h-3.5 text-arang-700/40 flex-none" strokeWidth={1.75} />
+                </div>
+                {#if p.deskripsi}
+                  <p class="mt-1 text-xs text-arang-700/80 leading-relaxed line-clamp-2 break-words">{p.deskripsi}</p>
+                {/if}
+              </button>
+            </li>
+          {/each}
+          {#if group.items.length === 0}
+            <li class="px-4 sm:px-5 py-4 text-xs text-arang-700/60 italic">Belum ada pedukuhan terdata.</li>
+          {/if}
+        </ul>
+      </div>
+    {/each}
+  </div>
+</SectionShell>
+
+<!-- Profil Suroloyo: warm tanah-paper biome befits the heritage / kahyangan tone. -->
+{#if suroloyo}
+  <SectionShell variant="tanah" padding="lg">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
       <figure class="rounded-xl overflow-hidden border border-krem-200 bg-krem-100 aspect-[4/3]">
         <img
           src="/images/gallery/gerbosari-puncak-suroloyo.png"
@@ -445,14 +429,14 @@
           Wisata Unggulan
         </p>
         <h2 class="mt-2 font-serif text-2xl md:text-3xl font-semibold text-arang-900">
-          {suroloyo.nama}
+          {suroloyo?.nama ?? ''}
         </h2>
         <div class="mt-3 flex flex-wrap items-center gap-2 text-sm text-arang-700">
           <Badge variant="wisata">{suroloyo.ketinggian_m_dpl} m dpl</Badge>
           <span>·</span>
           <span>Pedukuhan {suroloyo.lokasi_pedukuhan}</span>
         </div>
-        <p class="mt-4 text-arang-700 leading-relaxed">{suroloyo.deskripsi}</p>
+        <p class="mt-4 text-arang-700 leading-relaxed">{suroloyo?.deskripsi ?? ''}</p>
 
         <div class="mt-6">
           <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-arang-700/70">
@@ -462,10 +446,10 @@
             {#each arahPandang as item}
               <li class="flex gap-3 text-sm">
                 <span
-                  class="flex-none w-16 font-medium text-terakota-700 uppercase text-[11px] tracking-[0.14em] pt-0.5"
+                  class="flex-none w-14 sm:w-16 font-medium text-terakota-700 uppercase text-[11px] tracking-[0.14em] pt-0.5"
                   >{item.arah}</span
                 >
-                <span class="text-arang-800 leading-relaxed">{item.isi}</span>
+                <span class="text-arang-800 leading-relaxed break-words min-w-0">{item.isi}</span>
               </li>
             {/each}
           </ul>
@@ -488,14 +472,19 @@
           </div>
         {/if}
       </div>
-    </section>
-  {/if}
-</section>
+    </div>
+  </SectionShell>
+{/if}
 
 <style>
   /* Leaflet popups + container - keep typography consistent with the rest of
-     the site. The leaflet base CSS is already imported globally in app.css. */
+     the site. The leaflet base CSS is already imported globally in app.css.
+     Critical: forcing width/max-width on .leaflet-container prevents tile
+     images from forcing the parent past the viewport edge on mobile. */
   :global(.leaflet-container) {
+    width: 100% !important;
+    max-width: 100%;
+    height: 100% !important;
     font-family: 'Inter', system-ui, sans-serif;
     background: #f5ebe0;
   }
@@ -505,6 +494,7 @@
   }
   :global(.leaflet-popup-content) {
     margin: 12px 14px;
+    max-width: 240px;
   }
   :global(.leaflet-control-attribution) {
     background: rgba(255, 255, 255, 0.85);

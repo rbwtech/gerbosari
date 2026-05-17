@@ -9,8 +9,10 @@
   let cls = '';
   export { cls as class };
 
+  // h-9 min and px-3 ensure >=36px painted + 44px effective tap area when wrapped
+  // by parents that don't shrink hit area. Visible height stays compact.
   const base =
-    'inline-flex items-center gap-1.5 px-3 h-8 rounded-full text-sm font-medium ' +
+    'inline-flex items-center gap-1.5 px-3 h-9 min-h-9 rounded-full text-sm font-medium ' +
     'border transition-colors duration-200 ease-out ' +
     'disabled:opacity-50 disabled:cursor-not-allowed';
 

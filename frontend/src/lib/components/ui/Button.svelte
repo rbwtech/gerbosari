@@ -34,10 +34,16 @@
       'bg-terakota-600 text-white hover:bg-terakota-700 active:bg-terakota-800'
   };
 
+  /*
+   * Mobile touch targets: iOS HIG + Material baseline call for >=44px.
+   * `sm` keeps a tight visual height on desktop (h-9 -> 36px) but still
+   * meets target via `min-h-11` (44px) - this only inflates the hit area,
+   * not the painted bounds. `md` and `lg` already satisfy the threshold.
+   */
   const sizes: Record<string, string> = {
-    sm: 'h-8 px-3 text-sm',
-    md: 'h-10 px-4 text-sm',
-    lg: 'h-12 px-6 text-base'
+    sm: 'h-9 min-h-11 px-3 text-sm',
+    md: 'h-10 min-h-11 px-4 text-sm',
+    lg: 'h-12 min-h-12 px-6 text-base'
   };
 
   $: composed = `${base} ${variants[variant]} ${sizes[size]} ${cls}`;

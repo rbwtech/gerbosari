@@ -89,47 +89,51 @@
     aria-hidden="true"
   ></div>
 
-  <div class="container-page pt-24 pb-20 md:pt-32 md:pb-28 text-krem-50">
-    <p class="eyebrow !text-terakota-300">
+  <div class="container-page pt-20 pb-16 md:pt-32 md:pb-28 text-krem-50">
+    <p class="eyebrow !text-terakota-300 break-words">
       Kabupaten Kulon Progo &middot; Daerah Istimewa Yogyakarta
     </p>
     <h1
       id="hero-title"
-      class="mt-4 font-serif text-5xl md:text-7xl font-semibold leading-[1.05] text-balance max-w-4xl text-krem-50"
+      class="mt-4 font-serif text-4xl md:text-7xl font-semibold leading-[1.05] text-balance max-w-4xl text-krem-50 break-words"
     >
       {hero?.judul ?? 'Desa Gerbosari'}
     </h1>
-    <p class="mt-5 font-serif text-xl md:text-2xl italic text-krem-100/95 max-w-3xl text-balance">
-      {hero?.subjudul ?? 'Sejahtera Mandiri'} - {hero?.tagline ?? 'Desa Wisata Berbasis Budaya dan Ekonomi Kreatif'}
+    <p class="mt-5 font-serif text-lg md:text-2xl italic text-krem-100/95 max-w-3xl text-balance break-words">
+      {hero?.subjudul ?? 'Sejahtera Mandiri'} &middot; {hero?.tagline ?? 'Desa Wisata Berbasis Budaya dan Ekonomi Kreatif'}
     </p>
 
     <!-- Honor mention pill row -->
     <ul class="mt-8 flex flex-wrap gap-2">
       <li>
         <span class="inline-flex items-center gap-2 rounded-full border border-krem-50/25 bg-krem-50/10 px-3 py-1 text-xs font-medium text-krem-50 backdrop-blur-sm">
-          <Sparkles class="h-3.5 w-3.5" strokeWidth={2} />
-          Juara II Lomba Desa Tingkat DIY 2018
+          <Sparkles class="h-3.5 w-3.5 shrink-0" strokeWidth={2} />
+          <span class="break-words">Juara II Lomba Desa Tingkat DIY 2018</span>
         </span>
       </li>
       <li>
         <span class="inline-flex items-center gap-2 rounded-full border border-krem-50/25 bg-krem-50/10 px-3 py-1 text-xs font-medium text-krem-50 backdrop-blur-sm">
-          <Mountain class="h-3.5 w-3.5" strokeWidth={2} />
-          Lereng Perbukitan Menoreh
+          <Mountain class="h-3.5 w-3.5 shrink-0" strokeWidth={2} />
+          <span class="break-words">Lereng Perbukitan Menoreh</span>
         </span>
       </li>
       <li>
         <span class="inline-flex items-center gap-2 rounded-full border border-krem-50/25 bg-krem-50/10 px-3 py-1 text-xs font-medium text-krem-50 backdrop-blur-sm">
-          <Coffee class="h-3.5 w-3.5" strokeWidth={2} />
-          Agrowisata Kopi &amp; Teh
+          <Coffee class="h-3.5 w-3.5 shrink-0" strokeWidth={2} />
+          <span class="break-words">Agrowisata Kopi &amp; Teh</span>
         </span>
       </li>
     </ul>
 
-    <div class="mt-10 flex flex-wrap gap-3">
+    <!--
+      CTA pair: stack vertically on mobile (full-width-friendly) so each tap
+      target gets its own row. Switches to inline at sm: where there's room.
+    -->
+    <div class="mt-10 flex flex-col sm:flex-row sm:flex-wrap gap-3">
       <a
         href="/sejarah"
         use:link
-        class="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-terakota-500 px-5 text-sm font-medium text-krem-50 transition-colors hover:bg-terakota-600"
+        class="inline-flex min-h-11 h-11 items-center justify-center gap-2 rounded-md bg-terakota-500 px-5 text-sm font-medium text-krem-50 transition-colors hover:bg-terakota-600"
       >
         Telusuri Sejarah
         <ArrowRight class="h-4 w-4" strokeWidth={2} />
@@ -137,7 +141,7 @@
       <a
         href="/peta-wilayah"
         use:link
-        class="inline-flex h-11 items-center justify-center gap-2 rounded-md border border-krem-50/40 bg-krem-50/5 px-5 text-sm font-medium text-krem-50 transition-colors hover:bg-krem-50/10"
+        class="inline-flex min-h-11 h-11 items-center justify-center gap-2 rounded-md border border-krem-50/40 bg-krem-50/5 px-5 text-sm font-medium text-krem-50 transition-colors hover:bg-krem-50/10"
       >
         Lihat Peta Wilayah
       </a>
@@ -156,7 +160,7 @@
       <p class="eyebrow">Sekilas Desa</p>
       <h2
         id="intro-title"
-        class="mt-3 font-serif text-3xl md:text-4xl font-semibold text-arang-900 leading-tight text-balance"
+        class="mt-3 font-serif text-2xl md:text-4xl font-semibold text-arang-900 leading-tight text-balance break-words"
       >
         Di lereng Menoreh, sebuah desa lahir dari tiga kalurahan.
       </h2>
@@ -170,15 +174,16 @@
       </div>
     </div>
 
-    <aside class="lg:col-span-5" aria-label="Statistik desa">
-      <!-- Card on mist: white surface, krem-200 border per spec. -->
+    <aside class="lg:col-span-5 min-w-0" aria-label="Statistik desa">
+      <!-- Card on mist: white surface, krem-200 border per spec. 2x2 grid on
+           mobile reads tighter; min-w-0 prevents overflow from long values. -->
       <div class="grid grid-cols-2 divide-x divide-y divide-krem-200 border border-krem-200 rounded-lg overflow-hidden bg-white">
         {#each headlineStats as s}
-          <div class="p-5 md:p-6 min-w-0">
-            <div class="text-[11px] font-medium uppercase tracking-[0.14em] text-arang-700/70">{s.label}</div>
-            <div class="mt-2 flex flex-col">
+          <div class="p-4 md:p-6 min-w-0">
+            <div class="text-[11px] font-medium uppercase tracking-[0.14em] text-arang-700/70 break-words">{s.label}</div>
+            <div class="mt-2 flex flex-col min-w-0">
               <span class="font-serif text-xl md:text-2xl font-semibold text-arang-900 tnum leading-tight break-words">{s.nilai}</span>
-              <span class="mt-0.5 text-[11px] text-arang-700">{s.satuan}</span>
+              <span class="mt-0.5 text-[11px] text-arang-700 break-words">{s.satuan}</span>
             </div>
           </div>
         {/each}
@@ -196,7 +201,7 @@
       <p class="eyebrow">Pembangunan Terpadu</p>
       <h2
         id="zona-title"
-        class="mt-3 font-serif text-3xl md:text-4xl font-semibold text-arang-900 leading-tight text-balance"
+        class="mt-3 font-serif text-2xl md:text-4xl font-semibold text-arang-900 leading-tight text-balance break-words"
       >
         Empat Kawasan Ekonomi
       </h2>
@@ -213,29 +218,29 @@
           {@const lokasi = zonaLokasi(z)}
           <!-- On batik motif, cards step down to krem-50 with krem-300 border so
                they read as paper cards laid over the printed motif. -->
-          <article class="flex flex-col h-full rounded-lg border border-krem-300 bg-krem-50 transition-colors hover:border-terakota-400">
-            <div class="p-6 flex-1">
-              <div class="flex items-center justify-between">
-                <span class="inline-flex h-10 w-10 items-center justify-center rounded-md bg-menoreh-50 text-menoreh-700">
+          <article class="flex flex-col h-full min-w-0 rounded-lg border border-krem-300 bg-krem-50 transition-colors hover:border-terakota-400">
+            <div class="p-5 md:p-6 flex-1 min-w-0">
+              <div class="flex items-center justify-between gap-3">
+                <span class="inline-flex h-10 w-10 items-center justify-center rounded-md bg-menoreh-50 text-menoreh-700 shrink-0">
                   <svelte:component this={Icon} class="h-5 w-5" strokeWidth={1.75} />
                 </span>
                 <span class="font-serif text-3xl font-semibold text-terakota-500/80 tnum">
                   0{z.nomor}
                 </span>
               </div>
-              <h3 class="mt-5 font-serif text-lg font-semibold text-arang-900">
+              <h3 class="mt-5 font-serif text-lg font-semibold text-arang-900 break-words">
                 Zona {z.nomor} &middot; {zonaJudul(z.nomor)}
               </h3>
-              <p class="mt-2 text-sm text-arang-700 leading-relaxed">{z.tema}</p>
+              <p class="mt-2 text-sm text-arang-700 leading-relaxed text-pretty break-words">{z.tema}</p>
             </div>
             {#if lokasi.length > 0}
-              <div class="border-t border-krem-300 p-5">
+              <div class="border-t border-krem-300 p-4 md:p-5">
                 <div class="text-[10px] font-semibold uppercase tracking-[0.16em] text-arang-700/70">
                   Pedukuhan
                 </div>
                 <div class="mt-2 flex flex-wrap gap-1.5">
                   {#each lokasi as p}
-                    <span class="inline-flex items-center rounded-sm border border-krem-300 bg-white px-1.5 py-0.5 text-[11px] font-medium uppercase tracking-wide text-arang-700">
+                    <span class="inline-flex items-center rounded-sm border border-krem-300 bg-white px-1.5 py-0.5 text-[11px] font-medium uppercase tracking-wide text-arang-700 break-words">
                       {p}
                     </span>
                   {/each}
@@ -258,29 +263,29 @@
         <p class="eyebrow">Navigasi</p>
         <h2
           id="jelajahi-title"
-          class="mt-3 font-serif text-3xl md:text-4xl font-semibold text-arang-900"
+          class="mt-3 font-serif text-2xl md:text-4xl font-semibold text-arang-900 break-words"
         >
           Jelajahi Desa
         </h2>
       </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       {#each links as item}
         <a
           href={item.href}
           use:link
-          class="group flex items-start gap-5 rounded-lg border border-krem-200 bg-white p-6 transition-colors hover:border-menoreh-500/40 hover:bg-menoreh-50/40"
+          class="group flex items-start gap-4 sm:gap-5 rounded-lg border border-krem-200 bg-white p-5 md:p-6 transition-colors hover:border-menoreh-500/40 hover:bg-menoreh-50/40"
         >
           <span class="shrink-0 inline-flex h-11 w-11 items-center justify-center rounded-md bg-menoreh-50 text-menoreh-700">
             <svelte:component this={item.Icon} class="h-5 w-5" strokeWidth={1.75} />
           </span>
           <div class="flex-1 min-w-0">
             <div class="flex items-center justify-between gap-3">
-              <h3 class="font-serif text-lg font-semibold text-arang-900">{item.title}</h3>
-              <ArrowRight class="h-4 w-4 text-arang-700/40 transition-colors group-hover:text-menoreh-600" strokeWidth={2} />
+              <h3 class="font-serif text-lg font-semibold text-arang-900 break-words">{item.title}</h3>
+              <ArrowRight class="h-4 w-4 shrink-0 text-arang-700/40 transition-colors group-hover:text-menoreh-600" strokeWidth={2} />
             </div>
-            <p class="mt-1 text-sm text-arang-700 leading-relaxed">{item.desc}</p>
+            <p class="mt-1 text-sm text-arang-700 leading-relaxed text-pretty break-words">{item.desc}</p>
           </div>
         </a>
       {/each}
@@ -307,21 +312,21 @@
       </figure>
 
       <!-- Lead card gets a single terakota left-rule - marks the heritage moment. -->
-      <div class="order-1 lg:order-2 rounded-lg border border-tanah-200 bg-white p-7 md:p-8 border-l-2 border-l-terakota-500">
+      <div class="order-1 lg:order-2 rounded-lg border border-tanah-200 bg-white p-6 md:p-8 border-l-2 border-l-terakota-500">
         <p class="eyebrow">Sekilas Wisata</p>
         <h2
           id="suroloyo-title"
-          class="mt-3 font-serif text-3xl md:text-4xl font-semibold text-arang-900 leading-tight text-balance"
+          class="mt-3 font-serif text-2xl md:text-4xl font-semibold text-arang-900 leading-tight text-balance break-words"
         >
-          Puncak Suroloyo - kahyangan para dewa di ketinggian seribu meter.
+          Puncak Suroloyo, kahyangan para dewa di ketinggian seribu meter.
         </h2>
-        <p class="mt-5 text-arang-700 leading-relaxed">
+        <p class="mt-5 text-arang-700 leading-relaxed text-pretty break-words">
           Titik tertinggi perbukitan Menoreh, sekitar 1.000 m dpl, dipercaya sebagai
-          tempat bertapa Raden Mas Rangsang - Sultan Agung muda - setelah didatangi
+          tempat bertapa Raden Mas Rangsang, Sultan Agung muda, setelah didatangi
           Sunan Kalijaga dalam mimpi. Dari puncaknya tampak siluet Borobudur, Merapi-Merbabu,
           Sumbing-Sundoro, hingga Sungai Progo di kejauhan.
         </p>
-        <div class="mt-7 flex flex-wrap gap-3">
+        <div class="mt-7 flex flex-col sm:flex-row sm:flex-wrap gap-3">
           <Button href="#/peta-wilayah" variant="primary">
             Lihat di Peta Wilayah
             <ArrowRight class="h-4 w-4" strokeWidth={2} />
@@ -336,26 +341,26 @@
 <!-- ============================================================ LOKASI / KONTAK ============================================================ -->
 <SectionShell variant="default" padding="md">
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6" aria-labelledby="lokasi-title">
-    <div class="lg:col-span-2">
+    <div class="lg:col-span-2 min-w-0">
       <p class="eyebrow">Lokasi</p>
       <h2
         id="lokasi-title"
-        class="mt-3 font-serif text-3xl md:text-4xl font-semibold text-arang-900"
+        class="mt-3 font-serif text-2xl md:text-4xl font-semibold text-arang-900 break-words"
       >
         Kantor Desa Gerbosari
       </h2>
-      <p class="mt-4 text-arang-700 leading-relaxed max-w-xl">
+      <p class="mt-4 text-arang-700 leading-relaxed max-w-xl text-pretty break-words">
         Pusat pemerintahan desa berlokasi di Pedukuhan Karang. Jam pelayanan
         mengikuti hari kerja kantor desa.
       </p>
 
       <dl class="mt-6 space-y-3 text-sm text-arang-700">
         {#if alamat?.kantor}
-          <div class="flex items-start gap-3">
+          <div class="flex items-start gap-3 min-w-0">
             <MapPin class="h-4 w-4 mt-0.5 text-menoreh-600 shrink-0" strokeWidth={1.75} />
-            <div>
+            <div class="min-w-0">
               <dt class="sr-only">Alamat</dt>
-              <dd>
+              <dd class="break-words [hyphens:auto]">
                 {alamat.kantor}{#if alamat?.kecamatan}, Kec. {alamat.kecamatan}{/if}{#if alamat?.kabupaten}, {alamat.kabupaten}{/if}{#if alamat?.provinsi}, {alamat.provinsi}{/if}{#if alamat?.kode_pos}&nbsp;{alamat.kode_pos}{/if}
               </dd>
             </div>

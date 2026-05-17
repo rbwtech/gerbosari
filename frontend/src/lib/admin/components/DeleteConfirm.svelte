@@ -64,7 +64,8 @@
 {#if open}
   <div
     bind:this={dialogRoot}
-    class="fixed inset-0 z-50 flex items-center justify-center px-4 py-8 bg-arang-900/60"
+    class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-arang-900/60
+           sm:px-4 sm:py-8"
     role="dialog"
     aria-modal="true"
     aria-labelledby="delete-confirm-title"
@@ -81,16 +82,20 @@
     }}
   >
     <div
-      class="w-full max-w-md bg-white rounded-lg border border-krem-200 overflow-hidden"
+      class="w-full sm:max-w-md bg-white sm:rounded-lg border border-krem-200 overflow-hidden
+             rounded-t-2xl sm:rounded-t-lg"
       role="document"
     >
-      <div class="flex items-start justify-between gap-3 px-6 pt-6">
-        <div class="flex items-start gap-3">
+      <div class="flex items-start justify-between gap-3 px-5 md:px-6 pt-5 md:pt-6">
+        <div class="flex items-start gap-3 min-w-0">
           <div class="flex-none mt-0.5 w-10 h-10 rounded-full bg-terakota-50 flex items-center justify-center">
             <AlertTriangle class="w-5 h-5 text-terakota-600" strokeWidth={2} aria-hidden="true" />
           </div>
-          <div>
-            <h2 id="delete-confirm-title" class="font-serif text-lg font-semibold text-arang-900">
+          <div class="min-w-0">
+            <h2
+              id="delete-confirm-title"
+              class="font-serif text-lg font-semibold text-arang-900 break-words"
+            >
               {title}
             </h2>
           </div>
@@ -100,24 +105,43 @@
           on:click={() => !loading && onCancel()}
           aria-label="Tutup"
           disabled={loading}
-          class="flex-none -mr-2 -mt-2 inline-flex h-8 w-8 items-center justify-center rounded-md text-arang-500 hover:bg-krem-100 disabled:opacity-50"
+          class="flex-none -mr-2 -mt-1 inline-flex min-h-11 min-w-11 items-center justify-center
+                 rounded-md text-arang-500 hover:bg-krem-100 disabled:opacity-50"
         >
-          <X class="w-4 h-4" strokeWidth={2} aria-hidden="true" />
+          <X class="w-5 h-5" strokeWidth={2} aria-hidden="true" />
         </button>
       </div>
 
-      <p id="delete-confirm-desc" class="px-6 pt-3 pb-6 text-sm text-arang-700 leading-relaxed">
+      <p
+        id="delete-confirm-desc"
+        class="px-5 md:px-6 pt-3 pb-5 md:pb-6 text-sm text-arang-700 leading-relaxed"
+      >
         {description}
       </p>
 
+      <!-- Footer: stacks vertically on mobile with the destructive action on top
+           per the spec, side-by-side from sm+ with cancel left of confirm. -->
       <div
         data-dialog-footer
-        class="flex justify-end gap-2 px-6 py-4 bg-krem-50 border-t border-krem-200"
+        class="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 px-5 md:px-6 py-4
+               bg-krem-50 border-t border-krem-200"
       >
-        <Button variant="ghost" size="md" disabled={loading} on:click={onCancel}>
+        <Button
+          variant="ghost"
+          size="md"
+          disabled={loading}
+          on:click={onCancel}
+          class="w-full sm:w-auto"
+        >
           {cancelLabel}
         </Button>
-        <Button variant="danger" size="md" loading={loading} on:click={onConfirm}>
+        <Button
+          variant="danger"
+          size="md"
+          loading={loading}
+          on:click={onConfirm}
+          class="w-full sm:w-auto"
+        >
           {confirmLabel}
         </Button>
       </div>

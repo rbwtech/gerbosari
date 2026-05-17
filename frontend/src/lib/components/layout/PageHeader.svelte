@@ -19,7 +19,7 @@
 
 {#if variant === 'hero'}
   <header
-    class="relative overflow-hidden border-b border-krem-200 {cls}"
+    class="relative overflow-hidden border-b border-krem-200 min-h-[50vh] md:min-h-[60vh] flex {cls}"
     style={image ? `background-image: url('${image}'); background-size: cover; background-position: center;` : undefined}
   >
     {#if image}
@@ -32,7 +32,7 @@
       <div class="absolute inset-0 bg-menoreh-900" aria-hidden="true"></div>
     {/if}
 
-    <div class="relative container-page py-20 md:py-28">
+    <div class="relative container-page py-16 md:py-28 w-full">
       {#if $$slots.breadcrumb}
         <div class="mb-6 text-xs uppercase tracking-widest text-krem-100/80">
           <slot name="breadcrumb" />
@@ -40,21 +40,21 @@
       {/if}
 
       {#if eyebrow}
-        <p class="text-xs font-semibold uppercase tracking-widest text-terakota-300">
+        <p class="text-xs font-semibold uppercase tracking-widest text-terakota-300 break-words">
           {eyebrow}
         </p>
       {/if}
 
       <h1
-        class="mt-4 font-serif font-semibold text-krem-50 text-balance
-               text-5xl md:text-6xl max-w-4xl"
+        class="mt-4 font-serif font-semibold text-krem-50 text-balance break-words
+               text-4xl md:text-6xl max-w-4xl"
         style="letter-spacing: -0.03em; line-height: 1.05;"
       >
         {title}
       </h1>
 
       {#if lead}
-        <p class="mt-6 text-base md:text-lg text-krem-100/90 max-w-2xl leading-relaxed">
+        <p class="mt-6 text-base md:text-lg text-krem-100/90 max-w-2xl leading-relaxed text-pretty break-words">
           {lead}
         </p>
       {/if}
@@ -68,26 +68,26 @@
   </header>
 {:else}
   <header class="border-b border-krem-200 bg-krem-50 {cls}">
-    <div class="container-page py-12 md:py-16">
+    <div class="container-page py-10 md:py-16">
       {#if $$slots.breadcrumb}
-        <div class="mb-5 text-xs uppercase tracking-widest text-arang-500">
+        <div class="mb-5 text-xs uppercase tracking-widest text-arang-500 break-words">
           <slot name="breadcrumb" />
         </div>
       {/if}
 
       {#if eyebrow}
-        <p class="eyebrow">{eyebrow}</p>
+        <p class="eyebrow break-words">{eyebrow}</p>
       {/if}
 
       <h1
-        class="mt-3 font-serif text-4xl md:text-5xl font-semibold text-arang-900 max-w-3xl text-balance"
+        class="mt-3 font-serif text-3xl md:text-5xl font-semibold text-arang-900 max-w-3xl text-balance break-words"
         style="letter-spacing: -0.02em; line-height: 1.1;"
       >
         {title}
       </h1>
 
       {#if lead}
-        <p class="mt-4 text-base md:text-lg text-arang-700 max-w-2xl leading-relaxed">
+        <p class="mt-4 text-base md:text-lg text-arang-700 max-w-2xl leading-relaxed text-pretty break-words">
           {lead}
         </p>
       {/if}

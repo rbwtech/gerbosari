@@ -34,10 +34,7 @@
 </script>
 
 <!-- ============ HERO BAND ============ -->
-<header
-  class="relative overflow-hidden border-b border-krem-200 bg-tanah-paper"
-  style="background-color: #faf7f2; background-image: radial-gradient(ellipse 60% 50% at 18% 28%, #fdf5f0 0%, transparent 62%), radial-gradient(ellipse 55% 45% at 82% 72%, #f5ebe0 0%, transparent 60%);"
->
+<header class="border-b border-krem-200 bg-krem-100">
   <div class="container-page py-14 md:py-20">
     <div class="flex flex-col items-center text-center">
       <!-- Village crest: hill + sun, terakota stroke -->

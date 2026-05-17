@@ -3,7 +3,7 @@
    * Page section wrapper with village-themed background "biomes".
    *
    * Routes should NEVER hard-code biome utility classes (.bg-paper,
-   * .bg-menoreh-mist, etc.) on a <section> — pick a SectionShell variant
+   * .bg-menoreh-mist, etc.) on a <section> - pick a SectionShell variant
    * instead. This keeps biome decisions centralised so the palette and
    * texture intensity can be retuned in one place without touching routes.
    *
@@ -34,19 +34,27 @@
   let cls = '';
   export { cls as class };
 
+  // Mobile vertical rhythm tightens so consecutive textured sections don't
+  // stack 160px of empty space on a 360px viewport. Desktop values unchanged.
   const paddings = {
     none: '',
     sm: 'py-8 md:py-10',
-    md: 'py-16 md:py-20',
-    lg: 'py-20 md:py-28'
+    md: 'py-12 md:py-20',
+    lg: 'py-14 md:py-28'
   } as const;
 
+  // Variants resolve to SOLID warm-paper tones - no gradients, no SVG noise,
+  // no pattern motifs. Differences are deliberately small so the eye reads
+  // them as continuous warm paper, not as switching between AI-generated
+  // background slabs. Variant *names* are preserved for backward compat with
+  // routes that already chose a biome label, but every page now feels like
+  // a single typeset publication, not a mosaic.
   const variantClass = {
-    default: 'bg-paper',
-    mist: 'bg-menoreh-mist',
-    tanah: 'bg-tanah-paper',
-    batik: 'bg-batik-motif',
-    'menoreh-deep': 'bg-menoreh-deep'
+    default:        'bg-krem-50',
+    mist:           'bg-menoreh-50',
+    tanah:          'bg-krem-100',
+    batik:          'bg-krem-50',
+    'menoreh-deep': 'bg-menoreh-900 text-krem-50'
   } as const;
 </script>
 

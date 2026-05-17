@@ -17,9 +17,9 @@
 </script>
 
 <footer class="mt-24 bg-menoreh-900 text-krem-100">
-  <div class="container-page py-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+  <div class="container-page py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
     <!-- Identitas desa -->
-    <div>
+    <div class="min-w-0">
       <div class="flex items-center gap-2.5">
         <svg viewBox="0 0 32 32" class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <circle cx="22" cy="9" r="2.25" class="text-terakota-400" fill="currentColor" stroke="none" />
@@ -28,22 +28,23 @@
         </svg>
         <span class="font-serif text-base font-semibold text-krem-50">Desa Gerbosari</span>
       </div>
-      <p class="mt-4 font-serif text-base italic text-krem-100/85 leading-relaxed">
+      <p class="mt-4 font-serif text-base italic text-krem-100/85 leading-relaxed text-pretty">
         Tanah Menoreh, ladang budaya, rumah seribu cerita.
       </p>
-      <p class="mt-3 text-sm text-krem-100/70 leading-relaxed">
+      <p class="mt-3 text-sm text-krem-100/70 leading-relaxed text-pretty">
         Profil resmi Pemerintah Desa Gerbosari, Kecamatan Samigaluh, Kabupaten
         Kulon Progo, Daerah Istimewa Yogyakarta.
       </p>
     </div>
 
     <!-- Kontak -->
-    <div>
+    <div class="min-w-0">
       <h4 class="text-xs font-semibold uppercase tracking-widest text-krem-50">Kontak</h4>
       <ul class="mt-4 space-y-3 text-sm">
-        <li class="flex gap-3 text-krem-100/85">
+        <li class="flex gap-3 text-krem-100/85 min-w-0">
           <MapPin class="w-4 h-4 mt-0.5 shrink-0 text-terakota-400" strokeWidth={1.75} aria-hidden="true" />
-          <span class="leading-relaxed">
+          <!-- hyphens-auto allows graceful break of "Pangaji-Plono" on narrow viewports -->
+          <span class="leading-relaxed break-words [hyphens:auto]">
             Jl. Pangaji-Plono KM 4.2, Karang,<br />
             Gerbosari, Samigaluh,<br />
             Kulon Progo, DIY 55673
@@ -51,7 +52,7 @@
         </li>
         <li class="flex gap-3 text-krem-100/85">
           <Phone class="w-4 h-4 mt-0.5 shrink-0 text-terakota-400" strokeWidth={1.75} aria-hidden="true" />
-          <a href="tel:+622742820979" class="hover:text-krem-50 transition-colors duration-200 ease-out">
+          <a href="tel:+622742820979" class="hover:text-krem-50 transition-colors duration-200 ease-out tnum">
             (0274) 2820979
           </a>
         </li>
@@ -59,15 +60,15 @@
     </div>
 
     <!-- Navigasi -->
-    <div>
+    <div class="min-w-0">
       <h4 class="text-xs font-semibold uppercase tracking-widest text-krem-50">Navigasi</h4>
-      <ul class="mt-4 grid grid-cols-1 gap-2 text-sm">
+      <ul class="mt-4 grid grid-cols-1 gap-1 text-sm">
         {#each navigasi as item}
           <li>
             <a
               href={item.href}
               use:link
-              class="text-krem-100/80 hover:text-krem-50 transition-colors duration-200 ease-out"
+              class="inline-flex items-center min-h-9 py-1 text-krem-100/80 hover:text-krem-50 transition-colors duration-200 ease-out break-words"
             >
               {item.label}
             </a>
@@ -77,13 +78,13 @@
     </div>
 
     <!-- Akreditasi -->
-    <div>
+    <div class="min-w-0">
       <h4 class="text-xs font-semibold uppercase tracking-widest text-krem-50">Penghargaan</h4>
       <div class="mt-4 flex gap-3 items-start">
         <Award class="w-5 h-5 mt-0.5 shrink-0 text-terakota-400" strokeWidth={1.75} aria-hidden="true" />
-        <div class="text-sm text-krem-100/85 leading-relaxed">
+        <div class="text-sm text-krem-100/85 leading-relaxed min-w-0">
           <div class="font-medium text-krem-50">Juara II</div>
-          <div>Lomba Desa Tingkat Daerah Istimewa Yogyakarta</div>
+          <div class="break-words">Lomba Desa Tingkat Daerah Istimewa Yogyakarta</div>
           <div class="mt-1 text-xs uppercase tracking-widest text-krem-100/60">Tahun 2018</div>
         </div>
       </div>
@@ -91,14 +92,14 @@
   </div>
 
   <div class="border-t border-krem-100/10">
-    <div class="container-page py-5 text-xs text-krem-100/60 flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">
-      <span>&copy; {tahun} Pemerintah Desa Gerbosari. Hak cipta dilindungi.</span>
-      <span class="flex items-center gap-3">
-        <span>Tugas Akhir Komputasi Awan &middot; UIN Sunan Kalijaga</span>
+    <div class="container-page py-5 text-xs text-krem-100/60 flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+      <span class="break-words">&copy; {tahun} Pemerintah Desa Gerbosari. Hak cipta dilindungi.</span>
+      <span class="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <span class="break-words">Tugas Akhir Komputasi Awan &middot; UIN Sunan Kalijaga</span>
         <span aria-hidden="true" class="text-krem-100/30">&middot;</span>
         <a
           href="#/admin/login"
-          class="text-xs text-krem-100/60 hover:text-terakota-300 transition-colors duration-200 ease-out"
+          class="inline-flex items-center min-h-9 text-xs text-krem-100/60 hover:text-terakota-300 transition-colors duration-200 ease-out"
         >
           Admin
         </a>

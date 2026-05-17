@@ -60,9 +60,9 @@
   ];
 
   // null = loading, number = ready, undefined = fetch failed (silently degrades
-  // to em-dash). We deliberately reuse the public GET endpoints because the
-  // backend exposes them without auth and they already return the row sets we
-  // need to count.
+  // to a dash placeholder). We deliberately reuse the public GET endpoints
+  // because the backend exposes them without auth and they already return the
+  // row sets we need to count.
   type CountState = number | null | undefined;
   let counts: Record<SummaryCard['key'], CountState> = {
     galeri: null,
@@ -98,7 +98,7 @@
 
   function formatCount(value: CountState): string {
     if (value === null) return '...';
-    if (value === undefined) return '—';
+    if (value === undefined) return '-';
     return value.toLocaleString('id-ID');
   }
 
@@ -114,12 +114,14 @@
 </script>
 
 <AdminShell title="Dashboard">
-  <div class="flex flex-col gap-8 max-w-6xl">
+  <div class="flex flex-col gap-6 md:gap-8 max-w-6xl">
     <!-- Greeting block. Uses the cached username from the auth store so it
-         renders instantly on mount without waiting for any network round-trip. -->
-    <section>
+         renders instantly on mount without waiting for any network round-trip.
+         min-w-0 + break-words on the username prevents extra-long handles from
+         pushing the layout out of the viewport on narrow phones. -->
+    <section class="min-w-0">
       <p class="text-xs font-medium uppercase tracking-widest text-arang-500">Selamat datang</p>
-      <h2 class="mt-1 font-serif text-2xl sm:text-3xl font-semibold text-arang-900">
+      <h2 class="mt-1 font-serif text-xl sm:text-2xl md:text-3xl font-semibold text-arang-900 break-words">
         Halo, {$authState.user?.username ?? 'Admin'}
       </h2>
       <p class="mt-2 text-sm text-arang-700 max-w-2xl">
@@ -129,12 +131,13 @@
     </section>
 
     <section>
-      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {#each cards as card}
           <a
             href={card.href}
             on:click|preventDefault={() => goTo(card.href)}
-            class="group flex flex-col gap-4 rounded-lg border border-krem-200 bg-white p-5
+            class="group flex flex-col gap-3 sm:gap-4 rounded-lg border border-krem-200 bg-white p-5
+                   min-h-24
                    hover:border-menoreh-500 hover:bg-krem-50
                    transition-colors duration-200 ease-out"
             aria-label="Kelola {card.title}"

@@ -17,7 +17,7 @@
 <a
   {href}
   use:link
-  class="group block bg-white border border-krem-200 rounded-lg p-6 md:p-7
+  class="group block bg-white border border-krem-200 rounded-lg p-5 md:p-6
          transition-colors duration-200 ease-out
          hover:border-menoreh-500 hover:bg-krem-50 {cls}"
 >
@@ -28,15 +28,15 @@
              transition-colors duration-200 ease-out
              group-hover:bg-menoreh-700 group-hover:text-white"
     >
-      <svelte:component this={icon} class="w-5 h-5" strokeWidth={1.75} aria-hidden="true" />
+      <svelte:component this={icon} class="h-6 w-6 md:h-7 md:w-7" strokeWidth={1.75} aria-hidden="true" />
     </div>
   {/if}
 
-  <h3 class="mt-5 font-serif text-xl md:text-2xl font-semibold text-arang-900 text-balance">
+  <h3 class="mt-5 font-serif text-xl md:text-2xl font-semibold text-arang-900 text-balance break-words">
     {title}
   </h3>
 
-  <p class="mt-2 text-sm text-arang-700 leading-relaxed text-pretty">
+  <p class="mt-2 text-sm text-arang-700 leading-relaxed text-pretty break-words">
     {description}
   </p>
 

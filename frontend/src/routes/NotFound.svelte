@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { link } from '../lib/router';
   import SectionShell from '../lib/components/ui/SectionShell.svelte';
   import Button from '../lib/components/ui/Button.svelte';
   import { ChevronLeft, Compass } from '../lib/components/icons';
@@ -33,5 +32,3 @@
     </div>
   </div>
 </SectionShell>
-</content>
-</invoke>

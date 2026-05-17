@@ -33,6 +33,15 @@
     mobileOpen = false;
   }
 
+  /*
+   * Lock body scroll while the mobile drawer is open. Reactive on `mobileOpen`
+   * so toggling either via menu button or backdrop reverts the lock cleanly.
+   * Guarded against SSR.
+   */
+  $: if (typeof document !== 'undefined') {
+    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+  }
+
   // Lightweight scroll listener with rAF coalescing - toggles the elevated
   // navbar treatment once the user scrolls past the 8px threshold.
   let ticking = false;
@@ -53,6 +62,10 @@
   onDestroy(() => {
     if (typeof window !== 'undefined') {
       window.removeEventListener('scroll', onScroll);
+    }
+    // Defensive: always release the scroll lock on unmount.
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = '';
     }
   });
 
@@ -99,7 +112,7 @@
         <a
           href={item.href}
           use:link
-          class="relative px-3 py-2 text-xs font-semibold uppercase tracking-widest
+          class="relative inline-flex items-center min-h-11 px-3 py-2 text-xs font-semibold uppercase tracking-widest
                  transition-colors duration-200 ease-out
                  {active
                    ? 'text-menoreh-800 underline decoration-2 decoration-menoreh-700 underline-offset-8'
@@ -112,7 +125,7 @@
     </nav>
 
     <button
-      class="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-md
+      class="lg:hidden inline-flex min-h-11 min-w-11 h-11 w-11 items-center justify-center rounded-md
              text-arang-900 hover:bg-krem-100 transition-colors duration-200 ease-out"
       aria-label={mobileOpen ? 'Tutup menu' : 'Buka menu'}
       aria-expanded={mobileOpen}
@@ -142,16 +155,20 @@
         on:click={closeMobile}
       ></button>
 
+      <!--
+        Drawer sized to 85vw with xs max - works down to 280px viewports while
+        capping at ~320px on phablets so it never overshoots the screen edge.
+      -->
       <div
         id="mobile-nav-panel"
-        class="absolute right-0 top-0 h-full w-72 max-w-[85%] bg-white border-l border-krem-200 shadow-sm flex flex-col"
+        class="absolute right-0 top-0 h-full w-[85vw] max-w-xs bg-white border-l border-krem-200 shadow-sm flex flex-col overflow-y-auto"
         transition:fly={{ x: 320, duration: 220 }}
       >
-        <div class="flex items-center justify-between h-16 px-5 border-b border-krem-200">
+        <div class="flex items-center justify-between h-16 px-4 border-b border-krem-200">
           <span class="font-serif text-base font-semibold text-arang-900">Menu</span>
           <button
             type="button"
-            class="inline-flex h-9 w-9 items-center justify-center rounded-md text-arang-700 hover:bg-krem-100"
+            class="inline-flex min-h-11 min-w-11 h-11 w-11 items-center justify-center rounded-md text-arang-700 hover:bg-krem-100"
             aria-label="Tutup menu"
             on:click={closeMobile}
           >
@@ -165,7 +182,7 @@
               href={item.href}
               use:link
               on:click={closeMobile}
-              class="px-3 py-3 rounded-md text-sm font-medium transition-colors duration-200 ease-out
+              class="flex items-center min-h-11 px-4 py-3 rounded-md text-sm font-medium transition-colors duration-200 ease-out
                      {active
                        ? 'bg-menoreh-50 text-menoreh-800'
                        : 'text-arang-700 hover:bg-krem-100'}"

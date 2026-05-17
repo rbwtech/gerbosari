@@ -14,19 +14,19 @@
   export { cls as class };
 </script>
 
-<div class="flex flex-col gap-2 {cls}">
+<div class="flex flex-col gap-2 min-w-0 {cls}">
   {#if icon}
     <svelte:component this={icon} class="w-5 h-5 text-menoreh-600" strokeWidth={1.75} aria-hidden="true" />
   {/if}
-  <div class="flex items-baseline gap-2">
-    <span class="font-serif text-4xl md:text-5xl font-semibold text-arang-900 tnum leading-none">
+  <div class="flex flex-col">
+    <span class="font-serif text-3xl md:text-4xl font-semibold text-arang-900 tnum leading-none break-words">
       {value}
     </span>
     {#if unit}
-      <span class="text-sm font-medium text-arang-700">{unit}</span>
+      <span class="mt-1 text-sm font-medium text-arang-700">{unit}</span>
     {/if}
   </div>
-  <span class="text-xs font-medium uppercase tracking-widest text-arang-500">
+  <span class="text-xs font-medium uppercase tracking-widest text-arang-500 break-words">
     {label}
   </span>
 </div>

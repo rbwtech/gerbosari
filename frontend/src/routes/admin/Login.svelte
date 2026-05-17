@@ -53,14 +53,15 @@
   <title>Masuk Admin - Desa Gerbosari</title>
 </svelte:head>
 
-<div class="min-h-screen bg-krem-50 flex items-center justify-center px-4 py-12">
-  <div class="w-full max-w-md">
+<div class="min-h-screen bg-krem-50 flex items-center justify-center px-4 py-8 sm:py-12">
+  <div class="w-full max-w-md mx-4 sm:mx-0">
     <!-- Brand block: keeps the panel anchored to the village identity even on a
-         standalone screen that's outside the public navbar. -->
-    <div class="flex flex-col items-center gap-3 mb-8">
+         standalone screen that's outside the public navbar. Crest sizes down
+         on mobile to free vertical space for the form. -->
+    <div class="flex flex-col items-center gap-3 mb-6 sm:mb-8">
       <svg
         viewBox="0 0 32 32"
-        class="w-10 h-10"
+        class="w-9 h-9 sm:w-10 sm:h-10"
         fill="none"
         stroke="currentColor"
         stroke-width="1.75"
@@ -73,14 +74,14 @@
         <path d="M3 25 L29 25" class="text-menoreh-700" />
       </svg>
       <div class="text-center">
-        <h1 class="font-serif text-2xl font-semibold text-arang-900 leading-tight">
+        <h1 class="font-serif text-xl sm:text-2xl font-semibold text-arang-900 leading-tight">
           Panel Admin Desa Gerbosari
         </h1>
         <p class="mt-1 text-sm text-arang-500">Masuk untuk mengelola konten desa.</p>
       </div>
     </div>
 
-    <div class="bg-white border border-krem-200 rounded-lg p-6 sm:p-8">
+    <div class="bg-white border border-krem-200 rounded-lg p-5 sm:p-8">
       <form on:submit={handleSubmit} novalidate>
         <div class="flex flex-col gap-5">
           <div class="flex flex-col gap-1.5">
@@ -92,12 +93,15 @@
               name="username"
               type="text"
               autocomplete="username"
+              autocapitalize="none"
+              autocorrect="off"
+              spellcheck="false"
               required
               bind:value={username}
               disabled={submitting}
-              class="h-10 px-3 rounded-md border border-krem-200 bg-white text-arang-900
+              class="min-h-11 px-3 rounded-md border border-krem-200 bg-white text-base md:text-sm text-arang-900
                      placeholder:text-arang-300
-                     focus:outline-none focus:border-menoreh-500 focus:ring-2 focus:ring-menoreh-500/20
+                     focus:outline-none focus:border-menoreh-500 focus:ring-2 focus:ring-menoreh-500/30
                      disabled:bg-krem-50 disabled:cursor-not-allowed
                      transition-colors duration-200 ease-out"
               placeholder="admin"
@@ -116,19 +120,19 @@
               required
               bind:value={password}
               disabled={submitting}
-              class="h-10 px-3 rounded-md border border-krem-200 bg-white text-arang-900
+              class="min-h-11 px-3 rounded-md border border-krem-200 bg-white text-base md:text-sm text-arang-900
                      placeholder:text-arang-300
-                     focus:outline-none focus:border-menoreh-500 focus:ring-2 focus:ring-menoreh-500/20
+                     focus:outline-none focus:border-menoreh-500 focus:ring-2 focus:ring-menoreh-500/30
                      disabled:bg-krem-50 disabled:cursor-not-allowed
                      transition-colors duration-200 ease-out"
-              placeholder="••••••••"
+              placeholder="********"
             />
           </div>
 
           {#if errorMessage}
             <div
               role="alert"
-              class="flex items-start gap-2 rounded-md border border-terakota-200 bg-terakota-50 px-3 py-2.5
+              class="flex items-start gap-2 rounded-md border border-terakota-200 bg-terakota-50 p-3
                      text-sm text-terakota-800"
             >
               <AlertCircle class="w-4 h-4 mt-0.5 shrink-0" strokeWidth={2} aria-hidden="true" />
@@ -136,7 +140,7 @@
             </div>
           {/if}
 
-          <Button type="submit" variant="primary" size="md" loading={submitting} class="w-full">
+          <Button type="submit" variant="primary" size="lg" loading={submitting} class="w-full">
             {#if !submitting}
               <Lock class="w-4 h-4" strokeWidth={2} aria-hidden="true" />
             {/if}

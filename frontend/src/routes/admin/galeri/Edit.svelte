@@ -103,8 +103,8 @@
 </script>
 
 <AdminShell>
-  <div class="mb-6">
-    <h1 class="font-serif text-2xl font-semibold text-arang-900">{title}</h1>
+  <div class="mb-5 md:mb-6">
+    <h1 class="font-serif text-xl md:text-2xl font-semibold text-arang-900 break-words">{title}</h1>
     <p class="mt-1 text-sm text-arang-600">
       {editing ? 'Perbarui metadata foto galeri.' : 'Lengkapi metadata untuk foto baru.'}
     </p>
@@ -119,8 +119,8 @@
       <Button variant="secondary" size="sm" on:click={load}>Coba lagi</Button>
     </EmptyState>
   {:else}
-    <form on:submit={handleSubmit} class="space-y-6 max-w-2xl">
-      <Card>
+    <form on:submit={handleSubmit} class="space-y-6 max-w-2xl mx-auto sm:mx-0">
+      <Card padding="md">
         <div class="space-y-5">
           <FormField
             label="Judul"
@@ -175,9 +175,25 @@
         <p class="text-sm text-terakota-700" role="alert">{submitError}</p>
       {/if}
 
-      <div class="flex items-center justify-end gap-2">
-        <Button variant="ghost" size="md" on:click={cancel} disabled={submitting}>Batal</Button>
-        <Button type="submit" variant="primary" size="md" loading={submitting}>
+      <!-- Stacked on mobile (primary on top), inline on >=sm. Cancel is rendered
+           as a secondary button so it remains tap-friendly, not a tiny link. -->
+      <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-2">
+        <Button
+          variant="secondary"
+          size="md"
+          on:click={cancel}
+          disabled={submitting}
+          class="w-full sm:w-auto"
+        >
+          Batal
+        </Button>
+        <Button
+          type="submit"
+          variant="primary"
+          size="md"
+          loading={submitting}
+          class="w-full sm:w-auto"
+        >
           {editing ? 'Simpan Perubahan' : 'Tambah Foto'}
         </Button>
       </div>

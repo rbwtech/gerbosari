@@ -94,12 +94,14 @@
 </script>
 
 <AdminShell>
-  <div class="flex items-start justify-between gap-4 mb-6">
-    <div>
-      <h1 class="font-serif text-2xl font-semibold text-arang-900">Galeri</h1>
+  <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4 mb-5 md:mb-6">
+    <div class="min-w-0">
+      <h1 class="font-serif text-xl md:text-2xl font-semibold text-arang-900">Galeri</h1>
       <p class="mt-1 text-sm text-arang-600">Kelola dokumentasi foto desa per kategori.</p>
     </div>
-    <Button href="#/admin/galeri/new" variant="primary" size="md">Tambah Galeri</Button>
+    <Button href="#/admin/galeri/new" variant="primary" size="md" class="w-full sm:w-auto">
+      Tambah Galeri
+    </Button>
   </div>
 
   <DataTable
@@ -139,9 +141,9 @@
     </svelte:fragment>
 
     <svelte:fragment slot="mobileActions" let:row>
-      <div class="flex justify-end gap-2">
-        <Button variant="secondary" size="sm" on:click={() => goEdit(row.id)}>Ubah</Button>
-        <Button variant="danger" size="sm" on:click={() => askDelete(row)}>Hapus</Button>
+      <div class="grid grid-cols-2 gap-2">
+        <Button variant="secondary" size="md" on:click={() => goEdit(row.id)} class="w-full">Ubah</Button>
+        <Button variant="danger" size="md" on:click={() => askDelete(row)} class="w-full">Hapus</Button>
       </div>
     </svelte:fragment>
   </DataTable>

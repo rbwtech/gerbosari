@@ -122,8 +122,8 @@
 </script>
 
 <AdminShell>
-  <div class="mb-6">
-    <h1 class="font-serif text-2xl font-semibold text-arang-900">{title}</h1>
+  <div class="mb-5 md:mb-6">
+    <h1 class="font-serif text-xl md:text-2xl font-semibold text-arang-900 break-words">{title}</h1>
     <p class="mt-1 text-sm text-arang-600">
       {editing ? 'Perbarui detail lowongan kerja.' : 'Lengkapi detail lowongan kerja yang baru.'}
     </p>
@@ -138,8 +138,14 @@
       <Button variant="secondary" size="sm" on:click={load}>Coba lagi</Button>
     </EmptyState>
   {:else}
-    <form on:submit={handleSubmit} class="space-y-6 max-w-2xl">
-      <Card>
+    <form on:submit={handleSubmit} class="space-y-6 max-w-2xl mx-auto sm:mx-0">
+      <!-- Section 1: Informasi Utama. Identitas dasar lowongan supaya admin
+           bisa selesai bagian utama dulu sebelum masuk ke detail panjang. -->
+      <Card padding="md">
+        <header class="mb-4">
+          <h2 class="font-serif text-base md:text-lg font-semibold text-arang-900">Informasi Utama</h2>
+          <p class="mt-1 text-xs text-arang-500">Identitas lowongan: judul, instansi, kategori, dan status.</p>
+        </header>
         <div class="space-y-5">
           <FormField
             label="Judul"
@@ -178,7 +184,16 @@
               bind:value={status}
             />
           </div>
+        </div>
+      </Card>
 
+      <!-- Section 2: Detail. Deskripsi panjang + kontak + gaji + deadline + lokasi. -->
+      <Card padding="md">
+        <header class="mb-4">
+          <h2 class="font-serif text-base md:text-lg font-semibold text-arang-900">Detail</h2>
+          <p class="mt-1 text-xs text-arang-500">Deskripsi, kontak, kisaran gaji, deadline, dan lokasi.</p>
+        </header>
+        <div class="space-y-5">
           <FormField
             type="textarea"
             label="Deskripsi"
@@ -199,6 +214,8 @@
             placeholder="Nama PIC, nomor HP, atau email."
           />
 
+          <!-- Gaji range: side-by-side on >=sm so the relation min<=max stays
+               visually obvious; stacks on phones to avoid cramped 50% columns. -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <FormField
               type="number"
@@ -247,9 +264,23 @@
         <p class="text-sm text-terakota-700" role="alert">{submitError}</p>
       {/if}
 
-      <div class="flex items-center justify-end gap-2">
-        <Button variant="ghost" size="md" on:click={cancel} disabled={submitting}>Batal</Button>
-        <Button type="submit" variant="primary" size="md" loading={submitting}>
+      <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-2">
+        <Button
+          variant="secondary"
+          size="md"
+          on:click={cancel}
+          disabled={submitting}
+          class="w-full sm:w-auto"
+        >
+          Batal
+        </Button>
+        <Button
+          type="submit"
+          variant="primary"
+          size="md"
+          loading={submitting}
+          class="w-full sm:w-auto"
+        >
           {editing ? 'Simpan Perubahan' : 'Tambah Lowongan'}
         </Button>
       </div>

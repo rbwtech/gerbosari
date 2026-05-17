@@ -123,7 +123,7 @@
   </nav>
 </div>
 
-<!-- Article body in paper biome — subtle grain behind reading content. -->
+<!-- Article body in paper biome - subtle grain behind reading content. -->
 <SectionShell variant="default" padding="lg">
   {#if loading}
     <div class="space-y-6">
