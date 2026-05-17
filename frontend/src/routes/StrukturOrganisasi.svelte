@@ -135,7 +135,7 @@
     <h2 id="tier-sekretaris" class="sr-only">Sekretaris Desa</h2>
     <div class="flex justify-center">
       <article
-        class="w-full max-w-md rounded-md border border-krem-300 border-l-2 border-l-terakota-500 bg-krem-50 p-4 md:p-5"
+        class="w-full max-w-md rounded-md border border-krem-300 bg-krem-50 p-4 md:p-5"
       >
         <div class="flex flex-col items-center text-center sm:flex-row sm:text-left sm:items-center gap-3 sm:gap-4">
           <div

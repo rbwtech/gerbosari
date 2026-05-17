@@ -312,7 +312,7 @@
       </figure>
 
       <!-- Lead card gets a single terakota left-rule - marks the heritage moment. -->
-      <div class="order-1 lg:order-2 rounded-lg border border-tanah-200 bg-white p-6 md:p-8 border-l-2 border-l-terakota-500">
+      <div class="order-1 lg:order-2 rounded-lg border border-tanah-200 bg-white p-6 md:p-8">
         <p class="eyebrow">Sekilas Wisata</p>
         <h2
           id="suroloyo-title"
