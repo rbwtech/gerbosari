@@ -151,6 +151,8 @@ Palet warna sengaja tidak generik: `menoreh` (hijau-teal hutan), `terakota` (mer
 └── deploy/                     artefak produksi (lihat deploy/README.md)
 ```
 
+Hash router buatan sendiri tinggal di `frontend/src/lib/router/`: empat berkas (`Router.svelte`, `location.ts`, `link.ts`, `index.ts`) yang menyediakan `<Router>` komponen, store `location`, dan Svelte action `link` untuk anchor internal — kompatibel dengan host statis tanpa konfigurasi URL rewrite.
+
 ## Pengembangan Lokal
 
 Prasyarat: Node 20+, Rust stable, MySQL 9.
@@ -175,7 +177,7 @@ npm install
 npm run dev
 ```
 
-Buka <http://localhost:5173>. Sembilan rute terpasang: `/`, `/sejarah`, `/visi-misi`, `/struktur-organisasi`, `/peta-wilayah`, `/galeri`, `/data-penduduk`, `/lowongan`, `/berita`, `/berita/:slug`.
+Buka <http://localhost:5173>. Sembilan halaman utama plus satu halaman detail berita: `/`, `/sejarah`, `/visi-misi`, `/struktur-organisasi`, `/peta-wilayah`, `/galeri`, `/data-penduduk`, `/lowongan`, `/berita`, dan `/berita/:slug`.
 
 ## Build Produksi
 
@@ -183,13 +185,16 @@ Kedua lapisan menghasilkan artefak independen.
 
 ```bash
 # Frontend → ./frontend/dist/   (index.html, assets/, favicon.svg)
-cd frontend && npm ci && npm run build
+cd frontend
+npm install            # gunakan `npm ci` jika package-lock.json sudah dicommit
+npm run build
 
 # Backend → ./backend/target/release/gerbosari-backend
-cd backend && cargo build --release
+cd ../backend
+cargo build --release
 ```
 
-Vite membaca `frontend/.env.production` saat build, yang menetapkan `VITE_API_BASE=/api` sehingga SPA berbagi origin dengan API di belakang nginx.
+Vite membaca `frontend/.env.production` saat build, yang menetapkan `VITE_API_BASE=/api` sehingga SPA berbagi origin dengan API di belakang nginx. Hasil bundle JavaScript di-fingerprint (`assets/index-[hash].js`); setiap build baru menghasilkan hash baru sehingga browser otomatis mengambil versi terbaru.
 
 ## Deployment
 
@@ -208,6 +213,8 @@ Tata letak akhir di server:
 ```
 
 Migrations dibundel ke binary lewat `sqlx::migrate!("./migrations")` dan diterapkan otomatis saat backend startup — tidak ada langkah `sqlx-cli migrate run` manual dalam alur deploy.
+
+Jika domain berada di belakang Cloudflare (atau CDN lain yang men-cache HTML), purge cache setelah setiap deploy frontend. Tanpa purge, browser akan terus menerima `index.html` lama yang me-reference bundle versi sebelumnya.
 
 ```mermaid
 sequenceDiagram
