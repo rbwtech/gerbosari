@@ -3,6 +3,7 @@
   import { writable } from 'svelte/store';
   import type { Map as LeafletMap, CircleMarker, LatLngTuple } from 'leaflet';
   import PageHeader from '../lib/components/layout/PageHeader.svelte';
+  import SectionShell from '../lib/components/ui/SectionShell.svelte';
   import Badge from '../lib/components/ui/Badge.svelte';
   import Card from '../lib/components/ui/Card.svelte';
   import { getPetaWilayah } from '../lib/content';

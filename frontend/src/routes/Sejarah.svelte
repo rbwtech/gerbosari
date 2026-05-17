@@ -1,6 +1,7 @@
 <script lang="ts">
   import { getSejarah } from '../lib/content';
   import { ChevronDown, BookOpen, Landmark } from '../lib/components/icons';
+  import SectionShell from '../lib/components/ui/SectionShell.svelte';
 
   /**
    * Sejarah Desa - long-form, magazine-style narrative. Reads the rich JSON
@@ -68,47 +69,49 @@
 </section>
 
 <!-- ============================================================ ETIMOLOGI ============================================================ -->
+<!-- Tanah biome: warm tinted paper so the big terakota suku-kata read like
+     embossed wood-block letters on heritage parchment. -->
 {#if etimKomponen.length > 0}
-  <section class="container-page py-16 md:py-20" aria-labelledby="etim-title">
-    <div class="max-w-2xl">
-      <p class="eyebrow">Etimologi</p>
-      <h2
-        id="etim-title"
-        class="mt-3 font-serif text-3xl md:text-4xl font-semibold text-arang-900 leading-tight"
-      >
-        GER &middot; BO &middot; SA &middot; RI
-      </h2>
-      {#if etimologi?.isi}
-        <p class="mt-4 text-arang-700 leading-relaxed">{etimologi.isi}</p>
-      {/if}
-    </div>
+  <SectionShell variant="tanah" padding="md">
+    <div aria-labelledby="etim-title">
+      <div class="max-w-2xl">
+        <p class="eyebrow">Etimologi</p>
+        <h2
+          id="etim-title"
+          class="mt-3 font-serif text-3xl md:text-4xl font-semibold text-arang-900 leading-tight"
+        >
+          GER &middot; BO &middot; SA &middot; RI
+        </h2>
+        {#if etimologi?.isi}
+          <p class="mt-4 text-arang-700 leading-relaxed">{etimologi.isi}</p>
+        {/if}
+      </div>
 
-    <dl class="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-3">
-      {#each etimKomponen as k, i}
-        <div class="rounded-lg border border-krem-200 bg-krem-50 p-6">
-          <div class="flex items-baseline gap-2">
-            <span class="font-serif text-5xl md:text-6xl font-semibold text-terakota-600 tnum leading-none">
-              {k.suku_kata}
-            </span>
-            <span class="font-serif text-sm text-arang-700/60 tnum">0{i + 1}</span>
+      <dl class="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-3">
+        {#each etimKomponen as k, i}
+          <div class="rounded-lg border border-tanah-200 bg-white p-6">
+            <div class="flex items-baseline gap-2">
+              <span class="font-serif text-5xl md:text-6xl font-semibold text-terakota-600 tnum leading-none">
+                {k.suku_kata}
+              </span>
+              <span class="font-serif text-sm text-arang-700/60 tnum">0{i + 1}</span>
+            </div>
+            <div class="mt-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-arang-700/70">
+              Berasal dari
+            </div>
+            <dd class="mt-1 font-serif text-base text-arang-900">{k.berasal_dari}</dd>
           </div>
-          <div class="mt-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-arang-700/70">
-            Berasal dari
-          </div>
-          <dd class="mt-1 font-serif text-base text-arang-900">{k.berasal_dari}</dd>
-        </div>
-      {/each}
-    </dl>
-  </section>
+        {/each}
+      </dl>
+    </div>
+  </SectionShell>
 {/if}
 
 <!-- ============================================================ ASAL USUL ============================================================ -->
+<!-- Default paper bg for readable long-form narrative. -->
 {#if asalUsul?.isi}
-  <section
-    class="border-y border-krem-200 bg-krem-100/40"
-    aria-labelledby="asal-title"
-  >
-    <div class="container-page py-16 md:py-20">
+  <SectionShell variant="default" padding="lg">
+    <div aria-labelledby="asal-title">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
         <div class="lg:col-span-7">
           <p class="eyebrow">Asal Usul</p>
@@ -119,7 +122,7 @@
             {asalUsul?.judul ?? 'Asal Usul Desa Gerbosari'}
           </h2>
           <div class="mt-6 max-w-prose font-serif text-lg leading-relaxed text-arang-800">
-            {#each splitParagraphs(asalUsul.isi) as paragraf}
+            {#each splitParagraphs(asalUsul?.isi ?? '') as paragraf}
               <p class="mt-5 first:mt-0">{paragraf}</p>
             {/each}
           </div>
@@ -132,7 +135,7 @@
             </div>
             <ol class="mt-3 space-y-3">
               {#each kalurahanAsal as kal}
-                <li class="rounded-md border border-krem-200 bg-krem-50 p-5">
+                <li class="rounded-md border border-krem-200 bg-white p-5">
                   <div class="flex items-baseline justify-between gap-3">
                     <h3 class="font-serif text-base font-semibold text-arang-900">{kal.nama}</h3>
                     <span class="text-[11px] uppercase tracking-wider text-arang-700/70 tnum">
@@ -157,72 +160,76 @@
         {/if}
       </div>
     </div>
-  </section>
+  </SectionShell>
 {/if}
 
 <!-- ============================================================ PERISTIWA 1949 ============================================================ -->
+<!-- The dramatic visual moment of the page. Dark menoreh-deep biome - mourning,
+     memorial - with a brighter terakota-400 pull-quote rule for contrast. -->
 {#if peristiwa}
-  <section class="container-page py-16 md:py-24" aria-labelledby="peristiwa-title">
-    <div class="max-w-prose">
-      <p class="eyebrow">Memori Kolektif</p>
-      <h2
-        id="peristiwa-title"
-        class="mt-3 font-serif text-3xl md:text-4xl italic font-medium text-arang-900 leading-tight text-balance"
-      >
-        {peristiwa?.judul ?? 'Peristiwa 7 Maret 1949'}
-      </h2>
-      {#if peristiwa?.narator}
-        <p class="mt-3 text-sm text-arang-700/80">
-          Diceritakan oleh <span class="text-arang-900">{peristiwa.narator}</span>.
+  <SectionShell variant="menoreh-deep" padding="lg">
+    <div aria-labelledby="peristiwa-title">
+      <div class="max-w-prose">
+        <p class="text-xs font-semibold uppercase text-terakota-300" style="letter-spacing: 0.22em;">
+          Memori Kolektif
         </p>
-      {/if}
-    </div>
-
-    <!-- Single narratively-justified left-rule: this IS a pull-quote source. -->
-    <div class="mt-10 max-w-prose">
-      {#if peristiwa?.kutipan}
-        <blockquote class="border-l-4 border-terakota-500 pl-6 py-2">
-          <p class="font-serif text-2xl md:text-3xl italic font-medium text-arang-900 leading-snug text-balance">
-            &ldquo;{peristiwa.kutipan}&rdquo;
+        <h2
+          id="peristiwa-title"
+          class="mt-3 font-serif text-3xl md:text-4xl italic font-medium text-krem-50 leading-tight text-balance"
+        >
+          {peristiwa?.judul ?? 'Peristiwa 7 Maret 1949'}
+        </h2>
+        {#if peristiwa?.narator}
+          <p class="mt-3 text-sm text-krem-100/70">
+            Diceritakan oleh <span class="text-krem-50">{peristiwa.narator}</span>.
           </p>
-        </blockquote>
-      {/if}
-
-      <div class="mt-8 font-serif text-lg leading-relaxed text-arang-800">
-        {#each splitParagraphs(peristiwa?.narasi ?? '') as paragraf}
-          <p class="mt-5 first:mt-0">{paragraf}</p>
-        {/each}
+        {/if}
       </div>
 
-      {#if peristiwa?.korban_tercatat?.length}
-        <div class="mt-10 rounded-md border border-krem-200 bg-krem-50 p-6">
-          <div class="text-[10px] font-semibold uppercase tracking-[0.18em] text-terakota-600">
-            Korban Tercatat
-          </div>
-          <ul class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 text-sm text-arang-700">
-            {#each peristiwa.korban_tercatat as nama}
-              <li class="flex gap-2"><span class="text-arang-700/40">-</span>{nama}</li>
-            {/each}
-          </ul>
-        </div>
-      {/if}
+      <!-- Single narratively-justified left-rule: this IS a pull-quote source. -->
+      <div class="mt-10 max-w-prose">
+        {#if peristiwa?.kutipan}
+          <blockquote class="border-l-4 border-terakota-400 pl-6 py-2">
+            <p class="font-serif text-2xl md:text-3xl italic font-medium text-krem-50 leading-snug text-balance">
+              &ldquo;{peristiwa.kutipan}&rdquo;
+            </p>
+          </blockquote>
+        {/if}
 
-      {#if peristiwa?.penutup}
-        <p class="mt-10 font-serif text-xl italic text-terakota-700 text-center">
-          {peristiwa.penutup}
-        </p>
-      {/if}
+        <div class="mt-8 font-serif text-lg leading-relaxed text-krem-100">
+          {#each splitParagraphs(peristiwa?.narasi ?? '') as paragraf}
+            <p class="mt-5 first:mt-0">{paragraf}</p>
+          {/each}
+        </div>
+
+        {#if peristiwa?.korban_tercatat?.length}
+          <div class="mt-10 rounded-md border border-menoreh-700 bg-menoreh-800/60 p-6">
+            <div class="text-[10px] font-semibold uppercase tracking-[0.18em] text-terakota-300">
+              Korban Tercatat
+            </div>
+            <ul class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 text-sm text-krem-100">
+              {#each peristiwa.korban_tercatat as nama}
+                <li class="flex gap-2"><span class="text-krem-100/40">-</span>{nama}</li>
+              {/each}
+            </ul>
+          </div>
+        {/if}
+
+        {#if peristiwa?.penutup}
+          <p class="mt-10 font-serif text-xl italic text-terakota-300 text-center">
+            {peristiwa.penutup}
+          </p>
+        {/if}
+      </div>
     </div>
-  </section>
+  </SectionShell>
 {/if}
 
 <!-- ============================================================ LEGENDA ============================================================ -->
+<!-- Batik biome: subtle terakota motif behind the folklore accordion. -->
 {#if legenda.length > 0}
-  <section
-    class="border-t border-krem-200 bg-menoreh-50/50"
-    aria-labelledby="legenda-title"
-  >
-    <div class="container-page py-16 md:py-20">
+  <SectionShell variant="batik" padding="lg">
+    <div aria-labelledby="legenda-title">
       <div class="max-w-2xl">
         <div class="flex items-center gap-2">
           <BookOpen class="h-4 w-4 text-menoreh-700" strokeWidth={2} />
@@ -240,14 +247,16 @@
         </p>
       </div>
 
-      <ul class="mt-10 divide-y divide-krem-200 border-y border-krem-200 bg-krem-50/60">
+      <!-- Accordion items are individual white cards on the batik motif so each
+           legenda reads as its own folio rather than a flat divided list. -->
+      <ul class="mt-10 space-y-2">
         {#each legenda as item, i}
           {@const isOpen = openLegenda === i}
-          <li>
+          <li class="rounded-md border border-krem-300 bg-white transition-colors hover:border-terakota-400">
             <h3>
               <button
                 type="button"
-                class="flex w-full items-center justify-between gap-4 px-2 py-5 text-left transition-colors hover:bg-krem-50"
+                class="flex w-full items-center justify-between gap-4 px-5 py-5 text-left"
                 aria-expanded={isOpen}
                 on:click={() => toggleLegenda(i)}
               >
@@ -256,7 +265,7 @@
                     {String(i + 1).padStart(2, '0')}
                   </span>
                   <span class="font-serif text-lg md:text-xl font-medium text-arang-900">
-                    {item.nama}
+                    {item?.nama ?? ''}
                   </span>
                 </span>
                 <ChevronDown
@@ -266,9 +275,9 @@
               </button>
             </h3>
             {#if isOpen}
-              <div class="px-2 pb-6 pl-12">
+              <div class="px-5 pb-6 pl-16">
                 <div class="max-w-prose font-serif text-base leading-relaxed text-arang-800">
-                  {#each splitParagraphs(item.isi) as paragraf}
+                  {#each splitParagraphs(item?.isi ?? '') as paragraf}
                     <p class="mt-4 first:mt-0">{paragraf}</p>
                   {/each}
                 </div>
@@ -278,13 +287,13 @@
         {/each}
       </ul>
     </div>
-  </section>
+  </SectionShell>
 {/if}
 
 <!-- ============================================================ PEMERINTAHAN ============================================================ -->
 {#if kepemimpinan.length > 0}
-  <section class="container-page py-16 md:py-20" aria-labelledby="pemerintahan-title">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+  <SectionShell variant="default" padding="md">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12" aria-labelledby="pemerintahan-title">
       <div class="lg:col-span-4">
         <div class="flex items-center gap-2">
           <Landmark class="h-4 w-4 text-menoreh-700" strokeWidth={2} />
@@ -305,7 +314,9 @@
           <dl class="mt-8 space-y-3">
             {#each perubahanNama as pn}
               <div class="flex items-baseline gap-3 text-sm">
-                <dt class="font-mono text-xs text-arang-700/70 tnum shrink-0 w-24">{pn.periode}</dt>
+                <!-- Tabular nums + tanah-700 anchor the timeline columns as a
+                     printed register, not a generic table row. -->
+                <dt class="font-mono text-xs text-tanah-700 tnum shrink-0 w-24">{pn.periode}</dt>
                 <dd class="text-arang-700">
                   <span class="text-arang-900">{pn.sebutan}</span> &middot; {pn.kepala}
                 </dd>
@@ -319,7 +330,7 @@
         <ol class="relative">
           {#each kepemimpinan as p, i}
             <li class="grid grid-cols-[7rem_1fr] gap-6 py-5 {i !== kepemimpinan.length - 1 ? 'border-b border-krem-200' : ''}">
-              <div class="font-mono text-xs text-arang-700/80 tnum pt-1">{p.periode}</div>
+              <div class="font-mono text-xs text-tanah-700 tnum pt-1">{p.periode}</div>
               <div>
                 <div class="font-serif text-lg font-semibold text-arang-900">{p.pemimpin}</div>
                 <div class="text-sm text-arang-700">{p.jabatan}</div>
@@ -332,5 +343,5 @@
         </ol>
       </div>
     </div>
-  </section>
+  </SectionShell>
 {/if}

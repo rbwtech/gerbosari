@@ -11,6 +11,7 @@
   import Button from '../lib/components/ui/Button.svelte';
   import Card from '../lib/components/ui/Card.svelte';
   import Prose from '../lib/components/ui/Prose.svelte';
+  import SectionShell from '../lib/components/ui/SectionShell.svelte';
   import Skeleton from '../lib/components/ui/Skeleton.svelte';
   import EmptyState from '../lib/components/ui/EmptyState.svelte';
   import { getBerita } from '../lib/api/berita';
@@ -106,9 +107,10 @@
   }
 </script>
 
-<section class="container-page py-8 md:py-12">
-  <!-- Breadcrumb -->
-  <nav aria-label="Breadcrumb" class="mb-6 text-xs text-arang-500">
+<!-- Breadcrumb strip: kept on plain container so the chrome is unobtrusive
+     above the long-form reading surface that follows. -->
+<div class="container-page pt-8 md:pt-10 pb-2">
+  <nav aria-label="Breadcrumb" class="text-xs text-arang-500">
     <ol class="flex flex-wrap items-center gap-1.5">
       <li><a href="#/" class="hover:text-menoreh-700">Beranda</a></li>
       <li aria-hidden="true"><ChevronRight class="h-3 w-3" strokeWidth={2} /></li>
@@ -119,7 +121,10 @@
       </li>
     </ol>
   </nav>
+</div>
 
+<!-- Article body in paper biome — subtle grain behind reading content. -->
+<SectionShell variant="default" padding="lg">
   {#if loading}
     <div class="space-y-6">
       <Skeleton class="h-5 w-24" />
@@ -264,5 +269,5 @@
       </footer>
     </article>
   {/if}
-</section>
+</SectionShell>
 

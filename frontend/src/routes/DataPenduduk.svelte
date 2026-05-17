@@ -6,6 +6,7 @@
    */
   import { onMount, onDestroy } from 'svelte';
   import PageHeader from '../lib/components/layout/PageHeader.svelte';
+  import SectionShell from '../lib/components/ui/SectionShell.svelte';
   import Stat from '../lib/components/ui/Stat.svelte';
   import Skeleton from '../lib/components/ui/Skeleton.svelte';
   import EmptyState from '../lib/components/ui/EmptyState.svelte';
@@ -110,8 +111,8 @@
   description="Ringkasan demografis 19 pedukuhan."
 />
 
-<section class="container-page py-10 md:py-14 space-y-12">
-  <!-- Summary stat grid -->
+<!-- Summary stats on hijau mist — signals civic / landscape framing. -->
+<SectionShell variant="mist" padding="md">
   <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
     {#if loading}
       {#each Array(4) as _, i (i)}
@@ -152,9 +153,11 @@
       </div>
     {/if}
   </div>
+</SectionShell>
 
-  <!-- Distribution bar -->
-  {#if !loading && ringkasan && totalPenduduk > 0}
+<!-- Distribution bar on plain paper. -->
+{#if !loading && ringkasan && totalPenduduk > 0}
+  <SectionShell variant="default" padding="md">
     <div class="space-y-3">
       <div class="flex items-baseline justify-between">
         <h2 class="font-serif text-xl font-semibold text-arang-900">Distribusi Penduduk</h2>
@@ -187,9 +190,11 @@
         </span>
       </div>
     </div>
-  {/if}
+  </SectionShell>
+{/if}
 
-  <!-- Per-pedukuhan section -->
+<!-- Per-pedukuhan table on batik motif — reads like printed civic document. -->
+<SectionShell variant="batik" padding="lg">
   <div class="space-y-4">
     <div class="flex items-baseline justify-between">
       <h2 class="font-serif text-xl font-semibold text-arang-900">Sebaran per Pedukuhan</h2>
@@ -333,14 +338,17 @@
       </ul>
     {/if}
   </div>
+</SectionShell>
 
-  {#if !loading && ringkasan}
+<!-- Catatan kaki: small muted text, no shell wrap. -->
+{#if !loading && ringkasan}
+  <div class="container-page py-6">
     <p class="text-xs italic text-arang-500 leading-relaxed max-w-prose">
-      {#if ringkasan.per_pedukuhan[0]?.updated_at}
+      {#if ringkasan?.per_pedukuhan?.[0]?.updated_at}
         Data diperbarui {formatTanggal(ringkasan.per_pedukuhan[0].updated_at)}.
       {/if}
       Distribusi per pedukuhan merupakan estimasi proporsional berdasarkan rekapitulasi
       terakhir dan dapat berubah pada pemutakhiran berikutnya.
     </p>
-  {/if}
-</section>
+  </div>
+{/if}

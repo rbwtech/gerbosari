@@ -1,12 +1,14 @@
 <script lang="ts">
-  import PageHeader from '../lib/components/layout/PageHeader.svelte';
   import { getStrukturOrganisasi } from '../lib/content';
-  import { User, Users } from '../lib/components/icons';
+  import { User, Users, Mountain } from '../lib/components/icons';
 
   /**
-   * Struktur Organisasi - vertical org chart with five tiers plus Staf:
-   *   1. Kepala Desa  2. Sekretaris  3. Kasi (3)  4. Kaur (2)  5. Kadus (19)  6. Staf
-   * Each entry carries a no_sk (Surat Keputusan) reference where available.
+   * Struktur Organisasi - government-style organogram with batik-inspired warmth.
+   *
+   * Composition: hero band -> Kepala Desa apex -> connector -> Sekretaris ->
+   * divider "Pelaksana Teknis" -> grouped Kaur (menoreh accent) + Kasi (terakota
+   * accent) -> divider "Kepala Pedukuhan" -> 19-card grid (Sumbo rendered
+   * "Belum terisi") -> divider "Staf" -> 3 compact staff cards.
    */
   const data = getStrukturOrganisasi() as any;
 
@@ -22,180 +24,310 @@
   const kadus: Array<{ pedukuhan: string } & OrangPerangkat> = data?.kadus ?? [];
   const staf: OrangPerangkat[] = data?.staf ?? [];
 
+  /** True when a name slot is empty / TBD / explicitly null. */
   const isKosong = (nama: string | null | undefined): boolean =>
     !nama || nama.trim() === '' || nama.trim().toUpperCase() === 'TBD';
 
-  const renderNama = (nama: string | null | undefined): string =>
-    isKosong(nama) ? 'Kosong' : (nama as string);
-
-  const vline = 'mx-auto h-8 w-px bg-krem-300';
+  /** Inline tier-label utility. Mirrors the foundation `.eyebrow-village` token. */
+  const eyebrow =
+    'inline-block font-sans text-[10px] font-semibold uppercase tracking-[0.22em] text-terakota-700';
 </script>
 
-<PageHeader
-  eyebrow="Pemerintahan Desa"
-  title="Struktur Organisasi"
-  description="Susunan perangkat Desa Gerbosari beserta nomor Surat Keputusan."
-/>
+<!-- ============ HERO BAND ============ -->
+<header
+  class="relative overflow-hidden border-b border-krem-200 bg-tanah-paper"
+  style="background-color: #faf7f2; background-image: radial-gradient(ellipse 60% 50% at 18% 28%, #fdf5f0 0%, transparent 62%), radial-gradient(ellipse 55% 45% at 82% 72%, #f5ebe0 0%, transparent 60%);"
+>
+  <div class="container-page py-14 md:py-20">
+    <div class="flex flex-col items-center text-center">
+      <!-- Village crest: hill + sun, terakota stroke -->
+      <svg
+        class="h-12 w-12 text-terakota-600"
+        viewBox="0 0 48 48"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <circle cx="24" cy="16" r="5" />
+        <path d="M3 38 L16 22 L26 32 L34 24 L45 38 Z" fill="#fdf5f0" />
+        <path d="M3 38 L16 22 L26 32 L34 24 L45 38" />
+        <path d="M1 42 H47" stroke="#3e7242" />
+      </svg>
 
-<section class="container-page py-12 md:py-16" aria-labelledby="struktur-title">
-  <h2 id="struktur-title" class="sr-only">Bagan struktur organisasi</h2>
+      <p class="mt-5 {eyebrow}">Pemerintah Desa Gerbosari</p>
 
-  <!-- ============ TIER 1: Kepala Desa ============ -->
-  <div class="flex justify-center">
-    <article class="w-full max-w-sm rounded-lg border border-menoreh-500/30 bg-menoreh-50/70 p-6 text-center">
-      <div class="mx-auto inline-flex h-12 w-12 items-center justify-center rounded-full bg-menoreh-500 text-krem-50">
-        <User class="h-6 w-6" strokeWidth={1.75} />
-      </div>
-      <div class="mt-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-menoreh-700">
-        Kepala Desa
-      </div>
-      <div class="mt-1.5 font-serif text-xl font-semibold {isKosong(kepalaDesa.nama) ? 'italic text-arang-700/60' : 'text-arang-900'}">
-        {renderNama(kepalaDesa.nama)}
-      </div>
-      {#if kepalaDesa.no_sk}
-        <div class="mt-2 font-mono text-xs text-arang-700/70">SK {kepalaDesa.no_sk}</div>
-      {/if}
-    </article>
+      <h1
+        class="mt-3 font-serif text-4xl md:text-5xl font-semibold text-arang-900 text-balance"
+        style="letter-spacing: -0.02em; line-height: 1.1;"
+      >
+        Struktur Organisasi
+      </h1>
+
+      <p class="mt-3 font-serif italic text-base md:text-lg text-tanah-700">
+        Sejahtera Mandiri &mdash; Desa Wisata Berbasis Budaya dan Ekonomi Kreatif
+      </p>
+
+      <p class="mt-5 max-w-2xl text-sm md:text-base text-arang-700 leading-relaxed">
+        Susunan perangkat Desa Gerbosari beserta jabatan dan nomor Surat
+        Keputusan, dari Kepala Desa hingga Kepala Pedukuhan di 19 dusun.
+      </p>
+    </div>
+  </div>
+</header>
+
+<div class="container-page py-12 md:py-16">
+  <!-- ============ TIER 1: Kepala Desa apex ============ -->
+  <section aria-labelledby="tier-kepala-desa">
+    <h2 id="tier-kepala-desa" class="sr-only">Kepala Desa</h2>
+    <div class="flex justify-center">
+      <article
+        class="w-full max-w-lg rounded-lg border border-terakota-500/60 bg-krem-50 p-5 md:p-6"
+      >
+        <div class="flex items-center gap-5">
+          <!-- Photo placeholder block -->
+          <div
+            class="flex h-20 w-20 shrink-0 items-center justify-center rounded-md bg-krem-200 text-tanah-500 md:h-24 md:w-24"
+            aria-hidden="true"
+          >
+            <User class="h-9 w-9" strokeWidth={1.5} />
+          </div>
+
+          <div class="min-w-0 flex-1">
+            <span class={eyebrow}>{kepalaDesa.jabatan ?? 'Kepala Desa'}</span>
+            <div
+              class="mt-1 font-serif text-xl md:text-2xl font-semibold {isKosong(
+                kepalaDesa.nama
+              )
+                ? 'italic text-arang-500'
+                : 'text-arang-900'}"
+              style="letter-spacing: -0.01em;"
+            >
+              {isKosong(kepalaDesa.nama) ? 'Belum terisi' : kepalaDesa.nama}
+            </div>
+            {#if kepalaDesa.no_sk}
+              <div class="mt-2 font-mono text-[11px] tracking-tight text-arang-500">
+                SK {kepalaDesa.no_sk}
+              </div>
+            {/if}
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Connector: Kepala Desa -> Sekretaris (with diamond accent at midpoint) -->
+  <div class="relative mx-auto my-1 h-10 w-px bg-menoreh-300" aria-hidden="true">
+    <span
+      class="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-terakota-500"
+    ></span>
   </div>
 
-  <!-- ============ Connector ============ -->
-  <div class={vline} aria-hidden="true"></div>
+  <!-- ============ TIER 2: Sekretaris Desa ============ -->
+  <section aria-labelledby="tier-sekretaris">
+    <h2 id="tier-sekretaris" class="sr-only">Sekretaris Desa</h2>
+    <div class="flex justify-center">
+      <article
+        class="w-full max-w-md rounded-md border border-krem-300 border-l-2 border-l-terakota-500 bg-krem-50 p-4 md:p-5"
+      >
+        <div class="flex items-center gap-4">
+          <div
+            class="flex h-14 w-14 shrink-0 items-center justify-center rounded bg-krem-200 text-tanah-500"
+            aria-hidden="true"
+          >
+            <User class="h-6 w-6" strokeWidth={1.5} />
+          </div>
+          <div class="min-w-0 flex-1">
+            <span class={eyebrow}>{sekretaris.jabatan ?? 'Sekretaris Desa'}</span>
+            <div
+              class="mt-0.5 font-serif text-lg font-medium {isKosong(sekretaris.nama)
+                ? 'italic text-arang-500'
+                : 'text-arang-900'}"
+            >
+              {isKosong(sekretaris.nama) ? 'Belum terisi' : sekretaris.nama}
+            </div>
+            {#if sekretaris.no_sk}
+              <div class="mt-1 font-mono text-[11px] tracking-tight text-arang-500">
+                SK {sekretaris.no_sk}
+              </div>
+            {/if}
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
 
-  <!-- ============ TIER 2: Sekretaris ============ -->
-  <div class="flex justify-center">
-    <article class="w-full max-w-xs rounded-md border border-krem-200 bg-krem-50 p-5 text-center">
-      <div class="text-[10px] font-semibold uppercase tracking-[0.18em] text-terakota-600">
-        Sekretaris Desa
-      </div>
-      <div class="mt-1.5 font-serif text-lg font-medium {isKosong(sekretaris.nama) ? 'italic text-arang-700/60' : 'text-arang-900'}">
-        {renderNama(sekretaris.nama)}
-      </div>
-      {#if sekretaris.no_sk}
-        <div class="mt-1.5 font-mono text-xs text-arang-700/70">SK {sekretaris.no_sk}</div>
-      {/if}
-    </article>
+  <!-- ============ Divider: Pelaksana Teknis ============ -->
+  <div class="mt-12 mb-8 flex items-center gap-4">
+    <div class="h-px flex-1 bg-krem-300" aria-hidden="true"></div>
+    <span class={eyebrow}>Pelaksana Teknis</span>
+    <div class="h-px flex-1 bg-krem-300" aria-hidden="true"></div>
   </div>
 
-  <!-- ============ Connector ============ -->
-  {#if kasi.length > 0}
-    <div class={vline} aria-hidden="true"></div>
-  {/if}
-
-  <!-- ============ TIER 3: Kasi (3 cards) ============ -->
-  {#if kasi.length > 0}
-    <section aria-labelledby="kasi-title">
-      <h3 id="kasi-title" class="sr-only">Kepala Seksi</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        {#each kasi as item}
-          <article class="rounded-md border border-krem-200 bg-krem-50 p-5">
-            <div class="text-[10px] font-semibold uppercase tracking-[0.16em] text-terakota-600">
-              {item.jabatan}
-            </div>
-            <div class="mt-1.5 font-serif text-base {isKosong(item.nama) ? 'italic text-arang-700/60' : 'font-medium text-arang-900'}">
-              {renderNama(item.nama)}
-            </div>
-            {#if item.no_sk}
-              <div class="mt-1.5 font-mono text-xs text-arang-700/70">SK {item.no_sk}</div>
-            {/if}
-          </article>
-        {/each}
+  <!-- ============ TIER 3+4: Kaur & Kasi grouped ============ -->
+  <section aria-labelledby="tier-pelaksana">
+    <h2 id="tier-pelaksana" class="sr-only">Pelaksana Teknis</h2>
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-5 md:gap-6">
+      <!-- Kaur column (2 of 5) -->
+      <div class="md:col-span-2">
+        <div class="mb-3 flex items-center gap-2">
+          <span class="h-1.5 w-1.5 rounded-full bg-menoreh-500" aria-hidden="true"></span>
+          <span
+            class="font-sans text-[10px] font-semibold uppercase tracking-[0.22em] text-menoreh-700"
+          >
+            Kepala Urusan
+          </span>
+        </div>
+        <div class="grid grid-cols-1 gap-3">
+          {#each kaur as item}
+            <article
+              class="rounded-md border border-menoreh-200 bg-menoreh-50 p-4"
+            >
+              <div
+                class="font-sans text-[10px] font-semibold uppercase tracking-[0.16em] text-menoreh-700"
+              >
+                {item.jabatan}
+              </div>
+              <div
+                class="mt-1 font-serif text-base {isKosong(item.nama)
+                  ? 'italic text-arang-500'
+                  : 'font-medium text-arang-900'}"
+              >
+                {isKosong(item.nama) ? 'Belum terisi' : item.nama}
+              </div>
+              {#if item.no_sk}
+                <div class="mt-2 font-mono text-[11px] tracking-tight text-arang-500">
+                  SK {item.no_sk}
+                </div>
+              {/if}
+            </article>
+          {/each}
+        </div>
       </div>
-    </section>
-  {/if}
 
-  <!-- ============ Divider: Kaur ============ -->
-  {#if kaur.length > 0}
-    <div class="mt-12 mb-6 flex items-center gap-4" aria-hidden="true">
-      <div class="h-px flex-1 bg-krem-200"></div>
-      <span class="text-[10px] font-semibold uppercase tracking-[0.18em] text-arang-700/60">
-        Kepala Urusan
-      </span>
-      <div class="h-px flex-1 bg-krem-200"></div>
+      <!-- Kasi column (3 of 5) -->
+      <div class="md:col-span-3">
+        <div class="mb-3 flex items-center gap-2">
+          <span class="h-1.5 w-1.5 rounded-full bg-terakota-500" aria-hidden="true"></span>
+          <span
+            class="font-sans text-[10px] font-semibold uppercase tracking-[0.22em] text-terakota-700"
+          >
+            Kepala Seksi
+          </span>
+        </div>
+        <div class="grid grid-cols-1 gap-3">
+          {#each kasi as item}
+            <article
+              class="rounded-md border border-terakota-200 bg-terakota-50 p-4"
+            >
+              <div
+                class="font-sans text-[10px] font-semibold uppercase tracking-[0.16em] text-terakota-700"
+              >
+                {item.jabatan}
+              </div>
+              <div
+                class="mt-1 font-serif text-base {isKosong(item.nama)
+                  ? 'italic text-arang-500'
+                  : 'font-medium text-arang-900'}"
+              >
+                {isKosong(item.nama) ? 'Belum terisi' : item.nama}
+              </div>
+              {#if item.no_sk}
+                <div class="mt-2 font-mono text-[11px] tracking-tight text-arang-500">
+                  SK {item.no_sk}
+                </div>
+              {/if}
+            </article>
+          {/each}
+        </div>
+      </div>
     </div>
+  </section>
 
-    <!-- ============ TIER 4: Kaur (2 cards) ============ -->
-    <section aria-labelledby="kaur-title">
-      <h3 id="kaur-title" class="sr-only">Kepala Urusan</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {#each kaur as item}
-          <article class="rounded-md border border-krem-200 bg-krem-50 p-5">
-            <div class="text-[10px] font-semibold uppercase tracking-[0.16em] text-menoreh-700">
-              {item.jabatan}
-            </div>
-            <div class="mt-1.5 font-serif text-base {isKosong(item.nama) ? 'italic text-arang-700/60' : 'font-medium text-arang-900'}">
-              {renderNama(item.nama)}
-            </div>
-            {#if item.no_sk}
-              <div class="mt-1.5 font-mono text-xs text-arang-700/70">SK {item.no_sk}</div>
-            {/if}
-          </article>
-        {/each}
-      </div>
-    </section>
-  {/if}
+  <!-- ============ Divider: Kepala Pedukuhan ============ -->
+  <div class="mt-14 mb-8 flex items-center gap-4">
+    <div class="h-px flex-1 bg-krem-300" aria-hidden="true"></div>
+    <span class="inline-flex items-center gap-2 {eyebrow}">
+      <Users class="h-3.5 w-3.5" strokeWidth={2} />
+      Kepala Pedukuhan &middot; {kadus.length}
+    </span>
+    <div class="h-px flex-1 bg-krem-300" aria-hidden="true"></div>
+  </div>
 
-  <!-- ============ Divider: Kadus ============ -->
-  {#if kadus.length > 0}
-    <div class="mt-14 mb-6 flex items-center gap-4">
-      <div class="h-px flex-1 bg-krem-200" aria-hidden="true"></div>
-      <div class="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-arang-700/70">
-        <Users class="h-3.5 w-3.5" strokeWidth={2} />
-        <span>19 Kepala Pedukuhan</span>
-      </div>
-      <div class="h-px flex-1 bg-krem-200" aria-hidden="true"></div>
+  <!-- ============ TIER 5: Kadus (19) ============ -->
+  <section aria-labelledby="tier-kadus">
+    <h2 id="tier-kadus" class="sr-only">Kepala Pedukuhan</h2>
+    <div
+      class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+    >
+      {#each kadus as item}
+        <article
+          class="rounded-md border border-krem-200 bg-krem-50 px-4 py-3.5 {isKosong(
+            item.nama
+          )
+            ? 'opacity-80'
+            : ''}"
+          style={isKosong(item.nama) ? 'background-color: #f5ebe0;' : undefined}
+        >
+          <div class="flex items-center gap-2">
+            <span
+              class="h-1.5 w-1.5 shrink-0 rounded-full bg-terakota-500"
+              aria-hidden="true"
+            ></span>
+            <span class="font-serif text-[15px] font-medium text-arang-900">
+              {item.pedukuhan}
+            </span>
+          </div>
+          <div
+            class="mt-2 border-t border-krem-200 pt-2 text-sm {isKosong(item.nama)
+              ? 'italic text-arang-500'
+              : 'text-arang-800'}"
+          >
+            {isKosong(item.nama) ? 'Belum terisi' : item.nama}
+          </div>
+          {#if item.no_sk}
+            <div class="mt-1 font-mono text-[10px] tracking-tight text-arang-500">
+              SK {item.no_sk}
+            </div>
+          {/if}
+        </article>
+      {/each}
     </div>
-
-    <!-- ============ TIER 5: Kadus (19) ============ -->
-    <section aria-labelledby="kadus-title">
-      <h3 id="kadus-title" class="sr-only">Kepala Pedukuhan</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-        {#each kadus as item}
-          <article class="rounded-md border border-krem-200 bg-krem-50 px-4 py-3.5">
-            <div class="text-[10px] font-semibold uppercase tracking-[0.14em] text-arang-700/70">
-              Pedukuhan
-            </div>
-            <div class="mt-0.5 font-serif text-sm font-medium text-arang-900">{item.pedukuhan}</div>
-            <div class="mt-2 border-t border-krem-200 pt-2 text-sm {isKosong(item.nama) ? 'italic text-arang-700/60' : 'text-arang-800'}">
-              {renderNama(item.nama)}
-            </div>
-            {#if item.no_sk}
-              <div class="mt-1 font-mono text-[11px] text-arang-700/60">SK {item.no_sk}</div>
-            {/if}
-          </article>
-        {/each}
-      </div>
-    </section>
-  {/if}
+  </section>
 
   <!-- ============ Divider: Staf ============ -->
   {#if staf.length > 0}
-    <div class="mt-14 mb-6 flex items-center gap-4" aria-hidden="true">
-      <div class="h-px flex-1 bg-krem-200"></div>
-      <span class="text-[10px] font-semibold uppercase tracking-[0.18em] text-arang-700/60">
-        Staf
-      </span>
-      <div class="h-px flex-1 bg-krem-200"></div>
+    <div class="mt-14 mb-8 flex items-center gap-4">
+      <div class="h-px flex-1 bg-krem-300" aria-hidden="true"></div>
+      <span class={eyebrow}>Staf &middot; {staf.length}</span>
+      <div class="h-px flex-1 bg-krem-300" aria-hidden="true"></div>
     </div>
 
-    <!-- ============ TIER 6: Staf ============ -->
-    <section aria-labelledby="staf-title">
-      <h3 id="staf-title" class="sr-only">Staf</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+    <!-- ============ TIER 6: Staf (3) ============ -->
+    <section aria-labelledby="tier-staf">
+      <h2 id="tier-staf" class="sr-only">Staf</h2>
+      <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
         {#each staf as item}
-          <article class="rounded-md border border-krem-200 bg-krem-50 p-4">
-            <div class="text-[10px] font-semibold uppercase tracking-[0.16em] text-arang-700/70">
-              Staf
-            </div>
-            <div class="mt-1.5 font-serif text-base {isKosong(item.nama) ? 'italic text-arang-700/60' : 'font-medium text-arang-900'}">
-              {renderNama(item.nama)}
+          <article
+            class="rounded-md border border-krem-200 bg-krem-50 px-4 py-3"
+          >
+            <div
+              class="font-serif text-[15px] {isKosong(item.nama)
+                ? 'italic text-arang-500'
+                : 'font-medium text-arang-900'}"
+            >
+              {isKosong(item.nama) ? 'Belum terisi' : item.nama}
             </div>
             {#if item.no_sk}
-              <div class="mt-1.5 font-mono text-xs text-arang-700/70">SK {item.no_sk}</div>
+              <div class="mt-1 font-mono text-[10px] tracking-tight text-arang-500">
+                SK {item.no_sk}
+              </div>
             {/if}
           </article>
         {/each}
       </div>
     </section>
   {/if}
-
-</section>
+</div>

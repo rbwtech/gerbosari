@@ -3,7 +3,7 @@
   import { getBeranda, getPetaWilayah } from '../lib/content';
   import Button from '../lib/components/ui/Button.svelte';
   import Card from '../lib/components/ui/Card.svelte';
-  import Badge from '../lib/components/ui/Badge.svelte';
+  import SectionShell from '../lib/components/ui/SectionShell.svelte';
   import {
     ArrowRight,
     Mountain,
@@ -146,11 +146,12 @@
 </section>
 
 <!-- ============================================================ INTRO + STATS ============================================================ -->
-<section
-  class="container-page py-16 md:py-20"
-  aria-labelledby="intro-title"
->
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+<!-- Mist biome welcomes the reader after the dark hero - Menoreh morning haze. -->
+<SectionShell variant="mist" padding="md">
+  <div
+    class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16"
+    aria-labelledby="intro-title"
+  >
     <div class="lg:col-span-7">
       <p class="eyebrow">Sekilas Desa</p>
       <h2
@@ -170,7 +171,8 @@
     </div>
 
     <aside class="lg:col-span-5" aria-label="Statistik desa">
-      <div class="grid grid-cols-2 divide-x divide-y divide-krem-200 border border-krem-200 rounded-lg overflow-hidden bg-krem-50">
+      <!-- Card on mist: white surface, krem-200 border per spec. -->
+      <div class="grid grid-cols-2 divide-x divide-y divide-krem-200 border border-krem-200 rounded-lg overflow-hidden bg-white">
         {#each headlineStats as s}
           <div class="p-5 md:p-6 min-w-0">
             <div class="text-[11px] font-medium uppercase tracking-[0.14em] text-arang-700/70">{s.label}</div>
@@ -183,14 +185,13 @@
       </div>
     </aside>
   </div>
-</section>
+</SectionShell>
 
 <!-- ============================================================ EMPAT KAWASAN ============================================================ -->
-<section
-  class="border-y border-krem-200 bg-menoreh-50/60"
-  aria-labelledby="zona-title"
->
-  <div class="container-page py-16 md:py-20">
+<!-- Batik biome behind the 4 zona cards: subtle terakota dot motif, reads as
+     economic + craft identity rather than a generic feature grid. -->
+<SectionShell variant="batik" padding="lg">
+  <div aria-labelledby="zona-title">
     <div class="max-w-2xl">
       <p class="eyebrow">Pembangunan Terpadu</p>
       <h2
@@ -210,7 +211,9 @@
         {#each zona as z}
           {@const Icon = zonaIcon(z.nomor)}
           {@const lokasi = zonaLokasi(z)}
-          <Card padded={false} class="flex flex-col h-full">
+          <!-- On batik motif, cards step down to krem-50 with krem-300 border so
+               they read as paper cards laid over the printed motif. -->
+          <article class="flex flex-col h-full rounded-lg border border-krem-300 bg-krem-50 transition-colors hover:border-terakota-400">
             <div class="p-6 flex-1">
               <div class="flex items-center justify-between">
                 <span class="inline-flex h-10 w-10 items-center justify-center rounded-md bg-menoreh-50 text-menoreh-700">
@@ -226,74 +229,75 @@
               <p class="mt-2 text-sm text-arang-700 leading-relaxed">{z.tema}</p>
             </div>
             {#if lokasi.length > 0}
-              <div class="border-t border-krem-200 p-5">
+              <div class="border-t border-krem-300 p-5">
                 <div class="text-[10px] font-semibold uppercase tracking-[0.16em] text-arang-700/70">
                   Pedukuhan
                 </div>
                 <div class="mt-2 flex flex-wrap gap-1.5">
                   {#each lokasi as p}
-                    <span class="inline-flex items-center rounded-sm border border-krem-200 bg-krem-100 px-1.5 py-0.5 text-[11px] font-medium uppercase tracking-wide text-arang-700">
+                    <span class="inline-flex items-center rounded-sm border border-krem-300 bg-white px-1.5 py-0.5 text-[11px] font-medium uppercase tracking-wide text-arang-700">
                       {p}
                     </span>
                   {/each}
                 </div>
               </div>
             {/if}
-          </Card>
+          </article>
         {/each}
       </div>
     {/if}
   </div>
-</section>
+</SectionShell>
 
 <!-- ============================================================ JELAJAHI ============================================================ -->
-<section class="container-page py-16 md:py-20" aria-labelledby="jelajahi-title">
-  <div class="flex items-end justify-between gap-4 mb-10">
-    <div>
-      <p class="eyebrow">Navigasi</p>
-      <h2
-        id="jelajahi-title"
-        class="mt-3 font-serif text-3xl md:text-4xl font-semibold text-arang-900"
-      >
-        Jelajahi Desa
-      </h2>
+<!-- Calm paper bg between two textured biomes - rest the eye before tanah. -->
+<SectionShell variant="default" padding="md">
+  <div aria-labelledby="jelajahi-title">
+    <div class="flex items-end justify-between gap-4 mb-10">
+      <div>
+        <p class="eyebrow">Navigasi</p>
+        <h2
+          id="jelajahi-title"
+          class="mt-3 font-serif text-3xl md:text-4xl font-semibold text-arang-900"
+        >
+          Jelajahi Desa
+        </h2>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      {#each links as item}
+        <a
+          href={item.href}
+          use:link
+          class="group flex items-start gap-5 rounded-lg border border-krem-200 bg-white p-6 transition-colors hover:border-menoreh-500/40 hover:bg-menoreh-50/40"
+        >
+          <span class="shrink-0 inline-flex h-11 w-11 items-center justify-center rounded-md bg-menoreh-50 text-menoreh-700">
+            <svelte:component this={item.Icon} class="h-5 w-5" strokeWidth={1.75} />
+          </span>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-3">
+              <h3 class="font-serif text-lg font-semibold text-arang-900">{item.title}</h3>
+              <ArrowRight class="h-4 w-4 text-arang-700/40 transition-colors group-hover:text-menoreh-600" strokeWidth={2} />
+            </div>
+            <p class="mt-1 text-sm text-arang-700 leading-relaxed">{item.desc}</p>
+          </div>
+        </a>
+      {/each}
     </div>
   </div>
-
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-    {#each links as item}
-      <a
-        href={item.href}
-        use:link
-        class="group flex items-start gap-5 rounded-lg border border-krem-200 bg-krem-50 p-6 transition-colors hover:border-menoreh-500/40 hover:bg-menoreh-50/40"
-      >
-        <span class="shrink-0 inline-flex h-11 w-11 items-center justify-center rounded-md bg-menoreh-50 text-menoreh-700">
-          <svelte:component this={item.Icon} class="h-5 w-5" strokeWidth={1.75} />
-        </span>
-        <div class="flex-1 min-w-0">
-          <div class="flex items-center justify-between gap-3">
-            <h3 class="font-serif text-lg font-semibold text-arang-900">{item.title}</h3>
-            <ArrowRight class="h-4 w-4 text-arang-700/40 transition-colors group-hover:text-menoreh-600" strokeWidth={2} />
-          </div>
-          <p class="mt-1 text-sm text-arang-700 leading-relaxed">{item.desc}</p>
-        </div>
-      </a>
-    {/each}
-  </div>
-</section>
+</SectionShell>
 
 <!-- ============================================================ SEKILAS WISATA: SUROLOYO ============================================================ -->
-<section
-  class="border-t border-krem-200 bg-krem-100/40"
-  aria-labelledby="suroloyo-title"
->
-  <div class="container-page py-16 md:py-24">
+<!-- Tanah biome carries the cultural/heritage weight - radial terakota wash. -->
+<SectionShell variant="tanah" padding="lg">
+  <div aria-labelledby="suroloyo-title">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
       <figure class="order-2 lg:order-1">
         <img
           src="/images/gallery/gerbosari-puncak-suroloyo.png"
           alt="Gardu pandang Puncak Suroloyo, titik tertinggi perbukitan Menoreh"
-          class="w-full aspect-[4/3] object-cover rounded-lg border border-krem-200"
+          class="w-full aspect-[4/3] object-cover rounded-lg border border-tanah-200"
           loading="lazy"
           decoding="async"
         />
@@ -302,7 +306,8 @@
         </figcaption>
       </figure>
 
-      <div class="order-1 lg:order-2">
+      <!-- Lead card gets a single terakota left-rule - marks the heritage moment. -->
+      <div class="order-1 lg:order-2 rounded-lg border border-tanah-200 bg-white p-7 md:p-8 border-l-2 border-l-terakota-500">
         <p class="eyebrow">Sekilas Wisata</p>
         <h2
           id="suroloyo-title"
@@ -326,16 +331,16 @@
       </div>
     </div>
   </div>
-</section>
+</SectionShell>
 
 <!-- ============================================================ LOKASI / KONTAK ============================================================ -->
-<section class="container-page py-16 md:py-20" aria-labelledby="lokasi-title">
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<SectionShell variant="default" padding="md">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6" aria-labelledby="lokasi-title">
     <div class="lg:col-span-2">
       <p class="eyebrow">Lokasi</p>
       <h2
         id="lokasi-title"
-        class="mt-3 font-serif text-3xl font-semibold text-arang-900"
+        class="mt-3 font-serif text-3xl md:text-4xl font-semibold text-arang-900"
       >
         Kantor Desa Gerbosari
       </h2>
@@ -391,4 +396,4 @@
       {/if}
     </aside>
   </div>
-</section>
+</SectionShell>

@@ -5,6 +5,7 @@
    */
   import { onMount, onDestroy } from 'svelte';
   import PageHeader from '../lib/components/layout/PageHeader.svelte';
+  import SectionShell from '../lib/components/ui/SectionShell.svelte';
   import Tabs from '../lib/components/ui/Tabs.svelte';
   import Card from '../lib/components/ui/Card.svelte';
   import Badge from '../lib/components/ui/Badge.svelte';
@@ -108,16 +109,18 @@
   description="Kabar terbaru dan agenda kegiatan Desa Gerbosari."
 />
 
-<section class="container-page py-10 md:py-14 space-y-10">
+<!-- Tabs band: small default shell so filter chrome reads as a sub-header strip. -->
+<SectionShell variant="default" padding="sm">
   <Tabs
     tabs={tabs}
     value={activeTab}
     ariaLabel="Filter kategori berita"
     on:change={onTabChange}
   />
+</SectionShell>
 
-  {#if loading}
-    <!-- Featured skeleton -->
+{#if loading}
+  <SectionShell variant="tanah" padding="lg">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-center">
       <Skeleton class="aspect-[16/10] w-full" />
       <div class="space-y-4">
@@ -129,7 +132,8 @@
         <Skeleton class="h-10 w-40" />
       </div>
     </div>
-    <!-- List skeleton -->
+  </SectionShell>
+  <SectionShell variant="default" padding="lg" class="bg-krem-50">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {#each Array(6) as _, i (i)}
         <div class="space-y-3 rounded-lg border border-krem-200 bg-white p-4">
@@ -140,7 +144,9 @@
         </div>
       {/each}
     </div>
-  {:else if errorMessage}
+  </SectionShell>
+{:else if errorMessage}
+  <SectionShell variant="default" padding="lg">
     <EmptyState
       variant="error"
       title="Tidak dapat memuat berita"
@@ -148,7 +154,9 @@
       actionLabel="Coba lagi"
       onAction={load}
     />
-  {:else if filteredItems.length === 0}
+  </SectionShell>
+{:else if filteredItems.length === 0}
+  <SectionShell variant="default" padding="lg">
     <EmptyState
       title="Belum ada publikasi"
       description={activeTab === 'agenda'
@@ -157,15 +165,17 @@
           ? 'Belum ada berita yang dipublikasikan saat ini.'
           : 'Belum ada berita maupun agenda yang dipublikasikan.'}
     />
-  {:else}
-    <!-- Featured -->
-    {#if featured}
-      {@const fStatus = agendaStatus(featured)}
+  </SectionShell>
+{:else}
+  <!-- Featured: warm tanah-paper biome elevates the lead item. -->
+  {#if featured}
+    {@const fStatus = agendaStatus(featured)}
+    <SectionShell variant="tanah" padding="lg">
       <article class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-center">
         <a
           href={`#/berita/${featured.slug}`}
-          class="block overflow-hidden rounded-lg border border-krem-200 bg-krem-100 aspect-[16/10]"
-          aria-label={featured.judul}
+          class="block overflow-hidden rounded-lg border border-krem-200 bg-white aspect-[16/10]"
+          aria-label={featured?.judul ?? ''}
         >
           {#if featured.gambar_url}
             <img
@@ -195,7 +205,7 @@
             </a>
           </h2>
           <p class="mt-4 text-base text-arang-700 leading-relaxed">
-            {featured.ringkasan}
+            {featured?.ringkasan ?? ''}
           </p>
           <dl class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-arang-700">
             <div class="inline-flex items-center gap-1.5">
@@ -218,10 +228,12 @@
           </div>
         </div>
       </article>
-    {/if}
+    </SectionShell>
+  {/if}
 
-    <!-- Remainder grid -->
-    {#if rest.length > 0}
+  <!-- Remainder grid on cool krem-50 surface so list cards pop. -->
+  {#if rest.length > 0}
+    <SectionShell variant="default" padding="lg" class="bg-krem-50">
       <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {#each rest as item (item.id)}
           {@const aStatus = agendaStatus(item)}
@@ -229,7 +241,7 @@
             <a
               href={`#/berita/${item.slug}`}
               class="block h-full"
-              aria-label={item.judul}
+              aria-label={item?.judul ?? ''}
             >
               <Card as="article" interactive padding="sm" class="h-full overflow-hidden p-0">
                 <div class="relative aspect-[16/9] overflow-hidden bg-krem-100">
@@ -262,7 +274,7 @@
                     {item.judul}
                   </h3>
                   <p class="mt-2 text-sm text-arang-700 leading-relaxed line-clamp-2">
-                    {item.ringkasan}
+                    {item?.ringkasan ?? ''}
                   </p>
                   <dl class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-arang-500">
                     <div class="inline-flex items-center gap-1">
@@ -277,6 +289,6 @@
           </li>
         {/each}
       </ul>
-    {/if}
+    </SectionShell>
   {/if}
-</section>
+{/if}

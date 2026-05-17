@@ -118,6 +118,25 @@ export default {
 
       ringColor: {
         focus: '#3e7242' // menoreh-500
+      },
+
+      // Village-themed section "biomes". Kept as data-URI SVGs so no extra
+      // assets ship — each pattern stays under ~1KB after minification and
+      // renders standalone in any modern browser.
+      backgroundImage: {
+        'menoreh-mist':
+          'linear-gradient(180deg, #dde8de 0%, #f0f5f1 35%, #faf7f2 100%)',
+        // Solid base colors for tanah-paper / menoreh-deep are applied via the
+        // .bg-tanah-paper / .bg-menoreh-deep utility classes (background-color),
+        // because CSS `background-image` does not accept a solid color value.
+        'tanah-paper':
+          'radial-gradient(ellipse 60% 50% at 18% 28%, #fdf5f0 0%, transparent 62%), radial-gradient(ellipse 55% 45% at 82% 72%, #f5ebe0 0%, transparent 60%)',
+        'menoreh-deep':
+          'radial-gradient(ellipse 70% 60% at 30% 20%, #1a3019 0%, transparent 60%), radial-gradient(ellipse 60% 55% at 75% 80%, #244226 0%, transparent 65%)',
+        'paper-noise':
+          "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.24  0 0 0 0 0.18  0 0 0 0 0.12  0 0 0 0.035 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>\")",
+        'batik-dots':
+          "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'><g fill='none' stroke='%23b85c38' stroke-width='0.6' stroke-opacity='0.18'><circle cx='10' cy='10' r='1.6'/><circle cx='46' cy='10' r='1.6'/><circle cx='28' cy='28' r='2.2'/><circle cx='10' cy='46' r='1.6'/><circle cx='46' cy='46' r='1.6'/><path d='M26 6 L30 10 L26 14 L22 10 Z'/><path d='M26 42 L30 46 L26 50 L22 46 Z'/><path d='M6 26 L10 30 L6 34 L2 30 Z' transform='translate(2 -2)'/></g><g fill='%233e7242' fill-opacity='0.10'><circle cx='28' cy='28' r='0.9'/></g></svg>\")"
       }
     }
   },

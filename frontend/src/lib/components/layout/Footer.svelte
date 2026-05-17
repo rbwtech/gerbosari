@@ -93,7 +93,16 @@
   <div class="border-t border-krem-100/10">
     <div class="container-page py-5 text-xs text-krem-100/60 flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">
       <span>&copy; {tahun} Pemerintah Desa Gerbosari. Hak cipta dilindungi.</span>
-      <span>Tugas Akhir Komputasi Awan &middot; UIN Sunan Kalijaga</span>
+      <span class="flex items-center gap-3">
+        <span>Tugas Akhir Komputasi Awan &middot; UIN Sunan Kalijaga</span>
+        <span aria-hidden="true" class="text-krem-100/30">&middot;</span>
+        <a
+          href="#/admin/login"
+          class="text-xs text-krem-100/60 hover:text-terakota-300 transition-colors duration-200 ease-out"
+        >
+          Admin
+        </a>
+      </span>
     </div>
   </div>
 </footer>

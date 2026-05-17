@@ -1,10 +1,13 @@
 <script lang="ts">
   import PageHeader from '../lib/components/layout/PageHeader.svelte';
+  import SectionShell from '../lib/components/ui/SectionShell.svelte';
   import { getVisiMisi } from '../lib/content';
 
   /**
-   * Visi & Misi - tabbed layout (Desa | Kabupaten) with a numbered serif list
-   * for misi text content.
+   * Visi & Misi - tabbed layout (Desa | Kabupaten). The page deliberately
+   * leans on typography over chrome: large serif visi blockquote, oversized
+   * terakota numerals for misi items. Background biome stays minimal (mist
+   * for visi, paper for misi) so the type carries the page.
    */
   const data = getVisiMisi() as any;
   const desa = data?.desa ?? {};
@@ -18,7 +21,7 @@
   let active: TabId = 'desa';
 
   $: visi = active === 'desa' ? desa?.visi : kabupaten?.visi;
-  $: misi = (active === 'desa' ? desa?.misi : kabupaten?.misi) ?? [];
+  $: misi = ((active === 'desa' ? desa?.misi : kabupaten?.misi) ?? []) as string[];
 </script>
 
 <PageHeader
@@ -27,61 +30,99 @@
   description="Cita-cita pembangunan jangka panjang dan langkah strategis di tingkat desa maupun kabupaten."
 />
 
-<section class="container-page py-12 md:py-16" aria-labelledby="visimisi-tabs">
-  <!-- Tabs -->
+<!-- ============================================================ TABS ============================================================ -->
+<!-- Tabs sit on a calm paper band so the underline indicator carries the
+     emphasis. Each tab is a serif label; active gains a terakota-500 rule. -->
+<SectionShell variant="default" padding="sm">
   <h2 id="visimisi-tabs" class="sr-only">Pilih level pemerintahan</h2>
   <div
     role="tablist"
     aria-labelledby="visimisi-tabs"
-    class="inline-flex items-center gap-1 rounded-md border border-krem-200 bg-krem-50 p-1"
+    class="flex items-center gap-1 border-b border-krem-300"
   >
     {#each tabs as t}
+      {@const isActive = active === t.id}
       <button
         type="button"
         role="tab"
-        aria-selected={active === t.id}
+        aria-selected={isActive}
         aria-controls="panel-{t.id}"
         id="tab-{t.id}"
-        class="rounded px-4 h-9 text-sm font-medium transition-colors {active === t.id
-          ? 'bg-menoreh-500 text-krem-50'
-          : 'text-arang-700 hover:text-menoreh-700'}"
+        tabindex={isActive ? 0 : -1}
+        class="relative px-5 h-11 font-serif text-base md:text-lg transition-colors duration-200 ease-out
+               {isActive ? 'text-arang-900' : 'text-arang-700 hover:text-arang-900'}"
         on:click={() => (active = t.id)}
       >
         {t.label}
+        {#if isActive}
+          <span
+            class="absolute left-5 right-5 -bottom-px h-[2px] bg-terakota-500"
+            aria-hidden="true"
+          ></span>
+        {/if}
       </button>
     {/each}
   </div>
+</SectionShell>
 
-  <!-- Panel -->
+<!-- ============================================================ VISI ============================================================ -->
+<!-- Mist biome lifts the visi quote - mountain-morning paper, terakota
+     opening quote SVG floats to the left like a printed flourish. -->
+<SectionShell variant="mist" padding="lg">
   <div
     id="panel-{active}"
     role="tabpanel"
     aria-labelledby="tab-{active}"
-    class="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16"
+    aria-label="Visi {active === 'desa' ? 'Desa Gerbosari' : 'Kabupaten Kulon Progo'}"
   >
-    <!-- Visi column -->
-    <div class="lg:col-span-5">
-      <p class="eyebrow">Visi</p>
-      <blockquote class="mt-4">
-        <p class="font-serif text-2xl md:text-3xl font-medium text-arang-900 leading-snug text-balance">
-          <span class="font-serif text-5xl leading-none text-terakota-500 align-top mr-1">&ldquo;</span>{visi ?? '-'}<span class="font-serif text-5xl leading-none text-terakota-500 align-bottom ml-1">&rdquo;</span>
-        </p>
-      </blockquote>
-    </div>
-
-    <!-- Misi column -->
-    <div class="lg:col-span-7">
-      <p class="eyebrow">Misi</p>
-      <ol class="mt-4 space-y-5">
-        {#each misi as point, i}
-          <li class="grid grid-cols-[3.5rem_1fr] gap-4 border-b border-krem-200 pb-5 last:border-b-0 last:pb-0">
-            <span class="font-serif text-3xl font-semibold text-terakota-600 tnum leading-none pt-1">
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <p class="text-arang-800 leading-relaxed pt-1">{point}</p>
-          </li>
-        {/each}
-      </ol>
-    </div>
+    <p class="eyebrow">Visi</p>
+    <blockquote class="mt-6 relative">
+      <!-- Floating terakota opening quote mark (decorative, hidden from AT). -->
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        class="pointer-events-none absolute -left-2 md:-left-4 -top-6 md:-top-8 h-12 w-12 md:h-16 md:w-16 text-terakota-500"
+        viewBox="0 0 32 32"
+        fill="currentColor"
+      >
+        <path d="M9.5 22H4.8c0-3.2.3-5.5 1-7s2.1-2.7 4-3.8L11 13c-1.1.7-1.9 1.4-2.4 2.2-.5.8-.8 1.7-.8 2.6h1.7v4.2zm12.7 0h-4.7c0-3.2.3-5.5 1-7s2.1-2.7 4-3.8l1.2 1.8c-1.1.7-1.9 1.4-2.4 2.2-.5.8-.8 1.7-.8 2.6h1.7V22z" />
+      </svg>
+      <p class="font-serif italic font-medium text-4xl md:text-5xl text-menoreh-900 leading-tight text-balance">
+        {visi ?? '-'}
+      </p>
+    </blockquote>
   </div>
-</section>
+</SectionShell>
+
+<!-- ============================================================ MISI ============================================================ -->
+<!-- Misi: oversized terakota-300 serif numerals beside Inter body - reads as
+     a numbered manifesto on paper, not a SaaS feature list. -->
+<SectionShell variant="default" padding="lg">
+  <div aria-labelledby="misi-title">
+    <p class="eyebrow">Misi</p>
+    <h2
+      id="misi-title"
+      class="mt-3 font-serif text-3xl md:text-4xl font-semibold text-arang-900 leading-tight"
+    >
+      Langkah Strategis
+    </h2>
+
+    <ol class="mt-10 space-y-10 md:space-y-12">
+      {#each misi as point, i}
+        <li class="grid grid-cols-1 md:grid-cols-[10rem_1fr] gap-4 md:gap-10 border-b border-krem-200 pb-10 last:border-b-0 last:pb-0">
+          <!-- Huge serif number - terakota-300 keeps it as a watermark, not a
+               competing label. text-7xl per spec, tabular for alignment. -->
+          <div
+            class="font-serif text-6xl md:text-7xl font-semibold text-terakota-300 tnum leading-none"
+            aria-hidden="true"
+          >
+            {String(i + 1).padStart(2, '0')}
+          </div>
+          <p class="text-base md:text-lg text-arang-800 leading-relaxed pt-2 md:pt-4">
+            <span class="sr-only">Misi {i + 1}.</span>{point}
+          </p>
+        </li>
+      {/each}
+    </ol>
+  </div>
+</SectionShell>

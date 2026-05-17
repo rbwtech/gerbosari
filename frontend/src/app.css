@@ -39,7 +39,7 @@
   }
 
   body {
-    @apply bg-krem-50 text-arang-900 font-sans antialiased;
+    @apply bg-paper text-arang-900 font-sans antialiased;
     /* Inter character variants: cv11 = single-storey g, ss01 = stylistic set 1 */
     font-feature-settings: 'cv11', 'ss01';
     line-height: 1.65;
@@ -55,7 +55,7 @@
   }
 
   ::selection {
-    background: theme('colors.menoreh.100');
+    background: theme('colors.menoreh.200');
     color: theme('colors.menoreh.900');
   }
 
@@ -157,6 +157,41 @@
     @apply text-xs font-semibold uppercase text-terakota-600;
     letter-spacing: 0.18em;
   }
+
+  /*
+   * Stronger eyebrow variant for biome-themed section intros (sejarah, legenda,
+   * berita lead). Higher tracking + darker terakota anchors it as a printed
+   * batik label rather than a generic SaaS tag.
+   */
+  .eyebrow-village {
+    @apply text-xs font-semibold uppercase text-terakota-700;
+    letter-spacing: 0.22em;
+  }
+
+  /*
+   * Batik-inspired horizontal divider. Composed entirely of inline SVG so the
+   * motif scales crisp at any DPR without raster artifacts. Uses currentColor
+   * fall-through on the line and explicit terakota fill on the medallions to
+   * keep colour control inside the SVG (works on any biome variant).
+   */
+  .divider-batik {
+    @apply flex items-center justify-center gap-3 my-10;
+    color: theme('colors.menoreh.300');
+  }
+  .divider-batik::before,
+  .divider-batik::after {
+    content: '';
+    flex: 1 1 0;
+    height: 1px;
+    background: currentColor;
+    max-width: 6rem;
+  }
+  .divider-batik > svg {
+    flex: none;
+    width: 64px;
+    height: 14px;
+    display: block;
+  }
 }
 
 @layer utilities {
@@ -169,5 +204,52 @@
   /* Tabular numerals for stats, tables, data rows */
   .tnum {
     font-variant-numeric: tabular-nums;
+  }
+
+  /*
+   * Section background "biomes" — village-themed surfaces consumed by
+   * SectionShell.svelte and selectively applied on routes. Each variant is a
+   * single composite background so it can stand alone on a <section> without
+   * additional wrappers. Opacity is kept low to read as texture, not pattern.
+   */
+
+  /* Default paper surface: krem-50 + barely-visible noise grain. */
+  .bg-paper {
+    background-color: theme('colors.krem.50');
+    background-image: theme('backgroundImage.paper-noise');
+    background-repeat: repeat;
+    background-size: 180px 180px;
+  }
+
+  /* Morning mist on Menoreh forest — gentle vertical ramp menoreh-100 → krem-50. */
+  .bg-menoreh-mist {
+    background-image: theme('backgroundImage.menoreh-mist');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  /* Warm paper with terakota tint blobs — reserved for sejarah / legenda. */
+  .bg-tanah-paper {
+    background-color: theme('colors.krem.50');
+    background-image: theme('backgroundImage.tanah-paper');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  /* Subtle batik dot-and-diamond motif on krem-50 — texture behind cards. */
+  .bg-batik-motif {
+    background-color: theme('colors.krem.50');
+    background-image: theme('backgroundImage.batik-dots');
+    background-repeat: repeat;
+    background-size: 56px 56px;
+  }
+
+  /* Dark Menoreh ridge — hero variants only. Pairs with text-krem-50. */
+  .bg-menoreh-deep {
+    background-color: theme('colors.menoreh.900');
+    background-image: theme('backgroundImage.menoreh-deep');
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: theme('colors.krem.50');
   }
 }

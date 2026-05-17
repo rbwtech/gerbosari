@@ -6,6 +6,7 @@
    */
   import { onMount, onDestroy } from 'svelte';
   import PageHeader from '../lib/components/layout/PageHeader.svelte';
+  import SectionShell from '../lib/components/ui/SectionShell.svelte';
   import Card from '../lib/components/ui/Card.svelte';
   import Chip from '../lib/components/ui/Chip.svelte';
   import Badge from '../lib/components/ui/Badge.svelte';
@@ -179,8 +180,8 @@
   description="Kesempatan kerja di UMKM, BUMDes, dan kelompok usaha Desa Gerbosari."
 />
 
-<section class="container-page py-10 md:py-14 space-y-8">
-  <!-- Controls: filters, search, sort -->
+<!-- Controls strip: filters, search, sort on paper biome. -->
+<SectionShell variant="default" padding="md">
   <div class="space-y-4">
     <div class="flex flex-wrap items-center gap-2">
       <Chip
@@ -239,12 +240,14 @@
       </label>
     </div>
   </div>
+</SectionShell>
 
-  <!-- States -->
+<!-- Cards on batik motif: evokes "papan pengumuman desa" feel. -->
+<SectionShell variant="batik" padding="lg">
   {#if loading}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
       {#each Array(4) as _, i (i)}
-        <div class="rounded-lg border border-krem-200 bg-white p-6 space-y-4">
+        <div class="rounded-lg border border-krem-300 bg-white p-6 space-y-4">
           <div class="flex items-start justify-between gap-3">
             <div class="space-y-2 flex-1">
               <Skeleton class="h-6 w-3/4" />
@@ -282,7 +285,7 @@
         {@const kind = kontak ? kontakKind(kontak) : 'text'}
         {@const href = kontak ? kontakHref(kontak) : undefined}
         <li class="h-full {expired ? 'opacity-60' : ''}">
-          <Card as="article" interactive padding="md" class="h-full flex flex-col">
+          <Card as="article" interactive padding="md" class="h-full flex flex-col border-krem-300">
             <svelte:fragment slot="header">
               <div class="flex items-start justify-between gap-3">
                 <div class="min-w-0">
@@ -369,4 +372,4 @@
       {/each}
     </ul>
   {/if}
-</section>
+</SectionShell>

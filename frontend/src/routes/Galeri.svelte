@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount, onDestroy, tick } from 'svelte';
   import PageHeader from '../lib/components/layout/PageHeader.svelte';
+  import SectionShell from '../lib/components/ui/SectionShell.svelte';
   import EmptyState from '../lib/components/ui/EmptyState.svelte';
   import Skeleton from '../lib/components/ui/Skeleton.svelte';
   import Badge from '../lib/components/ui/Badge.svelte';
@@ -144,10 +145,10 @@
   description="Dokumentasi kegiatan, wisata, budaya, dan agrowisata Desa Gerbosari."
 />
 
-<section class="container-page py-10 md:py-14">
-  <!-- Filter row -->
-  {#if !loading && !errorMessage && items.length > 0}
-    <div class="-mx-6 md:mx-0 overflow-x-auto md:overflow-visible mb-8">
+<!-- Filter chip row: small default shell, reads as sub-header strip. -->
+{#if !loading && !errorMessage && items.length > 0}
+  <SectionShell variant="default" padding="sm">
+    <div class="-mx-6 md:mx-0 overflow-x-auto md:overflow-visible">
       <div class="flex items-center gap-2 px-6 md:px-0 min-w-max md:min-w-0 md:flex-wrap">
         <button
           type="button"
@@ -176,9 +177,11 @@
         {/each}
       </div>
     </div>
-  {/if}
+  </SectionShell>
+{/if}
 
-  <!-- Content states -->
+<!-- Grid surface: slightly cooler krem-100 makes the images visually dominant. -->
+<SectionShell variant="default" padding="lg" class="bg-krem-100">
   {#if loading}
     <div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4">
       {#each Array(8) as _, i (i)}
@@ -215,8 +218,8 @@
         <button
           type="button"
           on:click={(e) => openLightbox(i, e.currentTarget)}
-          class="group relative mb-4 block w-full break-inside-avoid overflow-hidden rounded-lg border border-krem-200 bg-krem-100 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-menoreh-500 focus-visible:ring-offset-2"
-          aria-label={`Buka foto: ${item.judul}`}
+          class="group relative mb-4 block w-full break-inside-avoid overflow-hidden rounded-lg border border-krem-200 bg-white text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-menoreh-500 focus-visible:ring-offset-2"
+          aria-label={`Buka foto: ${item?.judul ?? ''}`}
         >
           <img
             src={item.file_path}
@@ -240,7 +243,7 @@
       {/each}
     </div>
   {/if}
-</section>
+</SectionShell>
 
 <!-- Lightbox -->
 {#if active}
