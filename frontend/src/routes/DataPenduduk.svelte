@@ -57,7 +57,7 @@
   }
 
   $: sortedPedukuhan = (() => {
-    if (!ringkasan?.pedukuhan) return [] as PendudukPedukuhan[];
+    if (!ringkasan?.per_pedukuhan?.length) return [] as PendudukPedukuhan[];
     const arr = [...ringkasan.per_pedukuhan];
     arr.sort((a, b) => {
       const av = a[sortKey];

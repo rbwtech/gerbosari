@@ -1,10 +1,10 @@
 <script lang="ts">
   import PageHeader from '../lib/components/layout/PageHeader.svelte';
   import { getStrukturOrganisasi } from '../lib/content';
-  import { User, Users, AlertTriangle } from '../lib/components/icons';
+  import { User, Users } from '../lib/components/icons';
 
   /**
-   * Struktur Organisasi — vertical org chart with five tiers:
+   * Struktur Organisasi - vertical org chart with five tiers:
    *   1. Kepala Desa  2. Sekretaris  3. Kasi (3)  4. Kaur (3)  5. Kadus (19)
    * Most names in the source JSON are "TBD" until confirmed by aparatur desa,
    * so the page must degrade gracefully and render TBD as a muted italic state.
@@ -153,19 +153,4 @@
     </section>
   {/if}
 
-  <!-- ============ Catatan kaki ============ -->
-  <aside
-    class="mt-16 flex items-start gap-3 rounded-md border border-terakota-500/20 bg-terakota-50 px-4 py-3 text-sm text-terakota-700"
-    aria-label="Catatan data"
-  >
-    <AlertTriangle class="h-4 w-4 mt-0.5 shrink-0" strokeWidth={1.75} />
-    <p class="leading-relaxed">
-      Data per periode terakhir tercatat dalam dokumen sumber. Posisi bertanda
-      <span class="italic">TBD</span> memerlukan konfirmasi langsung ke kantor Desa
-      Gerbosari atau pembaruan RPJM terbaru.
-      {#if kepalaDesa?.catatan}
-        <span class="mt-1 block text-terakota-700/85">{kepalaDesa.catatan}</span>
-      {/if}
-    </p>
-  </aside>
 </section>

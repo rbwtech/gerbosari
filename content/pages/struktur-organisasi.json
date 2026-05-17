@@ -1,12 +1,10 @@
 {
   "kepala_desa": {
     "nama": "TBD",
-    "periode_terakhir_tercatat": "Damar, A.Md (2015 - 2021)",
-    "catatan": "Pejabat kepala desa terkini belum dikonfirmasi dari sumber dokumen. Mohon update dari aparatur desa."
+    "periode_terakhir_tercatat": "Damar, A.Md (2015 - 2021)"
   },
   "sekretaris_desa": {
-    "nama": "TBD",
-    "catatan": "Sekretaris desa periode terakhir tercatat: Dyah Yekti Indrajati, S.Si (penyusun buku profil bersama Kepala Desa Damar, A.Md). Perlu konfirmasi status terkini."
+    "nama": "TBD"
   },
   "kasi": [
     { "jabatan": "Kasi Pemerintahan", "nama": "TBD" },
@@ -44,7 +42,6 @@
     "anggota": "TBD"
   },
   "_meta": {
-    "catatan": "Nama-nama personalia kecuali kepala desa periode 2015-2021 (Damar, A.Md) tidak tercantum di dokumen sumber. Semua slot bertanda TBD harus diisi melalui konfirmasi langsung ke kantor desa atau update data RPJM terbaru.",
     "sumber": [
       "Buku Profil Desa Gerbosari (kepala desa dan sekretaris desa di sampul)"
     ]

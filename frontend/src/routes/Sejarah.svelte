@@ -47,15 +47,15 @@
     decoding="async"
   />
   <div
-    class="absolute inset-0 -z-10 bg-gradient-to-b from-arang-900/60 via-arang-900/55 to-arang-900/80"
+    class="absolute inset-0 -z-10 bg-gradient-to-b from-arang-900/75 via-arang-900/70 to-arang-900/85"
     aria-hidden="true"
   ></div>
 
   <div class="container-page pt-24 pb-20 md:pt-28 md:pb-24 text-krem-50">
-    <p class="eyebrow text-terakota-300">Sejarah &amp; Asal Usul</p>
+    <p class="eyebrow !text-terakota-300">Sejarah &amp; Asal Usul</p>
     <h1
       id="sejarah-title"
-      class="mt-4 font-serif text-4xl md:text-6xl font-semibold leading-[1.05] text-balance max-w-4xl"
+      class="mt-4 font-serif text-4xl md:text-6xl font-semibold leading-[1.05] text-balance max-w-4xl text-krem-50"
     >
       Dari kisah tiga kalurahan, lahirlah Gerbosari.
     </h1>

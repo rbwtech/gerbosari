@@ -85,17 +85,17 @@
   />
   <!-- Tonal scrim: deep arang at bottom for legibility, subtle menoreh tint up top. -->
   <div
-    class="absolute inset-0 -z-10 bg-gradient-to-b from-arang-900/55 via-arang-900/50 to-arang-900/80"
+    class="absolute inset-0 -z-10 bg-gradient-to-b from-arang-900/75 via-arang-900/70 to-arang-900/85"
     aria-hidden="true"
   ></div>
 
   <div class="container-page pt-24 pb-20 md:pt-32 md:pb-28 text-krem-50">
-    <p class="eyebrow text-terakota-300">
+    <p class="eyebrow !text-terakota-300">
       Kabupaten Kulon Progo &middot; Daerah Istimewa Yogyakarta
     </p>
     <h1
       id="hero-title"
-      class="mt-4 font-serif text-5xl md:text-7xl font-semibold leading-[1.05] text-balance max-w-4xl"
+      class="mt-4 font-serif text-5xl md:text-7xl font-semibold leading-[1.05] text-balance max-w-4xl text-krem-50"
     >
       {hero?.judul ?? 'Desa Gerbosari'}
     </h1>
@@ -172,11 +172,11 @@
     <aside class="lg:col-span-5" aria-label="Statistik desa">
       <div class="grid grid-cols-2 divide-x divide-y divide-krem-200 border border-krem-200 rounded-lg overflow-hidden bg-krem-50">
         {#each headlineStats as s}
-          <div class="p-5 md:p-6">
+          <div class="p-5 md:p-6 min-w-0">
             <div class="text-[11px] font-medium uppercase tracking-[0.14em] text-arang-700/70">{s.label}</div>
-            <div class="mt-2 flex items-baseline gap-1.5">
-              <span class="font-serif text-2xl md:text-3xl font-semibold text-arang-900 tnum">{s.nilai}</span>
-              <span class="text-xs text-arang-700">{s.satuan}</span>
+            <div class="mt-2 flex flex-col">
+              <span class="font-serif text-xl md:text-2xl font-semibold text-arang-900 tnum leading-tight break-words">{s.nilai}</span>
+              <span class="mt-0.5 text-[11px] text-arang-700">{s.satuan}</span>
             </div>
           </div>
         {/each}

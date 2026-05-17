@@ -1,12 +1,10 @@
 <script lang="ts">
   import PageHeader from '../lib/components/layout/PageHeader.svelte';
   import { getVisiMisi } from '../lib/content';
-  import { AlertTriangle } from '../lib/components/icons';
 
   /**
-   * Visi & Misi — tabbed layout (Desa | Kabupaten) with a numbered serif list
-   * for misi. Renders a disclaimer chip when the desa visi is editorially
-   * inferred from the tagline rather than sourced from RPJM.
+   * Visi & Misi - tabbed layout (Desa | Kabupaten) with a numbered serif list
+   * for misi text content.
    */
   const data = getVisiMisi() as any;
   const desa = data?.desa ?? {};
@@ -21,10 +19,6 @@
 
   $: visi = active === 'desa' ? desa?.visi : kabupaten?.visi;
   $: misi = (active === 'desa' ? desa?.misi : kabupaten?.misi) ?? [];
-  $: visiInferred = active === 'desa' && desa?._visi_inferred === true;
-  $: visiInferredNote = active === 'desa' ? desa?._visi_inferred_note : undefined;
-  $: misiInferred = active === 'desa' && desa?._misi_inferred === true;
-  $: misiInferredNote = active === 'desa' ? desa?._misi_inferred_note : undefined;
 </script>
 
 <PageHeader
@@ -70,19 +64,9 @@
       <p class="eyebrow">Visi</p>
       <blockquote class="mt-4">
         <p class="font-serif text-2xl md:text-3xl font-medium text-arang-900 leading-snug text-balance">
-          <span class="font-serif text-5xl leading-none text-terakota-500 align-top mr-1">&ldquo;</span>{visi ?? '—'}<span class="font-serif text-5xl leading-none text-terakota-500 align-bottom ml-1">&rdquo;</span>
+          <span class="font-serif text-5xl leading-none text-terakota-500 align-top mr-1">&ldquo;</span>{visi ?? '-'}<span class="font-serif text-5xl leading-none text-terakota-500 align-bottom ml-1">&rdquo;</span>
         </p>
       </blockquote>
-
-      {#if visiInferred}
-        <div class="mt-6 flex items-start gap-2.5 rounded-md border border-terakota-500/20 bg-terakota-50 px-3.5 py-2.5 text-xs text-terakota-700">
-          <AlertTriangle class="h-4 w-4 mt-0.5 shrink-0" strokeWidth={1.75} />
-          <div>
-            <span class="font-semibold">Diturunkan dari tagline desa.</span>
-            {#if visiInferredNote}<span class="block mt-0.5 leading-relaxed text-terakota-700/90">{visiInferredNote}</span>{/if}
-          </div>
-        </div>
-      {/if}
     </div>
 
     <!-- Misi column -->
@@ -98,16 +82,6 @@
           </li>
         {/each}
       </ol>
-
-      {#if misiInferred}
-        <div class="mt-8 flex items-start gap-2.5 rounded-md border border-terakota-500/20 bg-terakota-50 px-3.5 py-2.5 text-xs text-terakota-700">
-          <AlertTriangle class="h-4 w-4 mt-0.5 shrink-0" strokeWidth={1.75} />
-          <div>
-            <span class="font-semibold">Misi disusun berdasarkan dokumen profil.</span>
-            {#if misiInferredNote}<span class="block mt-0.5 leading-relaxed text-terakota-700/90">{misiInferredNote}</span>{/if}
-          </div>
-        </div>
-      {/if}
     </div>
   </div>
 </section>
