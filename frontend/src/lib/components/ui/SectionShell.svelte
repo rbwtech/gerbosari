@@ -42,9 +42,9 @@
   // These values keep the page rhythm without creating empty oceans.
   const paddings = {
     none: '',
-    sm: 'py-4 md:py-6',
-    md: 'py-6 md:py-10',
-    lg: 'py-8 md:py-14'
+    sm: 'py-3 md:py-4',
+    md: 'py-4 md:py-6',
+    lg: 'py-6 md:py-10'
   } as const;
 
   // Variants resolve to SOLID warm-paper tones - no gradients, no SVG noise,

@@ -32,7 +32,7 @@
       <div class="absolute inset-0 bg-menoreh-900" aria-hidden="true"></div>
     {/if}
 
-    <div class="relative container-page py-16 md:py-28 w-full">
+    <div class="relative container-page py-12 md:py-20 w-full">
       {#if $$slots.breadcrumb}
         <div class="mb-6 text-xs uppercase tracking-widest text-krem-100/80">
           <slot name="breadcrumb" />
@@ -68,7 +68,7 @@
   </header>
 {:else}
   <header class="border-b border-krem-200 bg-krem-50 {cls}">
-    <div class="container-page py-10 md:py-16">
+    <div class="container-page py-6 md:py-10">
       {#if $$slots.breadcrumb}
         <div class="mb-5 text-xs uppercase tracking-widest text-arang-500 break-words">
           <slot name="breadcrumb" />
