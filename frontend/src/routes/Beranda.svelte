@@ -94,7 +94,10 @@
   ></div>
 
   <div class="container-page py-12 md:py-16 text-krem-50 w-full">
-    <p class="eyebrow !text-krem-100 break-words">
+    <p
+      class="eyebrow !text-white break-words"
+      style="text-shadow: 0 1px 3px rgba(0,0,0,0.6);"
+    >
       Kabupaten Kulon Progo &middot; Daerah Istimewa Yogyakarta
     </p>
     <h1
