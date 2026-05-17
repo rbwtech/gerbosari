@@ -81,12 +81,12 @@
     aria-label="Visi {active === 'desa' ? 'Desa Gerbosari' : 'Kabupaten Kulon Progo'}"
   >
     <p class="eyebrow">Visi</p>
-    <blockquote class="mt-6 relative">
-      <!-- Floating terakota opening quote mark (decorative, hidden from AT). -->
+    <blockquote class="mt-3 md:mt-4">
+      <!-- Block quote mark above the text, with airy spacing instead of overlap. -->
       <svg
         aria-hidden="true"
         focusable="false"
-        class="pointer-events-none absolute -left-2 md:-left-4 -top-6 md:-top-8 h-12 w-12 md:h-16 md:w-16 text-terakota-500"
+        class="h-10 w-10 md:h-12 md:w-12 text-terakota-500 mb-3"
         viewBox="0 0 32 32"
         fill="currentColor"
       >
@@ -104,27 +104,33 @@
      a numbered manifesto on paper, not a SaaS feature list. -->
 <SectionShell variant="default" padding="lg">
   <div aria-labelledby="misi-title">
-    <p class="eyebrow">Misi</p>
+    <div class="flex items-baseline gap-3 flex-wrap">
+      <p class="eyebrow">Misi</p>
+      <span aria-hidden="true" class="h-px flex-1 bg-krem-300 min-w-[2rem]"></span>
+    </div>
     <h2
       id="misi-title"
-      class="mt-3 font-serif text-3xl md:text-4xl font-semibold text-arang-900 leading-tight"
+      class="mt-2 font-serif text-3xl md:text-4xl font-semibold text-arang-900 leading-tight"
     >
       Langkah Strategis
     </h2>
+    <p class="mt-2 text-sm md:text-base text-arang-600 max-w-2xl leading-relaxed">
+      Cita-cita visi diterjemahkan menjadi langkah-langkah pembangunan yang dapat dievaluasi setiap tahun.
+    </p>
 
-    <ol class="mt-10 space-y-8 md:space-y-12">
+    <ol class="mt-6 md:mt-8 space-y-6 md:space-y-8">
       {#each misi as point, i}
-        <li class="grid grid-cols-1 md:grid-cols-[10rem_1fr] gap-2 md:gap-10 border-b border-krem-200 pb-8 md:pb-10 last:border-b-0 last:pb-0">
+        <li class="grid grid-cols-1 md:grid-cols-[6rem_1fr] gap-3 md:gap-8 border-b border-krem-200 pb-6 md:pb-8 last:border-b-0 last:pb-0">
           <!-- Huge serif numeral - terakota-300 keeps it as a watermark, not a
                competing label. Tabular for alignment, scaled down on mobile so
                360px viewports don't get a 90px glyph eating the column. -->
           <div
-            class="font-serif text-5xl md:text-7xl font-semibold text-terakota-300 tnum leading-none"
+            class="font-serif text-4xl md:text-6xl font-semibold text-terakota-300 tnum leading-none"
             aria-hidden="true"
           >
             {String(i + 1).padStart(2, '0')}
           </div>
-          <p class="text-base md:text-lg text-arang-800 leading-relaxed pt-1 md:pt-4 text-pretty break-words">
+          <p class="text-base md:text-lg text-arang-800 leading-relaxed pt-0 md:pt-2 text-pretty break-words">
             <span class="sr-only">Misi {i + 1}.</span>{point}
           </p>
         </li>

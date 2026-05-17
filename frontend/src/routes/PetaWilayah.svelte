@@ -195,13 +195,19 @@
     mapInstance.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
   }
 
-  function focusPedukuhan(nama: string) {
+  function focusPedukuhan(nama: string, scroll = false) {
     if (!mapInstance) return;
     const m = markerByName.get(nama);
     if (!m) return;
     selected.set(nama);
     mapInstance.setView(m.getLatLng(), 14, { animate: true });
     m.openPopup();
+    // When the user clicks a pedukuhan in the list below the map, the map is
+    // typically scrolled off-screen on mobile — bring it back into view so the
+    // marker open animation is actually seen.
+    if (scroll && mapEl && typeof window !== 'undefined') {
+      mapEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   function escapeHtml(s: string): string {
@@ -381,7 +387,7 @@
             <li>
               <button
                 type="button"
-                on:click={() => focusPedukuhan(p.nama)}
+                on:click={() => focusPedukuhan(p.nama, true)}
                 on:mouseenter={() => focusPedukuhan(p.nama)}
                 class="w-full text-left px-4 sm:px-5 py-3 min-h-11 hover:bg-krem-50 transition-colors {$selected === p.nama ? 'bg-krem-100' : ''}"
               >
