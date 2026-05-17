@@ -307,20 +307,26 @@
             </p>
 
             <dl class="mt-4 space-y-2 text-sm text-arang-700">
-              <div class="flex items-center gap-2">
-                <MapPin class="h-4 w-4 text-arang-400 shrink-0" strokeWidth={1.75} aria-hidden="true" />
+              <div>
                 <dt class="sr-only">Lokasi</dt>
-                <dd class="break-words min-w-0">{item.lokasi_pedukuhan ?? '-'}</dd>
+                <dd class="flex items-center gap-2 break-words min-w-0">
+                  <MapPin class="h-4 w-4 text-arang-400 shrink-0" strokeWidth={1.75} aria-hidden="true" />
+                  <span>{item.lokasi_pedukuhan ?? '-'}</span>
+                </dd>
               </div>
-              <div class="flex items-center gap-2">
-                <Calendar class="h-4 w-4 text-arang-400 shrink-0" strokeWidth={1.75} aria-hidden="true" />
+              <div>
                 <dt class="sr-only">Tenggat</dt>
-                <dd class="break-words min-w-0">Tenggat: {formatDeadline(item.deadline)}</dd>
+                <dd class="flex items-center gap-2 break-words min-w-0">
+                  <Calendar class="h-4 w-4 text-arang-400 shrink-0" strokeWidth={1.75} aria-hidden="true" />
+                  <span>Tenggat: {formatDeadline(item.deadline)}</span>
+                </dd>
               </div>
-              <div class="flex items-center gap-2">
-                <Briefcase class="h-4 w-4 text-arang-400 shrink-0" strokeWidth={1.75} aria-hidden="true" />
+              <div>
                 <dt class="sr-only">Gaji</dt>
-                <dd class="tnum break-words min-w-0">{formatGaji(item.gaji_min, item.gaji_max)}</dd>
+                <dd class="flex items-center gap-2 tnum break-words min-w-0">
+                  <Briefcase class="h-4 w-4 text-arang-400 shrink-0" strokeWidth={1.75} aria-hidden="true" />
+                  <span>{formatGaji(item.gaji_min, item.gaji_max)}</span>
+                </dd>
               </div>
             </dl>
 

@@ -91,7 +91,7 @@
   ></div>
 
   <div class="container-page py-12 md:py-16 text-krem-50 w-full">
-    <p class="eyebrow !text-terakota-200 break-words">
+    <p class="eyebrow !text-krem-100 break-words">
       Kabupaten Kulon Progo &middot; Daerah Istimewa Yogyakarta
     </p>
     <h1
@@ -357,23 +357,23 @@
 
       <dl class="mt-6 space-y-3 text-sm text-arang-700">
         {#if alamat?.kantor}
-          <div class="flex items-start gap-3 min-w-0">
-            <MapPin class="h-4 w-4 mt-0.5 text-menoreh-600 shrink-0" strokeWidth={1.75} />
-            <div class="min-w-0">
-              <dt class="sr-only">Alamat</dt>
-              <dd class="break-words [hyphens:auto]">
+          <div>
+            <dt class="sr-only">Alamat</dt>
+            <dd class="flex items-start gap-3 break-words [hyphens:auto] min-w-0">
+              <MapPin class="h-4 w-4 mt-0.5 text-menoreh-600 shrink-0" strokeWidth={1.75} aria-hidden="true" />
+              <span>
                 {alamat.kantor}{#if alamat?.kecamatan}, Kec. {alamat.kecamatan}{/if}{#if alamat?.kabupaten}, {alamat.kabupaten}{/if}{#if alamat?.provinsi}, {alamat.provinsi}{/if}{#if alamat?.kode_pos}&nbsp;{alamat.kode_pos}{/if}
-              </dd>
-            </div>
+              </span>
+            </dd>
           </div>
         {/if}
         {#if alamat?.telepon}
-          <div class="flex items-start gap-3">
-            <Phone class="h-4 w-4 mt-0.5 text-menoreh-600 shrink-0" strokeWidth={1.75} />
-            <div>
-              <dt class="sr-only">Telepon</dt>
-              <dd class="tnum">{alamat.telepon}</dd>
-            </div>
+          <div>
+            <dt class="sr-only">Telepon</dt>
+            <dd class="flex items-start gap-3 tnum">
+              <Phone class="h-4 w-4 mt-0.5 text-menoreh-600 shrink-0" strokeWidth={1.75} aria-hidden="true" />
+              <span>{alamat.telepon}</span>
+            </dd>
           </div>
         {/if}
       </dl>

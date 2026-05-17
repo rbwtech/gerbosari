@@ -274,21 +274,20 @@
   description="Lereng perbukitan Menoreh, ketinggian 400-900 m dpl, 19 pedukuhan terbagi dalam 4 kawasan pembangunan."
 />
 
-<!-- Quick facts on hijau mist - signals geography section. -->
+<!-- Quick facts on hijau mist - signals geography section. 2-col grid on
+     phones (5 items wrap to 3 rows), promotes to 5-col on desktop. -->
 <SectionShell variant="mist" padding="sm">
-  <div class="-mx-6 md:mx-0 overflow-x-auto md:overflow-visible">
-    <ul class="flex md:grid md:grid-cols-5 gap-3 px-6 md:px-0 min-w-max md:min-w-0">
-      {#each quickFacts as fact}
-        <li
-          class="flex-none md:flex-auto min-w-[160px] md:min-w-0 rounded-lg border border-krem-200 bg-white px-4 py-3"
-          title={fact.hint ?? ''}
-        >
-          <div class="text-[11px] font-semibold uppercase tracking-[0.14em] text-terakota-600">{fact.label}</div>
-          <div class="mt-1 text-lg font-semibold text-arang-900 tnum break-words">{fact.value}</div>
-        </li>
-      {/each}
-    </ul>
-  </div>
+  <ul class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-3">
+    {#each quickFacts as fact}
+      <li
+        class="rounded-lg border border-krem-200 bg-white px-3 py-2.5 sm:px-4 sm:py-3 min-w-0"
+        title={fact.hint ?? ''}
+      >
+        <div class="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.14em] text-terakota-600 truncate">{fact.label}</div>
+        <div class="mt-1 text-base sm:text-lg font-semibold text-arang-900 tnum break-words">{fact.value}</div>
+      </li>
+    {/each}
+  </ul>
 </SectionShell>
 
 <!-- Map: white wrapper with overflow-hidden so Leaflet tiles cannot spill
@@ -305,9 +304,10 @@
 
 <!-- Legend + filter chips strip. -->
 <SectionShell variant="default" padding="sm">
-  <div class="-mx-4 px-4 sm:mx-0 sm:px-0 overflow-x-auto sm:overflow-visible">
-    <div class="flex items-center gap-2 min-w-max sm:min-w-0 sm:flex-wrap">
-      <span class="text-xs font-semibold uppercase tracking-[0.14em] text-arang-700/70 mr-1 flex-none">Filter zona</span>
+  <div>
+    <span class="text-xs font-semibold uppercase tracking-[0.14em] text-arang-700/70 block mb-2">Filter zona</span>
+    <!-- 2-col grid on mobile (no scroll), wraps inline on desktop. -->
+    <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
       {#each [1, 2, 3, 4] as z (z)}
         {@const key = z as ZonaKey}
         {@const active = activeZones.has(key)}
@@ -315,18 +315,18 @@
         <button
           type="button"
           on:click={() => toggleZone(key)}
-          class="inline-flex flex-none items-center gap-2 min-h-11 h-11 pl-2 pr-3 rounded-full text-sm border transition-colors {active
+          class="inline-flex items-center gap-2 min-h-11 h-11 pl-2 pr-3 rounded-full text-sm border transition-colors {active
             ? 'bg-arang-900 text-krem-50 border-arang-900'
             : 'bg-white text-arang-700 border-krem-200 hover:border-arang-300'}"
           aria-pressed={active}
         >
           <span
-            class="inline-block w-3 h-3 rounded-full"
+            class="inline-block w-3 h-3 rounded-full shrink-0"
             style="background:{zonaMeta[key].color}"
             aria-hidden="true"
           ></span>
-          Zona {romanZona[key]}
-          <span class="text-[11px] opacity-70 tnum">· {count}</span>
+          <span class="truncate">Zona {romanZona[key]}</span>
+          <span class="text-[11px] opacity-70 tnum ml-auto">· {count}</span>
         </button>
       {/each}
     </div>
@@ -481,16 +481,20 @@
 {/if}
 
 <style>
-  /* Leaflet popups + container. Base CSS is imported globally in app.css.
-     We constrain WIDTH only — the height is owned by the Tailwind classes on
-     the map element itself (h-[55vh] sm:h-[480px] md:h-[520px]). An earlier
-     `height: 100% !important` here collapsed the map to 0 because the wrapper
-     ancestors had no explicit height. */
   :global(.leaflet-container) {
     width: 100% !important;
     max-width: 100%;
     font-family: 'Inter', system-ui, sans-serif;
     background: #f5ebe0;
+    z-index: 0;
+  }
+  :global(.leaflet-pane),
+  :global(.leaflet-top),
+  :global(.leaflet-bottom) {
+    z-index: 1 !important;
+  }
+  :global(.leaflet-popup-pane) {
+    z-index: 2 !important;
   }
   :global(.leaflet-popup-content-wrapper) {
     border-radius: 8px;
