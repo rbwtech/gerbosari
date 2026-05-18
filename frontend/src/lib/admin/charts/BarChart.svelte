@@ -60,10 +60,17 @@
   {:else}
     <!-- Vertical: SVG so we can lock the baseline + share a viewBox-aware grid.
          Each bar's height is a percentage of the chart-area height; labels sit
-         below the baseline. 6 bars at ~14% width each leaves comfortable gaps. -->
+         above the bar top, never inside the fill. 6 bars at ~14% width each
+         leaves comfortable gaps. -->
     {@const barCount = data.length}
     {@const slotWidth = 100 / barCount}
     {@const barWidth = slotWidth * 0.55}
+    <!--
+      BAR_SCALE = 85% caps the tallest bar at 85% of the chart area, reserving
+      ~15% headroom for the numeric label so it sits cleanly above the bar
+      (never overlapping the fill — important when bars are dark green / batik).
+    -->
+    {@const BAR_SCALE = 85}
     <div class="flex flex-col gap-2">
       <div class="relative h-40 sm:h-48 w-full">
         <svg
@@ -79,7 +86,7 @@
           <line x1="0" x2="100" y1="100" y2="100" stroke="#c4ab8e" stroke-width="0.4" />
 
           {#each data as datum, i}
-            {@const h = (Math.max(0, datum.value) / maxValue) * 95}
+            {@const h = (Math.max(0, datum.value) / maxValue) * BAR_SCALE}
             {@const x = i * slotWidth + (slotWidth - barWidth) / 2}
             {@const y = 100 - h}
             {@const ariaLabel = `${datum.label}: ${datum.value.toLocaleString('id-ID')}${unit ? ' ' + unit : ''}`}
@@ -98,20 +105,22 @@
           {/each}
         </svg>
 
-        <!-- Value labels positioned via flex over the SVG. Avoids the SVG text
-             scaling problem when preserveAspectRatio is set to "none". -->
-        <div class="absolute inset-0 flex items-end pointer-events-none">
-          {#each data as datum}
-            {@const pct = (Math.max(0, datum.value) / maxValue) * 95}
-            <div class="flex-1 flex flex-col items-center justify-end h-full">
-              <span
-                class="text-[10px] sm:text-xs font-medium tabular-nums text-arang-700"
-                style="margin-bottom: calc({pct}% + 2px);"
-                aria-hidden="true"
-              >
-                {datum.value > 0 ? datum.value.toLocaleString('id-ID') : ''}
-              </span>
-            </div>
+        <!-- Value labels: absolute-positioned so `bottom: pct%` resolves
+             against container HEIGHT. Using `margin-bottom: pct%` on a flex
+             item is broken because CSS resolves margin percentages against
+             the containing block's WIDTH, not height — that caused labels to
+             render inside the bar fill and "disappear" on dark colours. -->
+        <div class="absolute inset-0 pointer-events-none">
+          {#each data as datum, i}
+            {@const pct = (Math.max(0, datum.value) / maxValue) * BAR_SCALE}
+            {@const leftPct = (i + 0.5) * slotWidth}
+            <span
+              class="absolute -translate-x-1/2 text-[10px] sm:text-xs font-medium tabular-nums text-arang-900 whitespace-nowrap"
+              style="left: {leftPct}%; bottom: calc({pct}% + 2px);"
+              aria-hidden="true"
+            >
+              {datum.value > 0 ? datum.value.toLocaleString('id-ID') : ''}
+            </span>
           {/each}
         </div>
       </div>

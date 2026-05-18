@@ -20,12 +20,19 @@
     new: 'Tambah Baru'
   };
 
+  const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
   function humanise(segment: string): string {
     const direct = SEGMENT_LABELS[segment];
     if (direct) return direct;
-    // UUID / numeric IDs: keep short, prefix with hash so it reads as an identifier.
-    if (segment.length > 12) return `#${segment.slice(0, 8)}`;
-    return segment.charAt(0).toUpperCase() + segment.slice(1);
+    if (UUID_RE.test(segment)) return `#${segment.slice(0, 8)}`;
+    // Slug → "pembangunan-jalan-2025" becomes "Pembangunan Jalan 2025". Keeps
+    // the breadcrumb / page title legible without depending on the row's
+    // judul being passed in via prop.
+    return segment
+      .split('-')
+      .map((w) => (w.length === 0 ? w : w.charAt(0).toUpperCase() + w.slice(1)))
+      .join(' ');
   }
 
   $: segments = $location

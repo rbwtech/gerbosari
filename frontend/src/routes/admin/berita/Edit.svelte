@@ -116,7 +116,10 @@
       tanggal: tanggal ? tanggal : null,
       lokasi: lokasi.trim() ? lokasi.trim() : null,
       author: author.trim(),
-      published_at: published_at ? published_at : null
+      // Backend `published_at` is DateTime<Utc>; the <input type="date"> only
+      // gives a YYYY-MM-DD string. Promote it to an ISO-8601 instant at UTC
+      // midnight so serde accepts it. Sending the bare date triggers 422.
+      published_at: published_at ? `${published_at}T00:00:00Z` : null
     };
     try {
       if (editing && params.slug) {
