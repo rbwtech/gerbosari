@@ -17,6 +17,9 @@
 
   $: editing = Boolean(params.id);
   $: title = editing ? 'Ubah Foto Galeri' : 'Tambah Foto Galeri';
+  // Forwarded to AdminShell so the top-bar breadcrumb/title reads the entity's
+  // judul once loaded instead of the opaque UUID `#33333333` fallback.
+  $: crumbTitle = editing ? (judul.trim() || 'Ubah Foto Galeri') : 'Tambah Foto Galeri';
 
   // Form state - mirrored to CreateGaleriBody shape on submit.
   let judul = '';
@@ -103,7 +106,7 @@
   }
 </script>
 
-<AdminShell>
+<AdminShell title={crumbTitle}>
   <div class="mb-5 md:mb-6">
     <h1 class="font-serif text-xl md:text-2xl font-semibold text-arang-900 break-words">{title}</h1>
     <p class="mt-1 text-sm text-arang-600">

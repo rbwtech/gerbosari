@@ -40,7 +40,12 @@
     .filter((s) => s.length > 0)
     .map((segment, index, all) => {
       const href = '/' + all.slice(0, index + 1).join('/');
-      return { label: humanise(segment), href };
+      const isLast = index === all.length - 1;
+      // Caller-supplied `title` (e.g. an entity's loaded judul) overrides the
+      // deepest segment so opaque UUIDs / freshly-bootstrapped rows still
+      // render a human label in the breadcrumb.
+      const label = isLast && title ? title : humanise(segment);
+      return { label, href };
     });
 
   // Top-bar title: explicit prop wins, otherwise fall back to the deepest crumb.

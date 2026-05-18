@@ -17,6 +17,9 @@
 
   $: editing = Boolean(params.slug);
   $: title = editing ? 'Ubah Berita' : 'Tambah Berita';
+  // Forwarded to AdminShell so the top-bar breadcrumb/title surfaces the
+  // entity's judul once loaded instead of the slug fallback.
+  $: crumbTitle = editing ? (judul.trim() || 'Ubah Berita') : 'Tambah Berita';
 
   let judul = '';
   let slug = '';
@@ -144,7 +147,7 @@
   }
 </script>
 
-<AdminShell>
+<AdminShell title={crumbTitle}>
   <div class="mb-5 md:mb-6">
     <h1 class="font-serif text-xl md:text-2xl font-semibold text-arang-900 break-words">{title}</h1>
     <p class="mt-1 text-sm text-arang-600">
