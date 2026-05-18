@@ -46,6 +46,7 @@
     class="absolute inset-0 -z-20 h-full w-full object-cover"
     loading="eager"
     decoding="async"
+    fetchpriority="high"
   />
   <div
     class="absolute inset-0 -z-10 bg-gradient-to-b from-arang-900/90 via-arang-900/65 to-arang-900/90"

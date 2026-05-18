@@ -152,12 +152,22 @@
     return 'text';
   }
 
+  // Strip channel-label prefixes ("Email: ", "WA: ", etc.) before building
+  // mailto/wa.me URLs. Source data sometimes embeds the label inside the
+  // address string and naive concatenation produces invalid href values.
+  const KONTAK_PREFIX_RE = /^(email|wa|hp|telp|telepon|phone|whatsapp)\s*:\s*/i;
+
+  function stripKontakPrefix(k: string): string {
+    return k.replace(KONTAK_PREFIX_RE, '').trim();
+  }
+
   function kontakHref(k: string): string | undefined {
-    const kind = kontakKind(k);
-    if (kind === 'email') return `mailto:${k.trim()}`;
+    const cleaned = stripKontakPrefix(k);
+    const kind = kontakKind(cleaned);
+    if (kind === 'email') return `mailto:${cleaned}`;
     if (kind === 'phone') {
       // Strip non-digits, preserve leading +. Bias to WhatsApp wa.me link for ID numbers.
-      const digits = k.replace(/[^\d+]/g, '');
+      const digits = cleaned.replace(/[^\d+]/g, '');
       const normalized = digits.startsWith('+')
         ? digits.slice(1)
         : digits.startsWith('0')
@@ -183,33 +193,36 @@
 <!-- Controls strip: filters, search, sort on paper biome. -->
 <SectionShell variant="default" padding="md">
   <div class="space-y-4">
-    <div class="-mx-4 px-4 sm:mx-0 sm:px-0 overflow-x-auto sm:overflow-visible">
-      <div class="flex items-center gap-2 min-w-max sm:min-w-0 sm:flex-wrap">
-        <Chip
-          label="Semua"
-          count={counts.all}
-          active={kategori === 'all'}
-          on:click={() => (kategori = 'all')}
-        />
-        <Chip
-          label="UMKM"
-          count={counts.umkm}
-          active={kategori === 'umkm'}
-          on:click={() => (kategori = 'umkm')}
-        />
-        <Chip
-          label="Formal"
-          count={counts.formal}
-          active={kategori === 'formal'}
-          on:click={() => (kategori = 'formal')}
-        />
-        <Chip
-          label="Freelance"
-          count={counts.freelance}
-          active={kategori === 'freelance'}
-          on:click={() => (kategori = 'freelance')}
-        />
-      </div>
+    <!-- 2-col grid on mobile keeps chips fully visible without scroll-x. -->
+    <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
+      <Chip
+        label="Semua"
+        count={counts.all}
+        active={kategori === 'all'}
+        class="min-h-11 w-full sm:w-auto justify-center"
+        on:click={() => (kategori = 'all')}
+      />
+      <Chip
+        label="UMKM"
+        count={counts.umkm}
+        active={kategori === 'umkm'}
+        class="min-h-11 w-full sm:w-auto justify-center"
+        on:click={() => (kategori = 'umkm')}
+      />
+      <Chip
+        label="Formal"
+        count={counts.formal}
+        active={kategori === 'formal'}
+        class="min-h-11 w-full sm:w-auto justify-center"
+        on:click={() => (kategori = 'formal')}
+      />
+      <Chip
+        label="Freelance"
+        count={counts.freelance}
+        active={kategori === 'freelance'}
+        class="min-h-11 w-full sm:w-auto justify-center"
+        on:click={() => (kategori = 'freelance')}
+      />
     </div>
 
     <div class="flex flex-col sm:flex-row sm:items-center gap-3">
@@ -225,14 +238,14 @@
           value={searchInput}
           on:input={onSearchInput}
           placeholder="Cari judul, instansi, atau kata kunci..."
-          class="min-h-11 h-11 w-full rounded-md border border-krem-300 bg-white pl-9 pr-3 text-base text-arang-900 placeholder:text-arang-400 focus:border-menoreh-500"
+          class="min-h-11 h-11 w-full rounded-md border border-krem-300 bg-white pl-9 pr-3 text-base md:text-sm text-arang-900 placeholder:text-arang-400 focus:border-menoreh-500"
         />
       </label>
       <label class="sm:w-56 flex items-center gap-2 text-sm text-arang-700">
         <span class="text-xs font-semibold uppercase tracking-widest text-arang-500 flex-none">Urutkan</span>
         <select
           bind:value={sortKey}
-          class="min-h-11 h-11 flex-1 rounded-md border border-krem-300 bg-white px-2 text-base text-arang-900 focus:border-menoreh-500"
+          class="min-h-11 h-11 flex-1 rounded-md border border-krem-300 bg-white px-2 text-base md:text-sm text-arang-900 focus:border-menoreh-500"
           aria-label="Urutkan lowongan"
         >
           <option value="terbaru">Terbaru</option>
@@ -245,7 +258,7 @@
 </SectionShell>
 
 <!-- Cards on batik motif: evokes "papan pengumuman desa" feel. -->
-<SectionShell variant="batik" padding="lg">
+<SectionShell variant="batik" padding="md">
   {#if loading}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
       {#each Array(4) as _, i (i)}
@@ -284,8 +297,9 @@
         {@const status = deadlineStatus(item.deadline)}
         {@const expired = status === 'expired'}
         {@const kontak = item.kontak?.trim()}
-        {@const kind = kontak ? kontakKind(kontak) : 'text'}
-        {@const href = kontak ? kontakHref(kontak) : undefined}
+        {@const kontakDisplay = kontak ? stripKontakPrefix(kontak) : ''}
+        {@const kind = kontakDisplay ? kontakKind(kontakDisplay) : 'text'}
+        {@const href = kontakDisplay ? kontakHref(kontakDisplay) : undefined}
         <li class="h-full {expired ? 'opacity-60' : ''}">
           <Card as="article" interactive padding="md" class="h-full flex flex-col border-krem-300">
             <svelte:fragment slot="header">
@@ -365,10 +379,10 @@
                       {:else}
                         <Phone class="h-4 w-4 flex-none" strokeWidth={1.75} aria-hidden="true" />
                       {/if}
-                      <span class="break-all">{kontak}</span>
+                      <span class="break-all">{kontakDisplay}</span>
                     </a>
                   {:else}
-                    <span class="text-sm text-arang-700 break-words min-w-0">{kontak}</span>
+                    <span class="text-sm text-arang-700 break-words min-w-0">{kontakDisplay}</span>
                   {/if}
                 </div>
               {:else}

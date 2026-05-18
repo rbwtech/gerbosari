@@ -6,7 +6,6 @@
   import { onMount, onDestroy } from 'svelte';
   import PageHeader from '../lib/components/layout/PageHeader.svelte';
   import SectionShell from '../lib/components/ui/SectionShell.svelte';
-  import Tabs from '../lib/components/ui/Tabs.svelte';
   import Card from '../lib/components/ui/Card.svelte';
   import Badge from '../lib/components/ui/Badge.svelte';
   import Button from '../lib/components/ui/Button.svelte';
@@ -26,7 +25,7 @@
 
   const dateFmt = new Intl.DateTimeFormat('id-ID', { dateStyle: 'long' });
 
-  const tabs = [
+  const tabs: { id: 'semua' | 'berita' | 'agenda'; label: string }[] = [
     { id: 'semua', label: 'Semua' },
     { id: 'berita', label: 'Berita' },
     { id: 'agenda', label: 'Agenda' }
@@ -95,11 +94,8 @@
     return 'neutral';
   }
 
-  function onTabChange(e: CustomEvent<{ value: string }>) {
-    const v = e.detail.value;
-    if (v === 'semua' || v === 'berita' || v === 'agenda') {
-      activeTab = v;
-    }
+  function selectTab(id: 'semua' | 'berita' | 'agenda') {
+    activeTab = id;
   }
 </script>
 
@@ -109,18 +105,36 @@
   description="Kabar terbaru dan agenda kegiatan Desa Gerbosari."
 />
 
-<!-- Tabs band: small default shell so filter chrome reads as a sub-header strip. -->
+<!-- Tabs band: 3-col grid on mobile keeps options visible without scroll-x;
+     inline wrap on sm+. ARIA tablist semantics preserved. -->
 <SectionShell variant="default" padding="sm">
-  <Tabs
-    tabs={tabs}
-    value={activeTab}
-    ariaLabel="Filter kategori berita"
-    on:change={onTabChange}
-  />
+  <div
+    role="tablist"
+    aria-label="Filter kategori berita"
+    class="grid grid-cols-3 sm:flex sm:flex-wrap gap-2"
+  >
+    {#each tabs as t (t.id)}
+      {@const isActive = activeTab === t.id}
+      <button
+        type="button"
+        role="tab"
+        aria-selected={isActive}
+        id={`berita-tab-${t.id}`}
+        tabindex={isActive ? 0 : -1}
+        on:click={() => selectTab(t.id)}
+        class="inline-flex items-center justify-center min-h-11 px-4 rounded-full text-sm font-medium border transition-colors duration-200 ease-out
+          {isActive
+            ? 'bg-menoreh-700 text-white border-menoreh-700 hover:bg-menoreh-800'
+            : 'bg-white text-arang-700 border-krem-300 hover:border-menoreh-500 hover:text-menoreh-700'}"
+      >
+        {t.label}
+      </button>
+    {/each}
+  </div>
 </SectionShell>
 
 {#if loading}
-  <SectionShell variant="tanah" padding="lg">
+  <SectionShell variant="tanah" padding="md">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-center">
       <Skeleton class="aspect-[16/10] w-full" />
       <div class="space-y-4">
@@ -133,7 +147,7 @@
       </div>
     </div>
   </SectionShell>
-  <SectionShell variant="default" padding="lg" class="bg-krem-50">
+  <SectionShell variant="default" padding="md" class="bg-krem-50">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {#each Array(6) as _, i (i)}
         <div class="space-y-3 rounded-lg border border-krem-200 bg-white p-4">
@@ -146,7 +160,7 @@
     </div>
   </SectionShell>
 {:else if errorMessage}
-  <SectionShell variant="default" padding="lg">
+  <SectionShell variant="default" padding="md">
     <EmptyState
       variant="error"
       title="Tidak dapat memuat berita"
@@ -156,7 +170,7 @@
     />
   </SectionShell>
 {:else if filteredItems.length === 0}
-  <SectionShell variant="default" padding="lg">
+  <SectionShell variant="default" padding="md">
     <EmptyState
       title="Belum ada publikasi"
       description={activeTab === 'agenda'
@@ -170,7 +184,7 @@
   <!-- Featured: warm tanah-paper biome elevates the lead item. -->
   {#if featured}
     {@const fStatus = agendaStatus(featured)}
-    <SectionShell variant="tanah" padding="lg">
+    <SectionShell variant="tanah" padding="md">
       <article class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-center">
         <a
           href={`#/berita/${featured.slug}`}
@@ -235,7 +249,7 @@
 
   <!-- Remainder grid on cool krem-50 surface so list cards pop. -->
   {#if rest.length > 0}
-    <SectionShell variant="default" padding="lg" class="bg-krem-50">
+    <SectionShell variant="default" padding="md" class="bg-krem-50">
       <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {#each rest as item (item.id)}
           {@const aStatus = agendaStatus(item)}

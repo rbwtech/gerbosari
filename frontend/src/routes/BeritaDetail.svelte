@@ -124,7 +124,7 @@
 </div>
 
 <!-- Article body in paper biome - subtle grain behind reading content. -->
-<SectionShell variant="default" padding="lg">
+<SectionShell variant="default" padding="md">
   {#if loading}
     <div class="space-y-6">
       <Skeleton class="h-5 w-24" />

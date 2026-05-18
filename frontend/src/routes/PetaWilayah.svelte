@@ -203,7 +203,7 @@
     mapInstance.setView(m.getLatLng(), 14, { animate: true });
     m.openPopup();
     // When the user clicks a pedukuhan in the list below the map, the map is
-    // typically scrolled off-screen on mobile — bring it back into view so the
+    // typically scrolled off-screen on mobile - bring it back into view so the
     // marker open animation is actually seen.
     if (scroll && mapEl && typeof window !== 'undefined') {
       mapEl.scrollIntoView({ behavior: 'smooth', block: 'start' });

@@ -145,43 +145,41 @@
   description="Dokumentasi kegiatan, wisata, budaya, dan agrowisata Desa Gerbosari."
 />
 
-<!-- Filter chip row: small default shell, reads as sub-header strip. -->
+<!-- Filter chip row: tight sub-header strip; 2-col grid on mobile, inline wrap on sm+. -->
 {#if !loading && !errorMessage && items.length > 0}
   <SectionShell variant="default" padding="sm">
-    <div class="-mx-6 md:mx-0 overflow-x-auto md:overflow-visible">
-      <div class="flex items-center gap-2 px-6 md:px-0 min-w-max md:min-w-0 md:flex-wrap">
+    <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
+      <button
+        type="button"
+        on:click={() => setKategori(null)}
+        aria-pressed={activeKategori === null}
+        class="inline-flex items-center justify-center gap-2 min-h-11 h-11 px-4 rounded-full text-sm border transition-colors {activeKategori === null
+          ? 'bg-arang-900 text-krem-50 border-arang-900'
+          : 'bg-white text-arang-700 border-krem-200 hover:border-arang-300'}"
+      >
+        Semua
+        <span class="text-[11px] opacity-70 tnum ml-auto sm:ml-0">· {items.length}</span>
+      </button>
+      {#each kategoriList as k (k)}
+        {@const isActive = activeKategori === k}
         <button
           type="button"
-          on:click={() => setKategori(null)}
-          aria-pressed={activeKategori === null}
-          class="inline-flex flex-none items-center gap-2 min-h-11 h-11 px-4 rounded-full text-sm border transition-colors {activeKategori === null
+          on:click={() => setKategori(k)}
+          aria-pressed={isActive}
+          class="inline-flex items-center justify-center gap-2 min-h-11 h-11 px-4 rounded-full text-sm border transition-colors {isActive
             ? 'bg-arang-900 text-krem-50 border-arang-900'
             : 'bg-white text-arang-700 border-krem-200 hover:border-arang-300'}"
         >
-          Semua
-          <span class="text-[11px] opacity-70 tnum">· {items.length}</span>
+          {k}
+          <span class="text-[11px] opacity-70 tnum ml-auto sm:ml-0">· {kategoriCounts[k]}</span>
         </button>
-        {#each kategoriList as k (k)}
-          {@const isActive = activeKategori === k}
-          <button
-            type="button"
-            on:click={() => setKategori(k)}
-            aria-pressed={isActive}
-            class="inline-flex flex-none items-center gap-2 min-h-11 h-11 px-4 rounded-full text-sm border transition-colors {isActive
-              ? 'bg-arang-900 text-krem-50 border-arang-900'
-              : 'bg-white text-arang-700 border-krem-200 hover:border-arang-300'}"
-          >
-            {k}
-            <span class="text-[11px] opacity-70 tnum">· {kategoriCounts[k]}</span>
-          </button>
-        {/each}
-      </div>
+      {/each}
     </div>
   </SectionShell>
 {/if}
 
 <!-- Grid surface: slightly cooler krem-100 makes the images visually dominant. -->
-<SectionShell variant="default" padding="lg" class="bg-krem-100">
+<SectionShell variant="default" padding="md" class="bg-krem-100">
   {#if loading}
     <div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-3 sm:gap-4">
       {#each Array(8) as _, i (i)}
@@ -226,16 +224,16 @@
             alt={item.judul}
             loading="lazy"
             decoding="async"
-            class="block w-full h-auto max-w-full"
+            class="block w-full h-auto max-w-full transition-transform duration-300 ease-out group-hover:scale-[1.03]"
           />
-          <!-- Hover gradient overlay with caption -->
+          <!-- Caption: always visible on mobile (no hover), hover-reveal on desktop -->
           <div
-            class="pointer-events-none absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-arang-900/85 via-arang-900/40 to-transparent opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-200"
+            class="pointer-events-none absolute inset-x-0 bottom-0 p-3 sm:p-4 bg-gradient-to-t from-arang-900/85 via-arang-900/40 to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 md:group-focus-visible:opacity-100 transition-opacity duration-200"
           >
             <div class="flex items-center gap-2">
               <Badge variant={(item.kategori ?? '').toLowerCase()}>{normalize(item.kategori)}</Badge>
             </div>
-            <div class="mt-2 font-serif text-base font-semibold text-krem-50 line-clamp-2 leading-snug">
+            <div class="mt-1.5 sm:mt-2 font-serif text-sm sm:text-base font-semibold text-krem-50 line-clamp-2 leading-snug">
               {item.judul}
             </div>
           </div>
@@ -253,8 +251,11 @@
     aria-modal="true"
     aria-label={active.judul}
   >
-    <!-- Top bar -->
-    <div class="flex items-center justify-between px-3 md:px-6 py-2 md:py-3 text-krem-50">
+    <!-- Top bar: safe-area aware so close button stays clear of notches -->
+    <div
+      class="flex items-center justify-between px-3 md:px-6 py-2 md:py-3 text-krem-50"
+      style="padding-top: max(env(safe-area-inset-top), 0.5rem);"
+    >
       <div class="flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-krem-100/70">
         <ImageIcon class="w-3.5 h-3.5" strokeWidth={1.75} />
         {(lightboxIndex ?? 0) + 1} / {filtered.length}

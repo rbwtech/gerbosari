@@ -36,14 +36,14 @@
 <SectionShell variant="default" padding="sm">
   <h2 id="visimisi-tabs" class="sr-only">Pilih level pemerintahan</h2>
   <!--
-    Mobile fallback: scroll horizontally when labels overflow. Negative inset
-    flushes the runway to the page edge inside .container-page, sm+ restores
-    aligned layout.
+    Two-tab strip: grid-cols-2 on mobile so both labels sit side by side
+    without any horizontal scroll runway; promotes to inline flex from sm+
+    where there is more room and labels can size to their natural width.
   -->
   <div
     role="tablist"
     aria-labelledby="visimisi-tabs"
-    class="flex items-center gap-1 border-b border-krem-300 overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible"
+    class="grid grid-cols-2 gap-1 border-b border-krem-300 sm:flex sm:items-center"
   >
     {#each tabs as t}
       {@const isActive = active === t.id}
@@ -54,14 +54,14 @@
         aria-controls="panel-{t.id}"
         id="tab-{t.id}"
         tabindex={isActive ? 0 : -1}
-        class="relative shrink-0 px-4 sm:px-5 h-11 min-h-11 font-serif text-base md:text-lg transition-colors duration-200 ease-out
+        class="relative px-3 sm:px-5 h-11 min-h-11 font-serif text-base md:text-lg text-center sm:text-left transition-colors duration-200 ease-out
                {isActive ? 'text-arang-900' : 'text-arang-700 hover:text-arang-900'}"
         on:click={() => (active = t.id)}
       >
         {t.label}
         {#if isActive}
           <span
-            class="absolute left-4 right-4 sm:left-5 sm:right-5 -bottom-px h-[2px] bg-terakota-500"
+            class="absolute left-3 right-3 sm:left-5 sm:right-5 -bottom-px h-[2px] bg-terakota-500"
             aria-hidden="true"
           ></span>
         {/if}
@@ -72,8 +72,9 @@
 
 <!-- ============================================================ VISI ============================================================ -->
 <!-- Mist biome lifts the visi quote - mountain-morning paper, terakota
-     opening quote SVG floats to the left like a printed flourish. -->
-<SectionShell variant="mist" padding="lg">
+     opening quote SVG floats to the left like a printed flourish. Padding
+     md (not lg) keeps the gap to the tabs strip controlled. -->
+<SectionShell variant="mist" padding="md">
   <div
     id="panel-{active}"
     role="tabpanel"
