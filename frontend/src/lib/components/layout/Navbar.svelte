@@ -139,60 +139,67 @@
       {/if}
     </button>
   </div>
-
-  {#if mobileOpen}
-    <!-- Sliding panel from the right; backdrop closes it on click -->
-    <div
-      class="lg:hidden fixed inset-0 z-50"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Menu seluler"
-    >
-      <button
-        type="button"
-        class="absolute inset-0 bg-arang-900/40"
-        aria-label="Tutup menu"
-        on:click={closeMobile}
-      ></button>
-
-      <!--
-        Drawer sized to 85vw with xs max - works down to 280px viewports while
-        capping at ~320px on phablets so it never overshoots the screen edge.
-      -->
-      <div
-        id="mobile-nav-panel"
-        class="absolute right-0 top-0 h-full w-[85vw] max-w-xs bg-white border-l border-krem-200 shadow-sm flex flex-col overflow-y-auto"
-        transition:fly={{ x: 320, duration: 220 }}
-      >
-        <div class="flex items-center justify-between h-16 px-4 border-b border-krem-200">
-          <span class="font-serif text-base font-semibold text-arang-900">Menu</span>
-          <button
-            type="button"
-            class="inline-flex min-h-11 min-w-11 h-11 w-11 items-center justify-center rounded-md text-arang-700 hover:bg-krem-100"
-            aria-label="Tutup menu"
-            on:click={closeMobile}
-          >
-            <X class="w-5 h-5" strokeWidth={2} />
-          </button>
-        </div>
-        <nav class="flex flex-col px-2 py-3" aria-label="Navigasi seluler">
-          {#each items as item}
-            {@const active = isActive(item.href, $location)}
-            <a
-              href={item.href}
-              use:link
-              on:click={closeMobile}
-              class="flex items-center min-h-11 px-4 py-3 rounded-md text-sm font-medium transition-colors duration-200 ease-out
-                     {active
-                       ? 'bg-menoreh-50 text-menoreh-800'
-                       : 'text-arang-700 hover:bg-krem-100'}"
-              aria-current={active ? 'page' : undefined}
-            >
-              {item.label}
-            </a>
-          {/each}
-        </nav>
-      </div>
-    </div>
-  {/if}
 </header>
+
+<!--
+  Mobile drawer is intentionally rendered as a SIBLING of <header>, not a
+  child. When the header is scrolled it picks up `backdrop-blur-sm`, and
+  `backdrop-filter` turns its element into the containing block for any
+  `position: fixed` descendants — that previously caused the drawer to be
+  clipped to the 64px header strip on scrolled pages. Hoisting it out of the
+  header restores viewport-relative fixed positioning.
+-->
+{#if mobileOpen}
+  <div
+    class="lg:hidden fixed inset-0 z-50"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Menu seluler"
+  >
+    <button
+      type="button"
+      class="absolute inset-0 bg-arang-900/40"
+      aria-label="Tutup menu"
+      on:click={closeMobile}
+    ></button>
+
+    <!--
+      Drawer sized to 85vw with xs max - works down to 280px viewports while
+      capping at ~320px on phablets so it never overshoots the screen edge.
+    -->
+    <div
+      id="mobile-nav-panel"
+      class="absolute right-0 top-0 h-full w-[85vw] max-w-xs bg-white border-l border-krem-200 shadow-sm flex flex-col overflow-y-auto"
+      transition:fly={{ x: 320, duration: 220 }}
+    >
+      <div class="flex items-center justify-between h-16 px-4 border-b border-krem-200">
+        <span class="font-serif text-base font-semibold text-arang-900">Menu</span>
+        <button
+          type="button"
+          class="inline-flex min-h-11 min-w-11 h-11 w-11 items-center justify-center rounded-md text-arang-700 hover:bg-krem-100"
+          aria-label="Tutup menu"
+          on:click={closeMobile}
+        >
+          <X class="w-5 h-5" strokeWidth={2} />
+        </button>
+      </div>
+      <nav class="flex flex-col px-2 py-3" aria-label="Navigasi seluler">
+        {#each items as item}
+          {@const active = isActive(item.href, $location)}
+          <a
+            href={item.href}
+            use:link
+            on:click={closeMobile}
+            class="flex items-center min-h-11 px-4 py-3 rounded-md text-sm font-medium transition-colors duration-200 ease-out
+                   {active
+                     ? 'bg-menoreh-50 text-menoreh-800'
+                     : 'text-arang-700 hover:bg-krem-100'}"
+            aria-current={active ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        {/each}
+      </nav>
+    </div>
+  </div>
+{/if}
