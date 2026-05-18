@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import AdminShell from '../../../lib/admin/AdminShell.svelte';
   import FormField from '../../../lib/admin/components/FormField.svelte';
+  import ImageUploader from '../../../lib/admin/components/ImageUploader.svelte';
   import Button from '../../../lib/components/ui/Button.svelte';
   import Card from '../../../lib/components/ui/Card.svelte';
   import EmptyState from '../../../lib/components/ui/EmptyState.svelte';
@@ -66,7 +67,7 @@
   function validate(): boolean {
     fieldErrors = {};
     if (!judul.trim()) fieldErrors.judul = 'Judul wajib diisi.';
-    if (!file_path.trim()) fieldErrors.file_path = 'Path file wajib diisi.';
+    if (!file_path.trim()) fieldErrors.file_path = 'Gambar wajib diunggah.';
     if (!kategori) fieldErrors.kategori = 'Kategori wajib dipilih.';
     return Object.keys(fieldErrors).length === 0;
   }
@@ -140,15 +141,14 @@
             hint="Opsional. Tampil di lightbox publik."
           />
 
-          <FormField
-            label="Path File"
+          <ImageUploader
+            label="Foto"
             name="file_path"
             required
-            mono
+            entity="gallery"
             bind:value={file_path}
             error={fieldErrors.file_path}
-            placeholder="/images/gallery/panen-kopi-2025.jpg"
-            hint="Path relatif terhadap folder publik frontend, atau URL lengkap."
+            hint="Unggah JPG, PNG, atau WebP (maks 5 MiB). URL otomatis tersimpan setelah unggahan selesai."
           />
 
           <FormField

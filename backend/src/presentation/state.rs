@@ -1,3 +1,4 @@
+use std::path::PathBuf;
 use std::sync::Arc;
 
 use crate::application::auth_service::AuthService;
@@ -23,4 +24,7 @@ pub struct AppState {
     pub jwt: Arc<JwtEncoder>,
     /// Per-IP login attempt limiter. Single-instance, in-memory.
     pub login_throttle: Arc<LoginThrottle>,
+    /// Root directory where admin uploads are written. Arc'd because every
+    /// request clones the state, but PathBuf allocation per request is wasted.
+    pub upload_dir: Arc<PathBuf>,
 }

@@ -4,3 +4,4 @@ pub mod galeri;
 pub mod health;
 pub mod lowongan;
 pub mod penduduk;
+pub mod upload;

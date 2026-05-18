@@ -39,8 +39,9 @@ LockPersonality=true
 MemoryDenyWriteExecute=true
 SystemCallArchitectures=native
 
-# Allow writes only into the backend deploy tree.
-ReadWritePaths=/www/wwwroot/gerbosari.rbwtech.io/_backend
+# Allow writes into the backend deploy tree plus the content/images folder
+# (where admin image uploads land — nginx serves it via the /images/ alias).
+ReadWritePaths=/www/wwwroot/gerbosari.rbwtech.io/_backend /www/wwwroot/gerbosari.rbwtech.io/content/images
 
 # --- Resource caps ---
 LimitNOFILE=65535

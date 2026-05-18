@@ -1,5 +1,6 @@
 use std::env;
 use std::net::SocketAddr;
+use std::path::PathBuf;
 
 /// Minimum acceptable JWT secret length (bytes). Below this, HS256 brute-force
 /// is trivial on commodity hardware — refuse to boot rather than ship insecure.
@@ -21,6 +22,11 @@ pub struct AppConfig {
     /// `None` if `ADMIN_PASSWORD` was not set — bootstrap will skip the
     /// upsert path and rely on the admin row already existing in the DB.
     pub admin_password: Option<String>,
+    /// Filesystem root where admin image uploads land. Nginx aliases
+    /// `/images/` to this same path, so the URL returned to the SPA is just
+    /// `/images/<subdir>/<filename>`. Default `../content/images` resolves
+    /// relative to the systemd `WorkingDirectory`.
+    pub upload_dir: PathBuf,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -112,6 +118,10 @@ impl AppConfig {
             .ok()
             .filter(|s| !s.is_empty());
 
+        let upload_dir = env::var("UPLOAD_DIR")
+            .map(PathBuf::from)
+            .unwrap_or_else(|_| PathBuf::from("../content/images"));
+
         Ok(Self {
             database_url,
             bind_addr,
@@ -121,6 +131,7 @@ impl AppConfig {
             jwt_expiry_hours,
             admin_username,
             admin_password,
+            upload_dir,
         })
     }
 }

@@ -7,6 +7,8 @@
   import { listBerita } from '../../lib/api/berita';
   import { getRingkasan } from '../../lib/api/penduduk';
   import AdminShell from '../../lib/admin/AdminShell.svelte';
+  import DonutChart from '../../lib/admin/charts/DonutChart.svelte';
+  import BarChart from '../../lib/admin/charts/BarChart.svelte';
   import {
     ArrowRight,
     ImageIcon,
@@ -14,6 +16,7 @@
     Newspaper,
     Users
   } from '../../lib/components/icons';
+  import type { Lowongan, BeritaRingkasan, PendudukRingkasan } from '../../lib/types';
 
   interface SummaryCard {
     key: 'galeri' | 'lowongan' | 'berita' | 'penduduk';
@@ -21,7 +24,7 @@
     description: string;
     href: string;
     icon: typeof ImageIcon;
-    accent: string; // background swatch class
+    accent: string;
   }
 
   const cards: SummaryCard[] = [
@@ -71,13 +74,26 @@
     penduduk: null
   };
 
-  async function loadCounts(): Promise<void> {
+  // Raw datasets retained for chart derivation. Loading state is tracked
+  // separately from the stat counts so we can skeleton the chart blocks
+  // independently of the KPI strip. Galeri rows are only counted (no chart
+  // consumes them yet) so we keep that one as a derived count above.
+  let lowonganRows: Lowongan[] = [];
+  let beritaRows: BeritaRingkasan[] = [];
+  let pendudukRingkasan: PendudukRingkasan | null = null;
+  let chartsLoading = true;
+
+  async function loadDashboard(): Promise<void> {
     const results = await Promise.allSettled([
       listGaleri(),
       listLowongan(),
       listBerita(),
       getRingkasan()
     ]);
+
+    if (results[1].status === 'fulfilled') lowonganRows = results[1].value;
+    if (results[2].status === 'fulfilled') beritaRows = results[2].value;
+    if (results[3].status === 'fulfilled') pendudukRingkasan = results[3].value;
 
     counts = {
       galeri: results[0].status === 'fulfilled' ? results[0].value.length : undefined,
@@ -89,11 +105,13 @@
       penduduk:
         results[3].status === 'fulfilled' ? results[3].value.total_penduduk : undefined
     };
+
+    chartsLoading = false;
   }
 
   onMount(() => {
     if (!requireAuth()) return;
-    loadCounts();
+    loadDashboard();
   });
 
   function formatCount(value: CountState): string {
@@ -111,33 +129,115 @@
   function goTo(href: string): void {
     navigate(href);
   }
+
+  // Long-form Indonesian date for the welcome strip. Recomputed at mount only;
+  // refreshing on a timer would be overkill for a dashboard that the operator
+  // reloads anyway when starting a session.
+  const todayLong = new Date().toLocaleDateString('id-ID', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+
+  // ----- Chart derivations -----
+  // Demografi donut: 2-segment laki vs perempuan. menoreh-600 / terakota-600
+  // pulled from tailwind.config.js so the values stay in lockstep with the
+  // rest of the palette.
+  $: demografiData = pendudukRingkasan
+    ? [
+        { label: 'Laki-laki', value: pendudukRingkasan.total_laki, color: '#244226' },
+        { label: 'Perempuan', value: pendudukRingkasan.total_perempuan, color: '#9a4a2c' }
+      ]
+    : [];
+
+  // Lowongan by category. We count every job (any status) since the bar chart
+  // visualises distribution across categories rather than active-only metrics
+  // (the KPI strip already surfaces the "aktif" count). Stable category order
+  // keeps the bar layout deterministic between renders.
+  const LOWONGAN_KATEGORIS: Array<{ key: string; label: string; color: string }> = [
+    { key: 'umkm', label: 'UMKM', color: '#9a4a2c' },
+    { key: 'formal', label: 'Formal', color: '#244226' },
+    { key: 'freelance', label: 'Freelance', color: '#856642' }
+  ];
+  $: lowonganByKategori = LOWONGAN_KATEGORIS.map(({ key, label, color }) => ({
+    label,
+    color,
+    value: lowonganRows.filter((l) => l.kategori === key).length
+  }));
+
+  // Berita per month: 6-month rolling window ending on the current month.
+  // We bucket by `published_at` truncated to YYYY-MM, then map back to a
+  // short Indonesian month label for the x-axis.
+  $: beritaPerBulan = (() => {
+    const buckets: { key: string; label: string }[] = [];
+    const now = new Date();
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+      const label = d.toLocaleDateString('id-ID', { month: 'short' });
+      buckets.push({ key, label });
+    }
+
+    const counts = new Map<string, number>();
+    for (const b of beritaRows) {
+      if (!b.published_at) continue;
+      const d = new Date(b.published_at);
+      if (Number.isNaN(d.getTime())) continue;
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+      counts.set(key, (counts.get(key) ?? 0) + 1);
+    }
+
+    return buckets.map((b) => ({
+      label: b.label,
+      value: counts.get(b.key) ?? 0,
+      color: '#3e7242'
+    }));
+  })();
 </script>
 
 <AdminShell title="Dashboard">
   <div class="flex flex-col gap-6 md:gap-8 max-w-6xl">
-    <!-- Greeting block. Uses the cached username from the auth store so it
-         renders instantly on mount without waiting for any network round-trip.
-         min-w-0 + break-words on the username prevents extra-long handles from
-         pushing the layout out of the viewport on narrow phones. -->
-    <section class="min-w-0">
-      <p class="text-xs font-medium uppercase tracking-widest text-arang-500">Selamat datang</p>
-      <h2 class="mt-1 font-serif text-xl sm:text-2xl md:text-3xl font-semibold text-arang-900 break-words">
-        Halo, {$authState.user?.username ?? 'Admin'}
-      </h2>
-      <p class="mt-2 text-sm text-arang-700 max-w-2xl">
-        Pilih modul di bawah untuk mengelola konten dinamis situs Desa Gerbosari. Statistik di
-        setiap kartu diambil langsung dari API publik agar Anda selalu melihat angka terkini.
-      </p>
+    <!-- Welcome strip. Greeting uses the cached username from the auth store
+         so it renders instantly on mount without waiting for any network
+         round-trip. The "Kelola sebagai" pill on the right gives the operator
+         a quick affordance to log out without scrolling to the sidebar. -->
+    <section class="min-w-0 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+      <div class="min-w-0">
+        <p class="text-xs font-medium uppercase tracking-widest text-arang-500">
+          Panel Admin Desa Gerbosari
+        </p>
+        <h2
+          class="mt-1 font-serif text-xl sm:text-2xl md:text-3xl font-semibold text-arang-900 break-words"
+        >
+          Selamat datang, {$authState.user?.username ?? 'Admin'}
+        </h2>
+        <p class="mt-1.5 text-sm text-arang-500">{todayLong}</p>
+      </div>
+
+      {#if $authState.user}
+        <div
+          class="hidden sm:inline-flex items-center gap-2 rounded-full border border-krem-200
+                 bg-white px-3 py-1.5 text-xs text-arang-700 shrink-0"
+        >
+          <span class="text-arang-500">Kelola sebagai</span>
+          <span class="font-medium text-arang-900 truncate max-w-[140px]">
+            {$authState.user.username}
+          </span>
+        </div>
+      {/if}
     </section>
 
-    <section>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+    <!-- Section: KPI stat cards -->
+    <section class="min-w-0">
+      <h3 class="font-serif text-lg font-semibold text-arang-900 mt-0 mb-4">Statistik Cepat</h3>
+
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {#each cards as card}
           <a
             href={card.href}
             on:click|preventDefault={() => goTo(card.href)}
-            class="group flex flex-col gap-3 sm:gap-4 rounded-lg border border-krem-200 bg-white p-5
-                   min-h-24
+            class="group flex flex-col gap-3 rounded-lg border border-krem-200 bg-white p-5
                    hover:border-menoreh-500 hover:bg-krem-50
                    transition-colors duration-200 ease-out"
             aria-label="Kelola {card.title}"
@@ -161,17 +261,19 @@
                 {card.title}
               </span>
               <div class="flex items-baseline gap-1.5">
-                <span class="font-serif text-3xl font-semibold text-arang-900 tnum leading-none">
+                <span
+                  class="font-serif text-3xl md:text-4xl font-semibold text-arang-900 tabular-nums leading-none"
+                >
                   {formatCount(counts[card.key])}
                 </span>
                 <span class="text-xs font-medium text-arang-500">{unitFor(card.key)}</span>
               </div>
             </div>
 
-            <p class="text-sm text-arang-700 leading-snug">{card.description}</p>
+            <p class="hidden sm:block text-sm text-arang-700 leading-snug">{card.description}</p>
 
             <span
-              class="mt-auto inline-flex items-center gap-1 text-sm font-medium text-menoreh-700
+              class="mt-auto inline-flex items-center justify-end gap-1 text-sm font-medium text-menoreh-700
                      group-hover:text-menoreh-800 transition-colors duration-200 ease-out"
             >
               Kelola
@@ -179,6 +281,85 @@
             </span>
           </a>
         {/each}
+      </div>
+    </section>
+
+    <!-- Section: Visualisasi Data. Three cards, stacked on mobile and laid out
+         in a 3-column grid on lg+. Each card carries its own title/subtitle
+         pair so the underlying chart components stay agnostic about copy. -->
+    <section class="min-w-0">
+      <h3 class="font-serif text-lg font-semibold text-arang-900 mt-0 mb-4">Visualisasi Data</h3>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <!-- Donut: demografi -->
+        <article class="rounded-lg border border-krem-200 bg-white p-5 flex flex-col gap-4">
+          <header>
+            <h4 class="font-serif text-base font-semibold text-arang-900">Komposisi Penduduk</h4>
+            <p class="text-xs text-arang-500 mt-0.5">Laki-laki vs Perempuan</p>
+          </header>
+
+          {#if chartsLoading}
+            <div class="flex flex-col items-center gap-4 py-2">
+              <div class="w-36 h-36 sm:w-56 sm:h-56 rounded-full bg-krem-100 animate-pulse"></div>
+              <div class="w-full space-y-2">
+                <div class="h-3 rounded bg-krem-100 animate-pulse"></div>
+                <div class="h-3 rounded bg-krem-100 animate-pulse"></div>
+              </div>
+            </div>
+          {:else if pendudukRingkasan}
+            <DonutChart
+              data={demografiData}
+              centerValue={pendudukRingkasan.total_penduduk.toLocaleString('id-ID')}
+              centerLabel="jiwa"
+            />
+          {:else}
+            <div class="w-full flex items-center justify-center py-10 text-sm text-arang-500">
+              Belum ada data
+            </div>
+          {/if}
+        </article>
+
+        <!-- Bar (horizontal): lowongan per kategori -->
+        <article class="rounded-lg border border-krem-200 bg-white p-5 flex flex-col gap-4">
+          <header>
+            <h4 class="font-serif text-base font-semibold text-arang-900">Lowongan per Kategori</h4>
+            <p class="text-xs text-arang-500 mt-0.5">Distribusi UMKM, formal, freelance</p>
+          </header>
+
+          {#if chartsLoading}
+            <div class="flex flex-col gap-3">
+              {#each Array(3) as _}
+                <div class="space-y-1.5">
+                  <div class="h-3 w-1/2 rounded bg-krem-100 animate-pulse"></div>
+                  <div class="h-2.5 rounded-full bg-krem-100 animate-pulse"></div>
+                </div>
+              {/each}
+            </div>
+          {:else}
+            <BarChart data={lowonganByKategori} orientation="horizontal" unit="lowongan" />
+          {/if}
+        </article>
+
+        <!-- Bar (vertical): publikasi berita 6 bulan terakhir -->
+        <article class="rounded-lg border border-krem-200 bg-white p-5 flex flex-col gap-4">
+          <header>
+            <h4 class="font-serif text-base font-semibold text-arang-900">Publikasi Berita</h4>
+            <p class="text-xs text-arang-500 mt-0.5">6 bulan terakhir</p>
+          </header>
+
+          {#if chartsLoading}
+            <div class="h-40 sm:h-48 flex items-end gap-2">
+              {#each Array(6) as _, i}
+                <div
+                  class="flex-1 rounded-t bg-krem-100 animate-pulse"
+                  style="height: {30 + ((i * 13) % 60)}%"
+                ></div>
+              {/each}
+            </div>
+          {:else}
+            <BarChart data={beritaPerBulan} orientation="vertical" unit="berita" />
+          {/if}
+        </article>
       </div>
     </section>
   </div>

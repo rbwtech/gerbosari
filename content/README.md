@@ -46,7 +46,7 @@ content/
 
 ## Penyusun & sumber
 
-- **Disusun ulang**: tim konten tugas akhir Komputasi Awan, Mei 2026.
+- **Disusun ulang**: tim konten Website Profil Desa Gerbosari, Mei 2026.
 - **Sumber primer**: Buku Profil Desa Gerbosari (penyusun: Damar, A.Md dan Dyah Yekti Indrajati, S.Si), `Desa Gerbosari.docx`.
 - **Sumber sekunder**: Devi, L. Y., & Hidayati, W. (2020). Pembuatan Profil Desa Gerbosari. *Jurnal Pengabdian dan Pengembangan Masyarakat*, 3(2), 445-454.
 - **Referensi tambahan**: BPS Kulon Progo 2017; BPTP Yogyakarta 2012; gerbosari-kulonprogo.desa.id.

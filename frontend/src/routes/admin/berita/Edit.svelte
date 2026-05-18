@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import AdminShell from '../../../lib/admin/AdminShell.svelte';
   import FormField from '../../../lib/admin/components/FormField.svelte';
+  import ImageUploader from '../../../lib/admin/components/ImageUploader.svelte';
   import Button from '../../../lib/components/ui/Button.svelte';
   import Card from '../../../lib/components/ui/Card.svelte';
   import EmptyState from '../../../lib/components/ui/EmptyState.svelte';
@@ -227,13 +228,12 @@
             hint="Format Markdown. Akan dirender sebagai HTML pada halaman publik."
           />
 
-          <FormField
-            label="URL Gambar Sampul"
+          <ImageUploader
+            label="Gambar Sampul"
             name="gambar_url"
-            mono
+            entity="berita"
             bind:value={gambar_url}
-            placeholder="/images/news/pelatihan-batik.jpg"
-            hint="Opsional. Path relatif atau URL lengkap."
+            hint="Opsional. JPG, PNG, atau WebP (maks 5 MiB)."
           />
 
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">

@@ -90,6 +90,21 @@ async fn main() -> anyhow::Result<()> {
         });
     }
 
+    // --- Upload directory ---
+    // Eagerly ensure it exists at boot so the first POST /api/admin/upload
+    // doesn't race with mkdir. If the path can't be created (perms, missing
+    // parent under systemd's ProtectSystem=strict), log loud but keep serving
+    // — the upload route will return 500 with the same message on hit.
+    let upload_dir = config.upload_dir.clone();
+    if let Err(e) = tokio::fs::create_dir_all(&upload_dir).await {
+        tracing::error!(
+            target: "gerbosari::startup",
+            path = %upload_dir.display(),
+            error = %e,
+            "failed to ensure upload_dir at startup — uploads will fail until this is fixed"
+        );
+    }
+
     let state = AppState {
         galeri: Arc::new(GaleriService::new(galeri_repo)),
         penduduk: Arc::new(PendudukService::new(penduduk_repo)),
@@ -98,6 +113,7 @@ async fn main() -> anyhow::Result<()> {
         auth: auth_service,
         jwt: jwt_encoder,
         login_throttle,
+        upload_dir: Arc::new(upload_dir),
     };
 
     let app = build_router(state, &config.cors_origins);

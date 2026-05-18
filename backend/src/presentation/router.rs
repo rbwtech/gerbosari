@@ -1,3 +1,4 @@
+use axum::extract::DefaultBodyLimit;
 use axum::http::{header, HeaderValue, Method};
 use axum::routing::{get, patch, post};
 use axum::Router;
@@ -56,6 +57,14 @@ pub fn build_router(state: AppState, cors_origins: &[String]) -> Router {
         .route(
             "/penduduk/:pedukuhan",
             patch(handlers::penduduk::admin_update),
+        )
+        // Multipart image upload. The route-level `DefaultBodyLimit` caps the
+        // total request body at 8 MiB so a misbehaving client can't tie up
+        // memory; the handler additionally enforces a per-file 5 MiB cap.
+        .route(
+            "/upload",
+            post(handlers::upload::admin_upload)
+                .layer(DefaultBodyLimit::max(8 * 1024 * 1024)),
         );
 
     let api = Router::new().merge(public).nest("/admin", admin);

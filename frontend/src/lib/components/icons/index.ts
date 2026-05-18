@@ -32,6 +32,8 @@ export {
 
   // Content / sections
   Image as ImageIcon,
+  Upload,
+  Trash2,
   Newspaper,
   BookOpen,
   History,
