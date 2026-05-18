@@ -85,10 +85,17 @@
   let mapInstance: LeafletMap | undefined;
   let markerByName = new Map<string, CircleMarker>();
   let leafletLib: typeof import('leaflet') | undefined;
+  let destroyed = false;
 
   async function initMap() {
     if (typeof window === 'undefined') return;
+    // Ensure Svelte has committed the `bind:this` target before we touch it.
+    await tick();
+    if (destroyed) return;
+
     const L = await import('leaflet');
+    // The await above can suspend across a component teardown — recheck.
+    if (destroyed || !mapEl || !mapEl.isConnected) return;
     leafletLib = L;
 
     mapInstance = L.map(mapEl, {
@@ -226,10 +233,17 @@
   }
 
   onMount(() => {
-    initMap();
+    // Swallow init errors when the component has already torn down; surface
+    // them otherwise so a real misconfiguration is still visible in the console.
+    initMap().catch((err) => {
+      if (!destroyed) {
+        console.error('Failed to initialise Leaflet map:', err);
+      }
+    });
   });
 
   onDestroy(() => {
+    destroyed = true;
     mapInstance?.remove();
     mapInstance = undefined;
   });

@@ -197,7 +197,7 @@
 </script>
 
 <AdminShell title="Dashboard">
-  <div class="flex flex-col gap-6 md:gap-8 max-w-6xl">
+  <div class="flex flex-col gap-6 md:gap-8 max-w-6xl mx-auto">
     <!-- Welcome strip. Greeting uses the cached username from the auth store
          so it renders instantly on mount without waiting for any network
          round-trip. The "Kelola sebagai" pill on the right gives the operator
